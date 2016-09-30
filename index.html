@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agromag</title>
+    <meta name="description" content="">
+
+    <link href="css/css.css" rel="stylesheet" type="text/css">
+    <link href="templates/formulario.module/formulario.module.style.css" rel="stylesheet" type="text/css">
+
+    <!-- Jquery-->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.1.3.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="libs/paginitation/simplePagination.js"></script>
+
+
+</head>
+
+<body ng-app="AppPrueba">
+
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header brand-ico">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <img src="res/logo2_opt.png" class="img-responsive">
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Inicio<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fincas <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-grain"></span></a>
+                    <ul class="dropdown-menu forAnimate" role="menu">
+                        <li><a href="#/subir">Subir Finca</a></li>
+                        <li><a href="#/dividir">Dividir Finca</a></li>
+                        <li><a href="#/unir">Unir Finca</a></li>
+                        <li><a href="#/historicos">Historicos</a></li>
+                        <li><a href="#/mostrar">Mostrar</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Formularios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
+                    <ul class="dropdown-menu forAnimate" role="menu">
+                        <li><a href="#/formularioGanaderia">Ganadería</a></li>
+                        <li><a href="#">Agricultura</a></li>
+                        <li><a href="#">Pecuria</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main">
+    <!-- Content Here -->
+    <div class="">
+        <div ui-view></div>
+    </div>
+
+</div>
+
+
+
+
+
+    <!--Load libs-->
+    <script src="libs/ui-router/release/angular-ui-router.js"></script>
+    <script src="libs/drag_and_drop/angular-drag-and-drop-list.min.js"></script>
+
+    <script src="templates/main.module/app.js"></script>
+
+    <!--Load services-->
+    <script src="templates/formulario.module/formulario.module.controller.js"></script>
+    <script src="templates/formulario.module/formulario.module.service.js"></script>
+    <script src="templates/agregar.module/agregar.controller.js"></script>
+    <script src="templates/agregar.module/agregar.services.js"></script>
+    <script src="templates/dividir.module/dividir.controller.js"></script>
+    <script src="templates/dividir.module/dividir.service.js"></script>
+    <script src="templates/historicos.module/historicos.controller.js"></script>
+    <script src="templates/historicos.module/historicos.service.js"></script>
+    <script src="templates/subir.module/subir.controller.js"></script>
+    <script src="templates/subir.module/subir.services.js"></script>
+    <script src="templates/unir.module/unir.controller.js"></script>
+    <script src="templates/unir.module/unir.service.js"></script>
+    <script src="templates/mostrar.module/mostrar.controller.js"></script>
+    <script src="templates/mostrar.module/mostrar.service.js"></script>
+
+    <script src="indexFunctions.js"></script>
+
+
+
+
+</body>
+</html>

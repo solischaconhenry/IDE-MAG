@@ -1,0 +1,89 @@
+<div>
+    <script type="text/ng-template" id="group-template.html">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color:#fa39c3">
+                    <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+            <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
+              {{heading}}
+            </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" uib-collapse="!isOpen">
+                <div class="panel-body" style="text-align: right" ng-transclude></div>
+            </div>
+        </div>
+    </script>
+
+
+    <uib-accordion close-others="oneAtATime">
+
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+               Generales <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+            <ul dnd-list="list.people"
+                dnd-allowed-types="list.allowedTypes"
+                dnd-disable-if="list.people.length >= list.max">
+
+                <!--For Text Inputs-->
+                <li ng-repeat="person in list.people"
+                    dnd-draggable="person"
+                    dnd-type="person.type"
+                    dnd-disable-if="person.type == 'unknown'"
+                    dnd-moved="list.people.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    class="background-{{person.type}}"
+                    ng-if="person.type == 'Gen'"
+                >
+                    <dnd-nodrag>
+                        <div dnd-handle class="handle">:::</div>
+                        <div class="name">{{person.name}}</div>
+                    </dnd-nodrag>
+                </li>
+
+
+                <li class="dndPlaceholder">
+                    Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+                </li>
+
+            </ul>
+        </div>
+
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+                Terreno <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+            <ul dnd-list="list.people"
+                dnd-allowed-types="list.allowedTypes"
+                dnd-disable-if="list.people.length >= list.max">
+
+                <!--For Text Inputs-->
+                <li ng-repeat="person in list.people"
+                    dnd-draggable="person"
+                    dnd-type="person.type"
+                    dnd-disable-if="person.type == 'unknown'"
+                    dnd-moved="list.people.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    class="background-{{person.type}}"
+                    ng-if="person.type == 'Terreno'"
+                >
+                    <dnd-nodrag>
+                        <div dnd-handle class="handle">:::</div>
+                        <div class="name">{{person.name}}</div>
+                    </dnd-nodrag>
+                </li>
+
+
+                <li class="dndPlaceholder">
+                    Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+                </li>
+
+            </ul>
+        </div>
+    </uib-accordion>
+</div>
+
+
+

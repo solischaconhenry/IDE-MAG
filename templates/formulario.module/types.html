@@ -1,0 +1,103 @@
+<ul dnd-list="list.people"
+    dnd-allowed-types="list.allowedTypes"
+    dnd-disable-if="list.people.length >= list.max">
+
+    <!--For Text Inputs-->
+    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+        dnd-draggable="person"
+        dnd-type="person.type"
+        dnd-disable-if="person.type == 'unknown'"
+        dnd-moved="list.people.splice($index, 1)"
+        dnd-effect-allowed="move"
+        class="background-{{person.type}}"
+        ng-if="person.hel == 'text'"
+    >
+        <dnd-nodrag>
+            <div dnd-handle class="handle">:::</div>
+            <div class="name">
+                <input type="text" ng-model="person.name" class="background-{{person.type}} form-control input-sm">
+            </div>
+        </dnd-nodrag>
+    </li>
+
+
+    <!--For Checkbox Inputs-->
+    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+        dnd-draggable="person"
+        dnd-type="person.type"
+        dnd-disable-if="person.hel == 'text'"
+        dnd-moved="list.people.splice($index, 1)"
+        dnd-effect-allowed="move"
+        class="background-{{person.type}}"
+        ng-if="person.hel == 'checkbox'"
+    >
+        <dnd-nodrag>
+            <div dnd-handle class="handle">:::</div>
+            <div class="name">
+                <dnd-nodrag>
+                    <div ng-repeat="chk1 in person.options">
+                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{chk1}}
+                    </div>
+
+                </dnd-nodrag>
+            </div>
+        </dnd-nodrag>
+    </li>
+
+    <!--For Radio Inputs-->
+    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+        dnd-draggable="person"
+        dnd-type="person.type"
+        dnd-disable-if="person.hel == 'text'"
+        dnd-moved="list.people.splice($index, 1)"
+        dnd-effect-allowed="move"
+        class="background-{{person.type}}"
+        ng-if="person.hel == 'radio'"
+    >
+        <dnd-nodrag>
+            <div dnd-handle class="handle">:::</div>
+            <div class="name">
+                <dnd-nodrag>
+                    <div ng-repeat="rad in person.options">
+                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{rad}}
+                    </div>
+                </dnd-nodrag>
+            </div>
+        </dnd-nodrag>
+    </li>
+
+    <!--For Text Inputs-->
+    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+        dnd-draggable="person"
+        dnd-type="person.type"
+        dnd-disable-if="person.type == 'unknown'"
+        dnd-moved="list.people.splice($index, 1)"
+        dnd-effect-allowed="move"
+        class="background-{{person.type}}"
+        ng-if="person.hel == 'plain'"
+    >
+        <dnd-nodrag>
+            <div dnd-handle class="handle">:::</div>
+            <div class="name">
+                {{person.name}}
+            </div>
+        </dnd-nodrag>
+    </li>
+
+
+
+    <li class="dndPlaceholder">
+        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+    </li>
+
+
+
+
+</ul>
+<ul class="pagination">
+    <li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+    <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
+        <a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>
+    </li>
+    <li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+</ul>
