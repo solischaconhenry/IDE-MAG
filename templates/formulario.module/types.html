@@ -36,7 +36,7 @@
             <div class="name">
                 <dnd-nodrag>
                     <div ng-repeat="chk1 in person.options">
-                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{chk1}}
+                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{chk1.opcion}}
                     </div>
 
                 </dnd-nodrag>
@@ -100,4 +100,8 @@
         <a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>
     </li>
     <li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+
+
 </ul>
+
+

@@ -3,38 +3,61 @@
  */
 angular.module('AppPrueba')
 
-    .controller('FormularioGanaderia',function ($scope, Pagination) {
+    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService) {
+
+        $scope.preguntas = [];
+
+       /* FormulariosService.getOpciones(11).then(function (data2) {
+            $scope.prueba = data2;
+        });
+        */
+        FormulariosService.getPreguntas().then(function (data) {
+            $scope.preguntas = data;
+
+            $scope.lists = [
+                {
+                    label: "Tipos de preguntas",
+                    allowedTypes: ['Gem', 'Terreno', 'Datos generales','input'],
+                    max: 17,
+                    people: $scope.preguntas
+                }
+
+            ];
+
+        });
+
+
+/*
         $scope.lists = [
             {
-                label: "Generales",
-                allowedTypes: ['Gem', 'Terreno', 'Gen'],
+                label: "Tipos de preguntas",
+                allowedTypes: ['Gem', 'Terreno', 'Gen','input'],
                 max: 17,
                 people: [
-                    {name: "Nombre", type: "Gen", hel:"text"},
-                    {name: "Apellidos", type: "Gen", hel:"text"},
-                    {name: "Cedula", type: "Gen", hel:"text"},
-                    {name: "Telefono", type: "Gen", hel:"tel"},
-                    {name: "Email", type: "Gen", hel:"email"},
-                    {name: "Digite su Nombre Aquí: ", type: "Gen", hel:"plain"},
-                    {name: "Terreno", hel: "checkbox",type: "Terreno", options:["Plano", "Empinado", "Elevado"]},
-                    {name: "Sexo", hel: "radio", type: "Gem", options:["Masculino", "Femenino", "NA"]}
-
+                    {name: "Prueba", type: "Gen", hel:"text"},
+                    {name: "Pruebita", type: "Gen", hel:"text"},
+                    {name: "Pruebota", type: "unknown", hel:"text"},
+                    {name: "Burtota", type: "Terreno", hel:"text"},
+                    {name: "Wendy", type: "Terreno", hel:"text"}
                 ]
             }
 
         ];
+*/
+
+
 
         $scope.list2 = [
             {
-                label: "People",
-                allowedTypes: ['Gen', 'Terreno', 'Gem'],
+                label: "Formulario",
+                allowedTypes: ['Gen', 'Terreno', 'Datos generales','input'],
                 max: 10,
                 people: [
-                    {name: "Frank", type: "Gen", hel:"text"},
-                    {name: "Mallory", type: "Gen", hel:"text"},
-                    {name: "Alex", type: "unknown", hel:"text"},
-                    {name: "Oscar", type: "Terreno", hel:"text"},
-                    {name: "Wendy", type: "Terreno", hel:"text"}
+                    {name: "Prueba", type: "Gen", hel:"text"},
+                    {name: "Pruebita", type: "Gen", hel:"text"},
+                    {name: "Pruebota", type: "unknown", hel:"text"},
+                    {name: "Pruebota2", type: "unknown", hel:"text"},
+                    {name: "Pruebota3", type: "unknown", hel:"text"}
 
                 ]
             }
@@ -75,5 +98,4 @@ angular.module('AppPrueba')
         $scope.pagination = Pagination.getNew(3);
         console.log($scope.list2[0].people.length);
         $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
-    })
-1
+    });
