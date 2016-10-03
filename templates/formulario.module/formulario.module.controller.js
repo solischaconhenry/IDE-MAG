@@ -53,14 +53,8 @@ angular.module('AppPrueba')
                 allowedTypes: ['Gen', 'Terreno', 'Datos generales','input'],
                 max: 10,
                 people: [
-<<<<<<< Updated upstream
-                    {name: "Prueba", type: "Gen", hel:"text"},
-                    {name: "Pruebita", type: "Gen", hel:"text"},
-                    {name: "Pruebota", type: "unknown", hel:"text"},
-                    {name: "Pruebota2", type: "unknown", hel:"text"},
-                    {name: "Pruebota3", type: "unknown", hel:"text"}
-=======
->>>>>>> Stashed changes
+
+
 
                 ]
             }
@@ -98,17 +92,16 @@ angular.module('AppPrueba')
         $scope.oneAtATime = true;
 
         $scope.pagination = Pagination.getNew();
-        $scope.pagination = Pagination.getNew(5);
+        $scope.pagination = Pagination.getNew(3);
         console.log($scope.list2[0].people.length);
         $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
-<<<<<<< Updated upstream
-    });
-=======
+
+
 
         $scope.$watch('list2[0].people', function () {
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);
         
-    })
->>>>>>> Stashed changes
+    });
+

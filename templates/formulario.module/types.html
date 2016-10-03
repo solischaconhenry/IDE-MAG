@@ -15,7 +15,7 @@
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="name">
-                <input type="text" ng-model="person.name" class="background-{{person.type}} form-control input-sm">
+                <input  placeholder="{{person.name}}" type="text"  class="background-{{person.type}} form-control input-sm">
             </div>
         </dnd-nodrag>
     </li>
@@ -34,8 +34,9 @@
             <div dnd-handle class="handle">:::</div>
             <div class="name">
                 <dnd-nodrag>
+                    <p>{{person.name}}</p>
                     <div ng-repeat="chk1 in person.options">
-                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{chk1.opcion}}
+                        <input  name="{{person.name}}" type="{{person.hel}}"  form-control input-sm>{{chk1.opcion}}
                     </div>
 
                 </dnd-nodrag>
@@ -57,8 +58,9 @@
             <div dnd-handle class="handle">:::</div>
             <div class="name">
                 <dnd-nodrag>
+                    <p>{{person.name}}</p>
                     <div ng-repeat="rad in person.options">
-                        <input type="{{person.hel}}" ng-model="person.name" class="background-{{person.type}} form-control input-sm">{{rad}}
+                        <input  name="{{person.name}}"type="{{person.hel}}"  form-control input-sm>{{rad.opcion}}
                     </div>
                 </dnd-nodrag>
             </div>
@@ -79,7 +81,7 @@
             <div dnd-handle class="handle">:::</div>
             <div class="name">
                 <dnd-nodrag>
-                        <p model="person.name">{{person.name}}</p>
+                    <p model="person.name">{{person.name}}</p>
                 </dnd-nodrag>
             </div>
         </dnd-nodrag>
@@ -104,5 +106,3 @@
 
 
 </ul>
-
-
