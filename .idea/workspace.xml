@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="7db6812d-9e80-4f2e-be59-b0a2ebf3406a" name="Default" comment="" />
+=======
+    <list default="true" id="7db6812d-9e80-4f2e-be59-b0a2ebf3406a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" afterPath="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/types.html" afterPath="$PROJECT_DIR$/templates/formulario.module/types.html" />
+    </list>
+>>>>>>> Stashed changes
     <ignored path="prueba.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,8 +32,13 @@
       <file leaf-file-name="formulario.module.controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="765">
               <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+=======
+            <state relative-caret-position="1122">
+              <caret line="68" column="48" selection-start-line="68" selection-start-column="48" selection-end-line="68" selection-end-column="48" />
+>>>>>>> Stashed changes
               <folding>
                 <element signature="e#0#43#0" expanded="false" />
               </folding>
@@ -33,11 +46,19 @@
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="formulario.module.db.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.db.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1411">
               <caret line="83" column="53" selection-start-line="83" selection-start-column="53" selection-end-line="83" selection-end-column="53" />
+=======
+      <file leaf-file-name="types.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/formulario.module/types.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
@@ -46,6 +67,7 @@
       <file leaf-file-name="formulario.module.view.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="-30">
               <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
               <folding>
@@ -60,16 +82,28 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
               <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+=======
+            <state relative-caret-position="0">
+              <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="types.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/formulario.module/types.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1819">
               <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+=======
+      <file leaf-file-name="typesTag.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/formulario.module/typesTag.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1190">
+              <caret line="70" column="17" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
@@ -124,6 +158,7 @@
         <option value="$PROJECT_DIR$/libs/paginitation/pagination.js" />
         <option value="$PROJECT_DIR$/libs/paginitation/simplePagination.js" />
         <option value="$PROJECT_DIR$/templates/main.module/app.js" />
+<<<<<<< Updated upstream
         <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.service.js" />
         <option value="$PROJECT_DIR$/templates/formulario.module/typesTag.html" />
         <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.db.php" />
@@ -131,6 +166,11 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" />
         <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html" />
+=======
+        <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" />
+        <option value="$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html" />
+        <option value="$PROJECT_DIR$/templates/formulario.module/types.html" />
+>>>>>>> Stashed changes
       </list>
     </option>
   </component>
@@ -170,6 +210,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< Updated upstream
+=======
+      <pane id="Scratches" />
+      <pane id="Scope" />
+>>>>>>> Stashed changes
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -248,14 +293,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="paginitation" />
+              <option name="myItemId" value="drag_and_drop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+<<<<<<< Updated upstream
       <pane id="Scope" />
       <pane id="Scratches" />
+=======
+>>>>>>> Stashed changes
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -381,12 +429,19 @@
       <workItem from="1475198294303" duration="4260000" />
       <workItem from="1475241909708" duration="831000" />
       <workItem from="1475243565476" duration="6996000" />
+<<<<<<< Updated upstream
       <workItem from="1475260605594" duration="38000" />
       <workItem from="1475260661521" duration="2537000" />
       <workItem from="1475263607971" duration="634000" />
       <workItem from="1475372718114" duration="1920000" />
       <workItem from="1475429325092" duration="16667000" />
       <workItem from="1475501859256" duration="650000" />
+=======
+      <workItem from="1475260481821" duration="819000" />
+      <workItem from="1475442795126" duration="9262000" />
+      <workItem from="1475455724853" duration="7000" />
+      <workItem from="1475502412762" duration="612000" />
+>>>>>>> Stashed changes
     </task>
     <task id="LOCAL-00001" summary="Expandable Panels, drops">
       <created>1475183143443</created>
@@ -406,6 +461,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< Updated upstream
     <option name="totallyTimeSpent" value="135040000" />
   </component>
   <component name="ToolWindowManager">
@@ -416,6 +472,18 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+=======
+    <option name="totallyTimeSpent" value="123294000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17238806" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+>>>>>>> Stashed changes
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -717,13 +785,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/drag_and_drop/angular-drag-and-drop-list.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/paginitation/pagination.js" />
     <entry file="file://$PROJECT_DIR$/indexFunctions.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -734,13 +795,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/main.module/app.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="391">
           <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+=======
+        <state relative-caret-position="408">
+          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/paginitation/simplePagination.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="918">
           <caret line="66" column="5" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
         </state>
@@ -765,10 +832,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+=======
+        <state relative-caret-position="391">
+          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/paginitation/simplePagination.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="56" column="49" selection-start-line="56" selection-start-column="49" selection-end-line="56" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/formulario.module/typesTag.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="70" column="17" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -780,20 +866,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1411">
           <caret line="83" column="53" selection-start-line="83" selection-start-column="53" selection-end-line="83" selection-end-column="53" />
+=======
+    <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+>>>>>>> Stashed changes
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/drag_and_drop/angular-drag-and-drop-list.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="9" column="335" selection-start-line="9" selection-start-column="335" selection-end-line="9" selection-end-column="335" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="765">
           <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+=======
+        <state relative-caret-position="1122">
+          <caret line="68" column="48" selection-start-line="68" selection-start-column="48" selection-end-line="68" selection-end-column="48" />
+>>>>>>> Stashed changes
           <folding>
             <element signature="e#0#43#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-30">
@@ -801,6 +906,13 @@
           <folding>
             <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/templates/formulario.module/types.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+          <folding />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>

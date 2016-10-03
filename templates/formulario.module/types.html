@@ -20,7 +20,6 @@
         </dnd-nodrag>
     </li>
 
-
     <!--For Checkbox Inputs-->
     <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
         dnd-draggable="person"
@@ -79,7 +78,9 @@
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="name">
-                {{person.name}}
+                <dnd-nodrag>
+                        <p model="person.name">{{person.name}}</p>
+                </dnd-nodrag>
             </div>
         </dnd-nodrag>
     </li>
