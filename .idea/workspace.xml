@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7db6812d-9e80-4f2e-be59-b0a2ebf3406a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" afterPath="$PROJECT_DIR$/templates/formulario.module/formulario.module.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/formulario.module.service.js" afterPath="$PROJECT_DIR$/templates/formulario.module/formulario.module.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html" afterPath="$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/types.html" afterPath="$PROJECT_DIR$/templates/formulario.module/types.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/formulario.module/typesTag.html" afterPath="$PROJECT_DIR$/templates/formulario.module/typesTag.html" />
-    </list>
+    <list default="true" id="7db6812d-9e80-4f2e-be59-b0a2ebf3406a" name="Default" comment="" />
     <ignored path="prueba.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,7 +46,7 @@
       <file leaf-file-name="formulario.module.view.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="-30">
               <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -804,7 +796,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/formulario.module/formulario.module.view.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="-30">
           <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
           <folding>
             <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
