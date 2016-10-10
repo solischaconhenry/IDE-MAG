@@ -100,3 +100,29 @@
 .typesDemo .name {
     margin-left: 20px;
 }
+
+.btn-eiminar{
+    border: none;
+    background-color:transparent;
+}
+
+.btn-eiminar:hover{
+     border: none;
+     background-color:transparent;
+ }
+
+.btn-eiminar:focus{
+    border: none;
+    outline: none;
+    background-color:transparent;
+}
+
+.btn-eiminar:active{
+    border-color: #2F4D99;
+
+}
+
+.icon-eliminar:active{
+    color:#5b9bd1;
+    font-size:1.5em;
+}
