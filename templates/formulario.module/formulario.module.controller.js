@@ -78,6 +78,12 @@ angular.module('AppPrueba')
         ];
 
 
+        $scope.eliminar = function (id) {
+            var index = ($scope.list2['people']).map(function(d) { return d['name']; }).indexOf(id);
+            alert(index)
+
+        };
+
 
         // Model to JSON for demo purpose
         $scope.$watch('lists', function(lists) {
@@ -102,6 +108,12 @@ angular.module('AppPrueba')
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);
+
+
+
+
         
     });
+
+
 
