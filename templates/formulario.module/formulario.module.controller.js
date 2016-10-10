@@ -1,16 +1,10 @@
-/**
- * Created by usuario on 21/6/2016.
- */
+
 angular.module('AppPrueba')
 
-    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService) {
+    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,ModalService) {
 
         $scope.preguntas = [];
 
-       /* FormulariosService.getOpciones(11).then(function (data2) {
-            $scope.prueba = data2;
-        });
-        */
         FormulariosService.getPreguntas().then(function (data) {
             $scope.preguntas = data;
 
@@ -26,27 +20,6 @@ angular.module('AppPrueba')
 
         });
 
-
-/*
-        $scope.lists = [
-            {
-                label: "Tipos de preguntas",
-                allowedTypes: ['Gem', 'Terreno', 'Gen','input'],
-                max: 17,
-                people: [
-                    {name: "Prueba", type: "Gen", hel:"text"},
-                    {name: "Pruebita", type: "Gen", hel:"text"},
-                    {name: "Pruebota", type: "unknown", hel:"text"},
-                    {name: "Burtota", type: "Terreno", hel:"text"},
-                    {name: "Wendy", type: "Terreno", hel:"text"}
-                ]
-            }
-
-        ];
-*/
-
-
-
         $scope.list2 = [
             {
                 label: "Formulario",
@@ -60,8 +33,21 @@ angular.module('AppPrueba')
             }
 
         ];
+        $scope.eliminarPregForm = function (id) {
+            console.log(id);
+            console.log($scope.list2);
+            console.log($scope.list2[0]["people"]);
+           var index = $scope.list2[0]["people"].map(function(d) { return d['name']; }).indexOf(id);
 
-        $scope.list3 = [
+
+            delete $scope.list2[0]["people"][index];
+            $scope.list2[0][["people"]] = JSON.parse(JSON.stringify($scope.list2[0]["people"]));
+
+            console.log(index);
+            console.log($scope.list2[0]["people"]);
+        }
+
+    /*    $scope.list3 = [
             {
                 label: "Prueba",
                 allowedTypes: ['Gen', 'Terreno', 'Gem'],
@@ -76,6 +62,7 @@ angular.module('AppPrueba')
             }
 
         ];
+        */
 
 
         $scope.eliminar = function (id) {
@@ -108,9 +95,7 @@ angular.module('AppPrueba')
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);
-
-
-
+        
 
         
     });
