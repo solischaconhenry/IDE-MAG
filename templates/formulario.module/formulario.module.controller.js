@@ -84,6 +84,7 @@ angular.module('AppPrueba')
             $scope.modelAsJson = angular.toJson(lists, true);
         }, true);
 
+        //for control expandable panel
         $scope.status = {
             isCustomHeaderOpen: false,
             isFirstOpen: true,
@@ -91,17 +92,21 @@ angular.module('AppPrueba')
         };
         $scope.oneAtATime = true;
 
+        //for control of pagination
         $scope.pagination = Pagination.getNew();
-        $scope.pagination = Pagination.getNew(3);
+        $scope.pagination = Pagination.getNew(2);
         console.log($scope.list2[0].people.length);
-        $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
-
+        //$scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
+        $scope.pagination.numPages = 1;
 
 
         $scope.$watch('list2[0].people', function () {
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);
+        /*$scope.addPage = function () {
+            $scope.pagination.numPages += 1;
+        }*/
         
     });
 
