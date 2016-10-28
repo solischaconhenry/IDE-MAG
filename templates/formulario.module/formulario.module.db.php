@@ -1,6 +1,21 @@
 <?php
 
 Class CargarPregunta {
+      public function conexion(){
+       //include '../BD/acceso.php';
+
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "AGROMAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+
+      }
 
       public function loadOpciones($id){
 
@@ -16,19 +31,8 @@ Class CargarPregunta {
 
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-
-
-        $query = "SELECT
-                  idopc,
-                  orden,
-                  opcion,
-                  idPreg
-                  FROM opciones where idPreg = $id";
-
-
+        $query = "SELECT idopc,orden,opcion,idPreg FROM opciones where idPreg = $id";
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
-
-
         $row = pg_fetch_all($result);
 
         //return(json_encode($row));
@@ -51,16 +55,7 @@ Class CargarPregunta {
 
 
 
-        $query = "SELECT
-                        idpreg,
-                        titulo as name,
-                        enunciadoPreg ,
-                        categoria as type,
-                        tipo ,
-                        fijo,
-                        requerido,
-                        mascara as hel
-                      FROM pregunta";
+        $query = "SELECT idpreg,titulo as name,enunciadoPreg ,categoria as type,tipo ,fijo,requerido,mascara as hel FROM pregunta";
 
 
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
@@ -85,14 +80,6 @@ Class CargarPregunta {
             $resulFin[] =  $reg;
 
         }
-
-
-
-
-
-        //$row = pg_fetch_all($result);
-
-        //return(json_encode($row));
         return (json_encode($resulFin));
     }
 
@@ -100,14 +87,84 @@ Class CargarPregunta {
 
 }
 
+
+Class Insertar {
+    public function insertarForm($nombre,$descripcionl,$fechal)
+    {
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "AGROMAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+          $query = "insert into formulario (nombreform,descripcion,fecha) values ('$nombre','$descripcionl','$fechal')";
+          $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+    }
+
+    public function insertarPag($descripcion,$orden)
+    {
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "AGROMAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+          $query = "insert into pagina (descripcion,orden) values ('$descripcion',$orden)";
+          $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+
+    }
+    public function insertarPreguntasForm($id,$idPreg,$orden,$pagina)
+    {
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "AGROMAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+          $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($id,$idPreg,$orden,$pagina)";
+          $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+    }
+
+}
+
+
+
 $nuevoCargar = new CargarPregunta();
+$nuevoInsertar = new Insertar();
+
+//$nuevoInsertar->insertarPreguntasForm(1,1,0,1);
+//$nuevoInsertar->insertarPag("sdgfe",2);
+
 
 
 if($_REQUEST['action']=='loadPreguntas') {
     print_r($nuevoCargar->loadPreguntas());
 }
 
-
 if($_REQUEST['action']=='loadOpciones') {
     print_r($nuevoCargar->loadOpciones($_REQUEST['idPreg']));
+}
+
+if($_REQUEST['action']=='insertarForm') {
+   $nuevoInsertar->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha']);
+}
+
+if($_REQUEST['action']=='insertarPag') {
+   $nuevoInsertar->insertarPag($_REQUEST['descripcion'],$_REQUEST['orden']);
+}
+
+if($_REQUEST['action']=='insertarPreguntasForm') {
+   $nuevoInsertar->insertarPreguntasForm($_REQUEST['idform'],$_REQUEST['idpreg'],$_REQUEST['orden'],$_REQUEST['pagina']);
 }

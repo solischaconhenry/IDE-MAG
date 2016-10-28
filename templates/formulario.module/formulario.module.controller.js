@@ -1,11 +1,28 @@
 
 angular.module('AppPrueba')
 
-    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,ModalService) {
+    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService) {
 
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
+       /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
+            .then(function (data) {
+                alert("ok");
+                console.log(data);
+            });
+        FormulariosService.insertarPag("nombrePag",1)
+            .then(function (data) {
+                alert("ok");
+                console.log(data);
+            });
 
+
+        FormulariosService.insertarPreguntasForm(1,1,0,1)
+            .then(function (data) {
+                alert("ok");
+                console.log(data);
+            });
+        */
         FormulariosService.getPreguntas().then(function (data) {
             $scope.preguntas = data;
 
@@ -18,13 +35,14 @@ angular.module('AppPrueba')
                 }
 
             ];
-
+            console.log( $scope.preguntas)
         });
 
         $scope.list2 = [
             {
                 label: "Formulario",
                 people: [
+
                     {
                         pagina: "Patito",
                         orden: 0,
@@ -45,6 +63,12 @@ angular.module('AppPrueba')
             }
 
         ];
+
+
+        $scope.guardarForm = function (nombre,descripcion,fecha,pag) {
+
+        }
+
         $scope.eliminarPregForm = function (id) {
             console.log(id);
             console.log($scope.list2);
