@@ -45,7 +45,7 @@ angular.module('AppPrueba')
 
                     {
                         pagina: "Patito",
-                        orden: 0,
+                        orden: 1,
                         descripcion:"holi",
                         preguntas:[ 
                             {name: "Prueba", type: "Gen", hel:"text"},
@@ -53,7 +53,7 @@ angular.module('AppPrueba')
                     },
                     {
                         pagina:"Patito2",
-                        orden: 1,
+                        orden: 2,
                         descripcion:"Holis",
                         preguntas:[
                             {name: "Burtota", type: "Terreno", hel:"text"},
@@ -137,7 +137,7 @@ angular.module('AppPrueba')
             $scope.pagination.numPages += 1;
             var item = {
                 pagina: "patito3",
-                orden: $scope.pagination.numPages + 1,
+                orden: $scope.pagination.numPages,
                 descripcion: "patito describe",
                 preguntas:[]
             };
