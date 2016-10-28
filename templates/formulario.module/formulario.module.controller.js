@@ -45,7 +45,7 @@ angular.module('AppPrueba')
                     /* {
 
                         pagina: "Patito",
-                        orden: 0,
+                        orden: 1,
                         descripcion:"holi",
                         preguntas:[ 
                             {name: "Prueba", type: "Gen", hel:"text"},
@@ -53,7 +53,7 @@ angular.module('AppPrueba')
                     },
                     {
                         pagina:"Patito2",
-                        orden: 1,
+                        orden: 2,
                         descripcion:"Holis",
                         preguntas:[
                             {name: "Burtota", type: "Terreno", hel:"text"},
@@ -139,7 +139,9 @@ angular.module('AppPrueba')
             if($scope.nombrePagina != undefined) {
                 $scope.pagination.numPages += 1;
                 var item = {
-                    pagina: $scope.nombrePagina
+                    pagina: $scope.nombrePagina,
+                    orden: $scope.pagination.numPages,
+                    preguntas:[]
 
                 }
                 console.log( $scope.nombrePagina)
@@ -150,6 +152,7 @@ angular.module('AppPrueba')
 
         $scope.addPage = function () {
             $ctrl.open('sm');
+
         }
 
 
