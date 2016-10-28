@@ -1,7 +1,7 @@
 
 angular.module('AppPrueba')
 
-    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService) {
+    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,$uibModal, $log, $document) {
 
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
@@ -42,8 +42,8 @@ angular.module('AppPrueba')
             {
                 label: "Formulario",
                 people: [
+                    /* {
 
-                    {
                         pagina: "Patito",
                         orden: 0,
                         descripcion:"holi",
@@ -59,6 +59,7 @@ angular.module('AppPrueba')
                             {name: "Burtota", type: "Terreno", hel:"text"},
                             {name: "Wendy", type: "Terreno", hel:"text"}]
                     }
+                    */
                 ]
             }
 
@@ -133,15 +134,25 @@ angular.module('AppPrueba')
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);*/
-        $scope.addPage = function () {
-            $scope.pagination.numPages += 1;
-            var item = {
-                pagina: "patito3",
 
+        $scope.$watch('nombrePagina', function() {
+            if($scope.nombrePagina != undefined) {
+                $scope.pagination.numPages += 1;
+                var item = {
+                    pagina: $scope.nombrePagina
+
+                }
+                console.log( $scope.nombrePagina)
+                $scope.nombrePagina = undefined;
+                $scope.list2[0].people.push(item);
             }
-            $scope.list2[0].people.push(item);
+        });
+
+        $scope.addPage = function () {
+            $ctrl.open('sm');
         }
-        
+
+
         $scope.change = function (page) {
             $scope.seccionActiva = page;
         }
@@ -149,10 +160,47 @@ angular.module('AppPrueba')
         $scope.myFilter = function (person) {
             return person.orden == $scope.seccionActiva;
         };
-        
 
-        
+
+
+
+        var $ctrl = this;
+        $ctrl.animationsEnabled = true;
+        $ctrl.open = function (size, parentSelector) {
+            var parentElem = parentSelector ?
+                angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+            var modalInstance = $uibModal.open({
+                animation: $ctrl.animationsEnabled,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                controllerAs: '$ctrl',
+                size: size,
+                appendTo: parentElem,
+            });
+
+            modalInstance.result.then(function (nombre) {
+                console.log(nombre)
+                $scope.nombrePagina = nombre;
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
     });
 
 
+angular.module('AppPrueba').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+    var $ctrl = this;
+    $ctrl.ok = function () {
+        $uibModalInstance.close($scope.nombrePagina);
+        $uibModalInstance.close();
+    };
+
+    $ctrl.cancel = function () {
+       // $uibModalInstance.dismiss('cancel');
+        $uibModalInstance.close(undefined);
+    };
+});
 

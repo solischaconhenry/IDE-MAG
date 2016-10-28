@@ -6,7 +6,8 @@ angular
     .module('AppPrueba', [
         'ui.router',
         'dndLists',
-        'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'simplePagination'
+        'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'simplePagination',
+        'ngSanitize'
     ])
     .config(function($stateProvider, $urlRouterProvider) {
 
