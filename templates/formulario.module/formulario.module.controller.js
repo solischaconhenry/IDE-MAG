@@ -113,6 +113,8 @@ angular.module('AppPrueba')
             $scope.pagination.numPages += 1;
             var item = {
                 pagina: "patito3",
+                orden: $scope.pagination.numPages + 1,
+                preguntas:[]
 
             }
             $scope.list2[0].people.push(item);
