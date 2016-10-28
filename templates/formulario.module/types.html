@@ -1,9 +1,12 @@
-<ul dnd-list="list.people"
-    dnd-allowed-types="list.allowedTypes"
-    dnd-disable-if="list.people.length >= list.max">
+<div ng-repeat="data in list.people"
+    ng-if="data.orden == seccionActiva">
+
+
+<ul dnd-list="data.preguntas">
+
 
     <!--For Text Inputs-->
-    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+    <li ng-repeat="person in data.preguntas"
         dnd-draggable="person"
         dnd-type="person.type"
         dnd-disable-if="person.type == 'unknown'"
@@ -12,6 +15,7 @@
         class="background-{{person.type}}"
         ng-if="person.hel == 'text'"
     >
+
         <dnd-nodrag>
             <div dnd-handle class="handle">:::</div>
             <div class="row">
@@ -30,7 +34,7 @@
     </li>
 
     <!--For Checkbox Inputs-->
-    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+    <li ng-repeat="person in list.people[0].preguntas"
         dnd-draggable="person"
         dnd-type="person.type"
         dnd-disable-if="person.hel == 'text'"
@@ -54,7 +58,7 @@
     </li>
 
     <!--For Radio Inputs-->
-    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+    <li ng-repeat="person in list.people[0].preguntas"
         dnd-draggable="person"
         dnd-type="person.type"
         dnd-disable-if="person.hel == 'text'"
@@ -77,7 +81,7 @@
     </li>
 
     <!--For Text Inputs-->
-    <li ng-repeat="person in list.people| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage"
+    <li ng-repeat="person in list.people[0].preguntas"
         dnd-draggable="person"
         dnd-type="person.type"
         dnd-disable-if="person.type == 'unknown'"
@@ -106,12 +110,14 @@
 
 
 </ul>
+</div>
 <ul class="pagination">
-    <li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+    <li><a href="" ng-click="pagination.prevPage(); change(n);">&laquo;</a></li>
     <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
-        <a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>
+        <a href="" ng-click="pagination.toPageId(n); change(n);">{{n + 1}}</a>
     </li>
-    <li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+    <li><a href="" ng-click="addPage()">&plus;</a></li>
+    <li><a href="" ng-click="pagination.nextPage(); change(n);">&raquo;</a></li>
 
 
 </ul>

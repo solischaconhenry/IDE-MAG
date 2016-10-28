@@ -3,6 +3,7 @@ angular.module('AppPrueba')
 
     .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService) {
 
+        $scope.seccionActiva = 0;
         $scope.preguntas = [];
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {
@@ -40,10 +41,24 @@ angular.module('AppPrueba')
         $scope.list2 = [
             {
                 label: "Formulario",
-                allowedTypes: ['Gen', 'Terreno', 'Datos generales','input'],
-                max: 10,
                 people: [
 
+                    {
+                        pagina: "Patito",
+                        orden: 0,
+                        descripcion:"holi",
+                        preguntas:[ 
+                            {name: "Prueba", type: "Gen", hel:"text"},
+                            {name: "Pruebita", type: "Gen", hel:"text"}]
+                    },
+                    {
+                        pagina:"Patito2",
+                        orden: 1,
+                        descripcion:"Holis",
+                        preguntas:[
+                            {name: "Burtota", type: "Terreno", hel:"text"},
+                            {name: "Wendy", type: "Terreno", hel:"text"}]
+                    }
                 ]
             }
 
@@ -94,10 +109,11 @@ angular.module('AppPrueba')
 
 
         // Model to JSON for demo purpose
-        $scope.$watch('lists', function(lists) {
-            $scope.modelAsJson = angular.toJson(lists, true);
+        $scope.$watch('list2', function(list2) {
+            $scope.modelAsJson = angular.toJson(list2, true);
         }, true);
 
+        //for control expandable panel
         $scope.status = {
             isCustomHeaderOpen: false,
             isFirstOpen: true,
@@ -105,17 +121,34 @@ angular.module('AppPrueba')
         };
         $scope.oneAtATime = true;
 
+        //for control of pagination
         $scope.pagination = Pagination.getNew();
-        $scope.pagination = Pagination.getNew(3);
+        //$scope.pagination = Pagination.getNew(2);
         console.log($scope.list2[0].people.length);
-        $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
+        //$scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
+        $scope.pagination.numPages = 2;
 
 
-
-        $scope.$watch('list2[0].people', function () {
+    /*    $scope.$watch('list2[0].people', function () {
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
-        }, true);
+        }, true);*/
+        $scope.addPage = function () {
+            $scope.pagination.numPages += 1;
+            var item = {
+                pagina: "patito3",
+
+            }
+            $scope.list2[0].people.push(item);
+        }
+        
+        $scope.change = function (page) {
+            $scope.seccionActiva = page;
+        }
+
+        $scope.myFilter = function (person) {
+            return person.orden == $scope.seccionActiva;
+        };
         
 
         
