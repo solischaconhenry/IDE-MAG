@@ -66,9 +66,7 @@ angular.module('AppPrueba')
         ];
 
 
-        $scope.guardarForm = function (nombre,descripcion,fecha,pag) {
 
-        }
 
         $scope.eliminarPregForm = function (id) {
             console.log(id);
@@ -83,23 +81,6 @@ angular.module('AppPrueba')
             console.log(index);
             console.log($scope.list2[0]["people"]);
         }
-
-    /*    $scope.list3 = [
-            {
-                label: "Prueba",
-                allowedTypes: ['Gen', 'Terreno', 'Gem'],
-                max: 10,
-                people: [
-                    {name: "Prueba", type: "Gen", hel:"text"},
-                    {name: "Pruebita", type: "Gen", hel:"text"},
-                    {name: "Pruebota", type: "unknown", hel:"text"},
-                    {name: "Burtota", type: "Terreno", hel:"text"},
-                    {name: "Wendy", type: "Terreno", hel:"text"}
-                ]
-            }
-
-        ];
-        */
 
 
         $scope.eliminar = function (id) {
@@ -127,13 +108,41 @@ angular.module('AppPrueba')
         //$scope.pagination = Pagination.getNew(2);
         console.log($scope.list2[0].people.length);
         //$scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
-        $scope.pagination.numPages = 2;
+        $scope.pagination.numPages = 0;
 
 
     /*    $scope.$watch('list2[0].people', function () {
             console.log("prove");
             $scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         }, true);*/
+
+
+
+        //*************************** PAGINAS *******************************************************
+        // MOSTRAR MODAL DE PAGINA
+        var $ctrl = this;
+        $ctrl.animationsEnabled = true;
+        $ctrl.open = function (size, parentSelector) {
+            var parentElem = parentSelector ?
+                angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+            var modalInstance = $uibModal.open({
+                animation: $ctrl.animationsEnabled,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                controllerAs: '$ctrl',
+                size: size,
+                appendTo: parentElem,
+            });
+
+            modalInstance.result.then(function (nombre) {
+                $scope.nombrePagina = nombre;
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
 
         $scope.$watch('nombrePagina', function() {
             if($scope.nombrePagina != undefined) {
@@ -155,7 +164,6 @@ angular.module('AppPrueba')
 
         }
 
-
         $scope.change = function (page) {
             $scope.seccionActiva = page;
         }
@@ -167,43 +175,86 @@ angular.module('AppPrueba')
 
 
 
+        //*************************** GUARDAR FORMULARIO *******************************************************
+
+
         var $ctrl = this;
         $ctrl.animationsEnabled = true;
-        $ctrl.open = function (size, parentSelector) {
+        $ctrl.openForm = function (size, parentSelector) {
             var parentElem = parentSelector ?
                 angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
             var modalInstance = $uibModal.open({
                 animation: $ctrl.animationsEnabled,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
+                ariaLabelledBy: 'modal-titleForm',
+                ariaDescribedBy: 'modal-bodyForm',
+                templateUrl: 'myModalContentForm.html',
+                controller: 'ModalInstanceCtrlForm',
                 controllerAs: '$ctrl',
                 size: size,
                 appendTo: parentElem,
             });
 
-            modalInstance.result.then(function (nombre) {
-                console.log(nombre)
-                $scope.nombrePagina = nombre;
+            modalInstance.result.then(function (infoForm) {
+                $scope.infoForm = infoForm;
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
+
+        $scope.$watch('infoForm', function() {
+            if($scope.infoForm != undefined) {
+                $scope.pagination.numPages += 1;
+                var item = {
+                    pagina: $scope.nombrePagina,
+                    orden: $scope.pagination.numPages,
+                    preguntas:[]
+
+                }
+
+            }
+        });
+
+
+        $scope.guardarForm = function () {
+             $ctrl.openForm();
+        }
+
+
     });
 
 
+
+
+
+
+//*************************** CONTROLLER PARA PAGINAS *******************************************************
 angular.module('AppPrueba').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
     var $ctrl = this;
     $ctrl.ok = function () {
         $uibModalInstance.close($scope.nombrePagina);
-        $uibModalInstance.close();
     };
 
     $ctrl.cancel = function () {
-       // $uibModalInstance.dismiss('cancel');
         $uibModalInstance.close(undefined);
     };
 });
 
+//*************************** CONTROLLER PARA FORMULARIO *******************************************************
+
+angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope, $uibModalInstance) {
+    var $ctrl = this;
+    $ctrl.ok = function () {
+        var infoForm = {
+            nombre: $scope.nombreForm,
+            descripcion: $scope.descripcionForm,
+            fecha:$scope.fechaForm
+        }
+        $uibModalInstance.close(infoForm);
+
+    };
+
+    $ctrl.cancel = function () {
+        $uibModalInstance.close(undefined);
+    };
+});

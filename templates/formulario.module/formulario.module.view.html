@@ -3,13 +3,6 @@
         <h3 class="modal-title" id="modal-title">Crear Página</h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <!--
-        <ul>
-            <li ng-repeat="item in $ctrl.items">
-                <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-            </li>
-        </ul>
-        -->
         <div class="form-group">
             <input ng-model="nombrePagina" type="text" class="form-control" placeholder="Nombre" id="usr">
         </div>
@@ -21,6 +14,36 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="myModalContentForm.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-titleForm">Guardar Formulario</h3>
+    </div>
+    <div class="modal-body" id="modal-bodyForm">
+        <div class="form-group">
+            <!--<p>Nombre: </p>-->
+           <input ng-model="nombreForm" type="text" class="form-control" placeholder="Nombre" >
+       </div>
+       <div class="form-group">
+           <!--<p>Descripción: </p>-->
+            <input ng-model="descripcionForm" type="text" class="form-control" placeholder="Descripción">
+        </div>
+        <div class="form-group">
+            <!--<p>Fecha: </p>-->
+           <input ng-model="fechaForm" type="date" class="form-control" placeholder="Fecha">
+       </div>
+
+       <!-- Selected: <b>{{ $ctrl.selected.item }}</b>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Aceptar</button>
+        <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+    </div>
+</script>
+
+
+
+
+
 
 <h1>Formularios</h1>
 
@@ -28,8 +51,8 @@
 
     <div ng-repeat="list in lists" class="col-md-3">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">Tipos de preguntas</h3>
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Tipos de preguntas</h3>
             </div>
             <div class="panel-body" ng-include="'./templates/formulario.module/typesTag.html'"></div>
         </div>
@@ -38,10 +61,10 @@
 
     <div ng-repeat="list in list2" class="col-md-9">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4 class="panel-title ">Formulario</h4>
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formulario</h3>
                 <div class="btn-group pull-right">
-
+                    <button class="btn btn-default btn-sm" ng-click = "guardarForm()">Guardar</button>
                 </div>
             </div>
 
@@ -62,40 +85,5 @@
 
 
 
-    <script type="text/ng-template" id="modal.html">
-        <div class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Yes or No?</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>It's your call...</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
-                        <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
 
-
-
-
-</div>
-    <!-- <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button> -->
-
-
-<!-- Small modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Small modal</button>
-
-<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            ...
-        </div>
-    </div>
 </div>
