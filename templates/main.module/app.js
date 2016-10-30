@@ -14,7 +14,14 @@ angular
         $urlRouterProvider.otherwise('/formulario');
 
         $stateProvider
-            .state('subir',{
+
+            .state('dusTabs',{
+                url:'/tabs',
+                templateUrl:'templates/dusTab.module/dusTab.view.html',
+                controller:'dusTabsController'
+            })
+
+            .state('dusTabs.subir',{
                 url:'/subir',
                 templateUrl:'templates/subir.module/subir.view.html',
                 controller:'SubirController'
@@ -26,13 +33,13 @@ angular
                 controller:'AgregarController'
             })
 
-            .state('dividir',{
+            .state('dusTabs.dividir',{
                 url:'/dividir',
                 templateUrl:'templates/dividir.module/dividir.view.html',
                 controller:'DividirController'
             })
 
-            .state('unir',{
+            .state('dusTabs.unir',{
                 url:'/unir',
                 templateUrl:'templates/unir.module/unir.view.html',
                 controller:'UnirController'
@@ -55,4 +62,9 @@ angular
                 templateUrl:'templates/formulario.module/formulario.module.view.html',
                 controller:'FormularioGanaderia'
             })
+
+
+
+
+        
     });

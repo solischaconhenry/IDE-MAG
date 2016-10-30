@@ -171,3 +171,13 @@ section{
     margin-bottom: 2%;
 }
 
+.maps{
+    stroke:black;
+    stroke-width:1;
+    fill: blue;
+    fill: repeating-linear-gradient(45deg, #26C281, #26C281 20px, #7eeacd 20px, #7eeacd 45px);
+}
+
+.pass{
+
+}
