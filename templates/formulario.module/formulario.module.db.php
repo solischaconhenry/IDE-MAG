@@ -121,8 +121,9 @@ Class Insertar {
 
 
     }
-    public function insertarPreguntasForm($id,$idPreg,$orden,$pagina)
+    public function insertarPreguntasForm($idPreg,$orden)
     {
+          echo ($orden);
           $user = "postgres";
           $password = "12345";
           $dbname = "AGROMAG";
@@ -132,8 +133,17 @@ Class Insertar {
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-          $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($id,$idPreg,$orden,$pagina)";
-          $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+          $queryIdForm = "select idform from formulario order by idform desc limit 1";
+          $resultIdForm =  pg_query($conn, $queryIdForm) or die("Error al ejecutar la consulta");
+          $rowForm = pg_fetch_row($resultIdForm);
+
+          $queryIdPagina = "select idpag from pagina order by idpag desc limit 1";
+          $resultIdPagina =   pg_query($conn, $queryIdPagina) or die("Error al ejecutar la consulta");
+          $rowPagina = pg_fetch_row($resultIdPagina);
+          echo ($rowPagina[0]);
+
+          $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($rowForm[0],$idPreg,$orden,$rowPagina[0])";
+          $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
     }
 
@@ -144,7 +154,7 @@ Class Insertar {
 $nuevoCargar = new CargarPregunta();
 $nuevoInsertar = new Insertar();
 
-//$nuevoInsertar->insertarPreguntasForm(1,1,0,1);
+//$nuevoInsertar->insertarPreguntasForm(9,1);
 //$nuevoInsertar->insertarPag("sdgfe",2);
 
 
@@ -166,5 +176,5 @@ if($_REQUEST['action']=='insertarPag') {
 }
 
 if($_REQUEST['action']=='insertarPreguntasForm') {
-   $nuevoInsertar->insertarPreguntasForm($_REQUEST['idform'],$_REQUEST['idpreg'],$_REQUEST['orden'],$_REQUEST['pagina']);
+   $nuevoInsertar->insertarPreguntasForm($_REQUEST['idpreg'],$_REQUEST['orden']);
 }

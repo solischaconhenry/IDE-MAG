@@ -65,12 +65,11 @@ angular.module('AppPrueba')
 
         };
 
-        this.insertarPreguntasForm = function (idform,idpreg,orden,pagina) {
+        this.insertarPreguntasForm = function (idpreg,orden) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/formulario.module/formulario.module.db.php?action=insertarPreguntasForm&idform='+idform
-                    +'&idpreg='+idpreg +'&orden='+orden + '&pagina='+pagina)
+            $http.get('templates/formulario.module/formulario.module.db.php?action=insertarPreguntasForm&idpreg='+idpreg +'&orden='+orden)
                 .success(function(response) {
                     defered.resolve(response);
                 });
