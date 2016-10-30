@@ -17,12 +17,13 @@ angular.module('AppPrueba')
             });
 
 
-        FormulariosService.insertarPreguntasForm(1,1,0,1)
+        FormulariosService.insertarPreguntasForm(10,0)
             .then(function (data) {
                 alert("ok");
                 console.log(data);
             });
         */
+
         FormulariosService.getPreguntas().then(function (data) {
             $scope.preguntas = data;
 
@@ -202,20 +203,32 @@ angular.module('AppPrueba')
         };
 
 
+        //GUARDA EN BD TODO LO REFERENTE AL FORMULARIO
         $scope.$watch('infoForm', function() {
             if($scope.infoForm != undefined) {
-                $scope.pagination.numPages += 1;
-                var item = {
-                    pagina: $scope.nombrePagina,
-                    orden: $scope.pagination.numPages,
-                    preguntas:[]
-
-                }
+                //insertar en la tabla formulario
+                console.log($scope.infoForm)
+                FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha)
+                    .then(function (data) {
+                    });
+                //RECORRER LAS PÁGINAS
+                angular.forEach($scope.list2[0].people, function(pagina){
+                    console.log("entro");
+                    FormulariosService.insertarPag(pagina.pagina,pagina.orden)
+                        .then(function (data) {
+                        });
+                    //RECORRER LAS PREGUNTAS
+                    angular.forEach(pagina.preguntas, function(pregunta) {
+                        console.log(pregunta.idpreg);
+                        FormulariosService.insertarPreguntasForm(pregunta.idpreg,0)
+                            .then(function (data) {
+                            });
+                    })
+                })
 
             }
         });
-
-
+        // LEVANTA EL MODAL PARA PEDIR LOS DATOS DEL FORMULARIO
         $scope.guardarForm = function () {
              $ctrl.openForm();
         }
@@ -248,7 +261,7 @@ angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope
         var infoForm = {
             nombre: $scope.nombreForm,
             descripcion: $scope.descripcionForm,
-            fecha:$scope.fechaForm
+            fecha:$scope.fechaForm.toLocaleString()
         }
         $uibModalInstance.close(infoForm);
 
