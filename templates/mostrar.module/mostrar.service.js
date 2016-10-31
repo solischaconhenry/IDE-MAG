@@ -41,7 +41,7 @@ angular.module('AppPrueba')
     this.getApartoByID = function (idAparto) {
         var defered = $q.defer();
         var promise = defered.promise;
-
+        console.log("asdad"+idAparto);
         $http.get('templates/mostrar.module/mostrar.logic.php?action=getApartoByID&gidAparto=' + idAparto)
             .success(function(response) {
             defered.resolve(response);

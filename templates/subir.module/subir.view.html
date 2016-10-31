@@ -1,19 +1,33 @@
-<div class="file-upload">
-    <input type="file" file-model="myFile"/>
-    <button ng-click="uploadFile()">Cargar</button>
-    <button ng-show="svg" ng-click="save()">Guardar en BD</button>
+<div class="row">
+    <h3>Subir Finca</h3>
+    <br>
+    <div class="col-md-4">
+        <div class="file-upload">
+            <input class="btn btn-default" type="file" file-model="myFile"/>
+            <br>
+            <button class="btn btn-default" ng-click="uploadFile()">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Cargar
+            </button>
+            <br>
+            <br>
+            <button class="btn btn-info" ng-show="svg" ng-click="save()">
+                <span class="glyphicon glyphicon-floppy-disk"></span> Guardar en BD
+            </button>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-7">
+        <svg
+             ng-show = "svg"
+             width="500"
+             height="500"
+             style="border:2px groove #0455BF">
+
+            <polygon
+                     ng-repeat="coordenadas in json"
+                     ng-attr-points="{{coordenadas.puntos}}"
+                     style="fill:#26C281;stroke:black;stroke-width:1" />
+
+        </svg>
+    </div>
 </div>
-
-<svg 
-     ng-show = "svg"
-     width="500" 
-     height="500" 
-     style="border:2px groove #0455BF">
-
-    <polygon 
-             ng-repeat="coordenadas in json"
-             ng-attr-points="{{coordenadas.puntos}}"
-             style="fill:#26C281;stroke:black;stroke-width:1" />
-
-</svg>
-
