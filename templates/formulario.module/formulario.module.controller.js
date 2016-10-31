@@ -42,26 +42,7 @@ angular.module('AppPrueba')
         $scope.list2 = [
             {
                 label: "Formulario",
-                people: [
-                    /* {
-
-                        pagina: "Patito",
-                        orden: 1,
-                        descripcion:"holi",
-                        preguntas:[ 
-                            {name: "Prueba", type: "Gen", hel:"text"},
-                            {name: "Pruebita", type: "Gen", hel:"text"}]
-                    },
-                    {
-                        pagina:"Patito2",
-                        orden: 2,
-                        descripcion:"Holis",
-                        preguntas:[
-                            {name: "Burtota", type: "Terreno", hel:"text"},
-                            {name: "Wendy", type: "Terreno", hel:"text"}]
-                    }
-                    */
-                ]
+                people: []
             }
 
         ];
@@ -161,13 +142,36 @@ angular.module('AppPrueba')
         });
 
         $scope.addPage = function () {
-            $ctrl.open('sm');
+            if($scope.pagination.numPages > 0) {
+                if ($scope.list2[0].people[$scope.pagination.numPages - 1].preguntas.length != 0) {
+                    $ctrl.open('sm');
+
+                    //change($scope.pagination.numPages);
+                }
+                else {
+                    alert("Agregue preguntas a la sección creada")
+                }
+            }
+            else {
+                $ctrl.open('sm');
+
+                //change($scope.pagination.numPages);
+            }
 
         }
 
         $scope.change = function (page) {
             $scope.seccionActiva = page;
+            console.log( $scope.list2[0].people[$scope.seccionActiva-1])
+            if( $scope.nombrePag = $scope.list2[0].people.length == 0){
+                $scope.nombrePag = "Vacío"
+            }
+            else {
+                $scope.nombrePag = $scope.list2[0].people[$scope.seccionActiva-1].pagina;
+            }
+
         }
+        $scope.change(1);
 
         $scope.myFilter = function (person) {
             return person.orden == $scope.seccionActiva;
@@ -205,8 +209,10 @@ angular.module('AppPrueba')
 
         //GUARDA EN BD TODO LO REFERENTE AL FORMULARIO
         $scope.$watch('infoForm', function() {
+
             if($scope.infoForm != undefined) {
                 //insertar en la tabla formulario
+                console.log("hh")
                 console.log($scope.infoForm)
                 FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha)
                     .then(function (data) {
@@ -214,31 +220,37 @@ angular.module('AppPrueba')
                 //RECORRER LAS PÁGINAS
                 angular.forEach($scope.list2[0].people, function(pagina){
                     console.log("entro");
-                    FormulariosService.insertarPag(pagina.pagina,pagina.orden)
+
+                    FormulariosService.insertarPag(pagina.pagina, pagina.orden)
                         .then(function (data) {
                         });
                     //RECORRER LAS PREGUNTAS
-                    angular.forEach(pagina.preguntas, function(pregunta) {
-                        console.log(pregunta.idpreg);
-                        FormulariosService.insertarPreguntasForm(pregunta.idpreg,0)
+                    angular.forEach(pagina.preguntas, function (pregunta) {
+                        FormulariosService.insertarPreguntasForm(pregunta.idpreg, 0)
                             .then(function (data) {
+                                alert("Guardado con éxito")
                             });
                     })
+
                 })
 
             }
+
         });
         // LEVANTA EL MODAL PARA PEDIR LOS DATOS DEL FORMULARIO
         $scope.guardarForm = function () {
-             $ctrl.openForm();
+
+            console.log( $scope.list2[0].people.length == 0 );
+            if($scope.list2[0].people.length != 0 ) {
+                $ctrl.openForm();
+            }
+            else {
+                alert("Formulario vacío !!!")
+            }
         }
 
 
     });
-
-
-
-
 
 
 //*************************** CONTROLLER PARA PAGINAS *******************************************************
@@ -261,7 +273,7 @@ angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope
         var infoForm = {
             nombre: $scope.nombreForm,
             descripcion: $scope.descripcionForm,
-            fecha:$scope.fechaForm.toLocaleString()
+            fecha: $scope.fechaForm.toLocaleString()
         }
         $uibModalInstance.close(infoForm);
 

@@ -116,7 +116,7 @@
     <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
         <a href="" ng-click="pagination.toPageId(n); change(n+1);">{{n + 1}}</a>
     </li>
-    <li><a href="" ng-click="addPage(); pagination.prevPage(); change(n+1);">&plus;</a></li>
+    <li><a href="" ng-click="addPage();">&plus;</a></li>
 
     <li><a href="" ng-click="pagination.nextPage(); change(n+1);">&raquo;</a></li>
 
