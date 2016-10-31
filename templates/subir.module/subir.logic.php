@@ -20,7 +20,7 @@ class Subir
     }
 
     function previsualizar(){
-        include '../templates/main.module/acceso.php';
+        include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
 
@@ -163,7 +163,7 @@ class Subir
     }
 
     function upload(){
-        $target_dir = "C:/xampp1/htdocs/Fincas/";
+        $target_dir = "C:/xampp1/htdocs/IDE-MAG/";
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
 
         move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);

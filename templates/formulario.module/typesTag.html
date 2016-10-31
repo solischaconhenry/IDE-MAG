@@ -23,9 +23,7 @@
             <uib-accordion-heading>
                Generales <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
             </uib-accordion-heading>
-            <ul dnd-list="list.people"
-                dnd-allowed-types="list.allowedTypes"
-                dnd-disable-if="list.people.length >= list.max">
+            <ul dnd-list="list.people">
 
                 <!--For Text Inputs-->
                 <li ng-repeat="person in list.people"
@@ -33,7 +31,7 @@
                     dnd-type="person.type"
                     dnd-disable-if="person.type == 'unknown'"
                     dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="move"
+                    dnd-effect-allowed="copy"
                     class="background-{{person.type}}"
                     ng-if="person.type == 'Datos generales'"
                 >
@@ -55,9 +53,7 @@
             <uib-accordion-heading>
                 Terreno <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
             </uib-accordion-heading>
-            <ul dnd-list="list.people"
-                dnd-allowed-types="list.allowedTypes"
-                dnd-disable-if="list.people.length >= list.max">
+            <ul dnd-list="list.people">
 
                 <!--For Text Inputs-->
                 <li ng-repeat="person in list.people"
@@ -65,7 +61,7 @@
                     dnd-type="person.type"
                     dnd-disable-if="person.type == 'unknown'"
                     dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="move"
+                    dnd-effect-allowed="copy"
                     class="background-{{person.type}}"
                     ng-if="person.type == 'Terreno'"
                 >

@@ -40,6 +40,7 @@ angular.module('AppPrueba')
     $scope.svg = false;
     $scope.uploadFile = function(){
         var file = $scope.myFile;
+        console.log(file);
         var uploadUrl = "templates/subir.module/subir.logic.php?action=upload";
         fileUpload.uploadFileToUrl(file, uploadUrl)
             .then(function (data) {

@@ -46,7 +46,7 @@ angular.module('AppPrueba')
                 var dat = {"string": myString, "action": 'insert'};
                 $http({
                     method: 'GET',
-                    url: "./templates/subir.module/subir.logic.php",
+                    url: "templates/subir.module/subir.logic.php",
                     params: dat
                 })
                     .success(function (response) {

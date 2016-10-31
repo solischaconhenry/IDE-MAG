@@ -30,8 +30,6 @@ angular.module('AppPrueba')
             $scope.lists = [
                 {
                     label: "Tipos de preguntas",
-                    allowedTypes: ['Gem', 'Terreno', 'Datos generales','input'],
-                    max: 17,
                     people: $scope.preguntas
                 }
 
@@ -70,18 +68,23 @@ angular.module('AppPrueba')
 
 
         $scope.eliminarPregForm = function (id) {
+            if($scope.list2[0]["people"][0]["preguntas"] == null){
+                $scope.list2[0]["people"][0]["preguntas"]=[];
+            }
             console.log(id);
             console.log($scope.list2);
             console.log($scope.list2[0]["people"]);
-           var index = $scope.list2[0]["people"].map(function(d) { return d['name']; }).indexOf(id);
+            console.log($scope.list2[0]["people"][0]["preguntas"]);
+           var index = $scope.list2[0]["people"][0]["preguntas"].map(function(d) { return d['name']; }).indexOf(id);
 
 
-            delete $scope.list2[0]["people"][index];
-            $scope.list2[0][["people"]] = JSON.parse(JSON.stringify($scope.list2[0]["people"]));
+            $scope.list2[0]["people"][0]["preguntas"].splice(index,1);
+//            $scope.list2[0][["people"]][0]["preguntas"] = JSON.parse(JSON.stringify($scope.list2[0]["people"][0]["preguntas"]));
+
 
             console.log(index);
-            console.log($scope.list2[0]["people"]);
-        }
+            console.log($scope.list2[0]["people"][0]["preguntas"]);
+        };
 
 
         $scope.eliminar = function (id) {
@@ -134,7 +137,7 @@ angular.module('AppPrueba')
                 controller: 'ModalInstanceCtrl',
                 controllerAs: '$ctrl',
                 size: size,
-                appendTo: parentElem,
+                appendTo: parentElem
             });
 
             modalInstance.result.then(function (nombre) {
@@ -153,8 +156,8 @@ angular.module('AppPrueba')
                     orden: $scope.pagination.numPages,
                     preguntas:[]
 
-                }
-                console.log( $scope.nombrePagina)
+                };
+                console.log( $scope.nombrePagina);
                 $scope.nombrePagina = undefined;
                 $scope.list2[0].people.push(item);
             }
@@ -163,11 +166,11 @@ angular.module('AppPrueba')
         $scope.addPage = function () {
             $ctrl.open('sm');
 
-        }
-
+        };
+        //cuando se presiona una pagina actualiza la varible con el #
         $scope.change = function (page) {
             $scope.seccionActiva = page;
-        }
+        };
 
         $scope.myFilter = function (person) {
             return person.orden == $scope.seccionActiva;

@@ -5,7 +5,8 @@ angular.module('AppPrueba')
 
     $scope.uploadFile = function(){
         var file = $scope.myFile;
-        console.log(file)
+        console.log("file: ");
+        console.log("File2:" + file);
         var uploadUrl = "templates/subir.module/subir.logic.php?action=upload";
         fileUpload.uploadFileToUrl(file, uploadUrl)
             .then(function (data) {

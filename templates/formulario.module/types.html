@@ -7,7 +7,6 @@
 
     <!--For Text Inputs-->
     <li ng-repeat="person in data.preguntas"
-        dnd-draggable="person"
         dnd-type="person.type"
         dnd-disable-if="person.type == 'unknown'"
         dnd-moved="list.people.splice($index, 1)"
@@ -34,8 +33,7 @@
     </li>
 
     <!--For Checkbox Inputs-->
-    <li ng-repeat="person in list.people[0].preguntas"
-        dnd-draggable="person"
+    <li ng-repeat="person in  data.preguntas"
         dnd-type="person.type"
         dnd-disable-if="person.hel == 'text'"
         dnd-moved="list.people.splice($index, 1)"
@@ -58,8 +56,7 @@
     </li>
 
     <!--For Radio Inputs-->
-    <li ng-repeat="person in list.people[0].preguntas"
-        dnd-draggable="person"
+    <li ng-repeat="person in  data.preguntas"
         dnd-type="person.type"
         dnd-disable-if="person.hel == 'text'"
         dnd-moved="list.people.splice($index, 1)"
@@ -81,8 +78,7 @@
     </li>
 
     <!--For Text Inputs-->
-    <li ng-repeat="person in list.people[0].preguntas"
-        dnd-draggable="person"
+    <li ng-repeat="person in  data.preguntas"
         dnd-type="person.type"
         dnd-disable-if="person.type == 'unknown'"
         dnd-moved="list.people.splice($index, 1)"
