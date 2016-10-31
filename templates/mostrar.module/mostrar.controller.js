@@ -2,7 +2,7 @@ angular.module('AppPrueba')
 .controller('MostrarController', function ($scope,MostrarService) {
     $scope.fincas = [];
     $scope.gidFinca = "";
-    $scope.apartoGid;
+    $scope.apartoGid ="";
     $scope.apartoAtual = "";
     // Se debe de obtener el id del usuario
     $scope.idUser=1;
@@ -47,17 +47,18 @@ angular.module('AppPrueba')
     $scope.jsonSeleccionado=[];
     $scope.unir = function(gid, coordenadas){
         console.log(gid);
-        $scope.apartoGid=gid;
-        $scope.jsonSeleccionado=[];
+        $scope.apartoGid = gid;
+        $scope.jsonSeleccionado =[];
         $scope.jsonSeleccionado.push({id:gid,puntos:coordenadas});
 
+        console.log($scope.jsonSeleccionado);
         //obtener idUsuario
         MostrarService.getApartoByID($scope.apartoGid).then(function(data){
           $scope.dataAparto = data[0];
           console.log(data);
         });
         $scope.apartoAtual = true;
-    }
+    };
 
     $scope.siguienteFinca = function(){
         if($scope.numHistoricoActual+1 > 0 && $scope.numHistoricoActual+1 <= $scope.Max)
@@ -65,7 +66,7 @@ angular.module('AppPrueba')
             $scope.numHistoricoActual+=1;
             getHistorico();
         }
-    }
+    };
 
     $scope.AnteriorFinca = function(){
         if($scope.numHistoricoActual-1 > 0 && $scope.numHistoricoActual-1 <= $scope.Max)
@@ -73,7 +74,7 @@ angular.module('AppPrueba')
             $scope.numHistoricoActual-=1;
             getHistorico();
         }
-    }
+    };
 
 
     var getHistorico = function()

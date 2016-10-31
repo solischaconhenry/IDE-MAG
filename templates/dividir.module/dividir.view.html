@@ -3,7 +3,7 @@
     <h3>Dividir Finca</h3>
 
     <div class="col-md-5"><!--SECCION DE SELECCIONAR EL APARTO A DIVIDIR-->
-        <select id="selectDividir" ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control">
+        <select  ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
             <option style="display:none" value="">Seleccione una Finca</option>
         </select>
 
@@ -42,7 +42,7 @@
                 <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Cargar
             </button>
         </div>
-
+        <br>
 
         <svg
              ng-show = "svg"
@@ -56,6 +56,8 @@
                      style="fill:#26C281;stroke:black;stroke-width:1" />
 
         </svg>
-        <button ng-show = "svg" ng-click="dividirAparto()">dividir</button>
+        <button class="btn btn-default" ng-show = "svg" ng-click="dividirAparto()">
+            <span class="glyphicons-none-color-swatch" aria-hidden="true"></span> Dividir
+        </button>
     </div>
 </div>
