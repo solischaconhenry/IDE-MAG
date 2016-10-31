@@ -164,8 +164,7 @@ angular.module('AppPrueba')
         };
         //cuando se presiona una pagina actualiza la varible con el #
         $scope.change = function (page) {
-
-            console.log( $scope.list2[0].people[$scope.seccionActiva-1])
+            $scope.seccionActiva = page;
             if( $scope.nombrePag = $scope.list2[0].people.length == 0){
                 $scope.nombrePag = "Vacío"
             }
