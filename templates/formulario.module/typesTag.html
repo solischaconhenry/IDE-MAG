@@ -31,7 +31,7 @@
                     dnd-type="person.type"
                     dnd-disable-if="person.type == 'unknown'"
                     dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="copy"
+                    dnd-effect-allowed="move"
                     class="background-{{person.type}}"
                     ng-if="person.type == 'Datos generales'"
                 >
@@ -61,7 +61,7 @@
                     dnd-type="person.type"
                     dnd-disable-if="person.type == 'unknown'"
                     dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="copy"
+                    dnd-effect-allowed="move"
                     class="background-{{person.type}}"
                     ng-if="person.type == 'Terreno'"
                 >

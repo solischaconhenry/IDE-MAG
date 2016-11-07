@@ -51,30 +51,27 @@ angular.module('AppPrueba')
         };
 
 
-        this.insertarPag = function (descripcion,orden) {
+        this.insertarPag = function (descripcion,orden,callback) {
             var defered = $q.defer();
             var promise = defered.promise;
 
             $http.get('templates/formulario.module/formulario.module.db.php?action=insertarPag&descripcion='+descripcion
-                    +'&orden='+ orden)
-                .success(function(response) {
-                    defered.resolve(response);
-                });
+                    +'&orden='+ orden).success(function(response) {
+                callback(response);
+            });
 
-            return promise;
+            callback(false);
 
         };
 
-        this.insertarPreguntasForm = function (idpreg,orden) {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
+        this.insertarPreguntasForm = function (idpreg,orden,callback) {
             $http.get('templates/formulario.module/formulario.module.db.php?action=insertarPreguntasForm&idpreg='+idpreg +'&orden='+orden)
                 .success(function(response) {
-                    defered.resolve(response);
+                   // defered.resolve(response);
+                    callback(response);
                 });
 
-            return promise;
+            callback(false);
 
         };
 
