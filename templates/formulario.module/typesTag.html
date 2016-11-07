@@ -18,65 +18,36 @@
 
 
     <uib-accordion close-others="oneAtATime">
+        <div ng-repeat="categoria in categorias"><!--Div de ngrepeat de categorias-->
+            <div uib-accordion-group class="panel-default" is-open="status.open">
+                <uib-accordion-heading>
+                    {{categoria}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                </uib-accordion-heading>
+                <ul dnd-list="list.people">
 
-        <div uib-accordion-group class="panel-default" is-open="status.open">
-            <uib-accordion-heading>
-               Generales <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </uib-accordion-heading>
-            <ul dnd-list="list.people">
-
-                <!--For Text Inputs-->
-                <li ng-repeat="person in list.people"
-                    dnd-draggable="person"
-                    dnd-type="person.type"
-                    dnd-disable-if="person.type == 'unknown'"
-                    dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="copy"
-                    class="background-{{person.type}}"
-                    ng-if="person.type == 'Datos generales'"
-                >
-                    <dnd-nodrag>
-                        <div dnd-handle class="handle">:::</div>
-                        <div class="name">{{person.name}}</div>
-                    </dnd-nodrag>
-                </li>
-
-
-                <li class="dndPlaceholder">
-                    Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
-                </li>
-
-            </ul>
-        </div>
-
-        <div uib-accordion-group class="panel-default" is-open="status.open">
-            <uib-accordion-heading>
-                Terreno <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-            </uib-accordion-heading>
-            <ul dnd-list="list.people">
-
-                <!--For Text Inputs-->
-                <li ng-repeat="person in list.people"
-                    dnd-draggable="person"
-                    dnd-type="person.type"
-                    dnd-disable-if="person.type == 'unknown'"
-                    dnd-moved="list.people.splice($index, 1)"
-                    dnd-effect-allowed="copy"
-                    class="background-{{person.type}}"
-                    ng-if="person.type == 'Terreno'"
-                >
-                    <dnd-nodrag>
-                        <div dnd-handle class="handle">:::</div>
-                        <div class="name">{{person.name}}</div>
-                    </dnd-nodrag>
-                </li>
+                    <!--For Text Inputs-->
+                    <li ng-repeat="person in list.people"
+                        dnd-draggable="person"
+                        dnd-type="person.type"
+                        dnd-disable-if="person.type == 'unknown'"
+                        dnd-moved="list.people.splice($index, 1)"
+                        dnd-effect-allowed="move"
+                        class="background-{{person.type}}"
+                        ng-if="person.type == categoria"
+                    >
+                        <dnd-nodrag>
+                            <div dnd-handle class="handle">:::</div>
+                            <div class="name">{{person.name}}</div>
+                        </dnd-nodrag>
+                    </li>
 
 
-                <li class="dndPlaceholder">
-                    Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
-                </li>
+                    <li class="dndPlaceholder">
+                        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+                    </li>
 
-            </ul>
+                </ul>
+            </div>
         </div>
     </uib-accordion>
 </div>

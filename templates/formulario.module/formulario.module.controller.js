@@ -5,6 +5,7 @@ angular.module('AppPrueba')
 
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
+        $scope.categorias = [];
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {
                 alert("ok");
@@ -23,6 +24,11 @@ angular.module('AppPrueba')
                 console.log(data);
             });
         */
+        //obtiene la lista de categorías para filtrar los datos en el typesTAG5
+        FormulariosService.obtenerCategorias().then(function (data) {
+            $scope.categorias = data;
+            console.log($scope.categorias);
+        });
 
         FormulariosService.getPreguntas().then(function (data) {
             $scope.preguntas = data;
