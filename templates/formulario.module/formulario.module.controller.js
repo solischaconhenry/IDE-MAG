@@ -64,11 +64,9 @@ angular.module('AppPrueba')
             console.log($scope.list2[0]["people"][0]["preguntas"]);
            var index = $scope.list2[0]["people"][0]["preguntas"].map(function(d) { return d['name']; }).indexOf(id);
 
-
+            $scope.preguntas.push( $scope.list2[0]["people"][0].preguntas[index])
             $scope.list2[0]["people"][0]["preguntas"].splice(index,1);
-//            $scope.list2[0][["people"]][0]["preguntas"] = JSON.parse(JSON.stringify($scope.list2[0]["people"][0]["preguntas"]));
-
-
+//
             console.log(index);
             console.log($scope.list2[0]["people"][0]["preguntas"]);
         };
@@ -220,27 +218,40 @@ angular.module('AppPrueba')
 
             if($scope.infoForm != undefined) {
                 //insertar en la tabla formulario
-                console.log("hh")
-                console.log($scope.infoForm)
+                console.log("hh");
+                console.log($scope.infoForm);
                 FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha)
                     .then(function (data) {
                     });
                 //RECORRER LAS PÁGINAS
-                angular.forEach($scope.list2[0].people, function(pagina){
-                    console.log("entro");
 
-                    FormulariosService.insertarPag(pagina.pagina, pagina.orden)
-                        .then(function (data) {
-                        });
-                    //RECORRER LAS PREGUNTAS
-                    angular.forEach(pagina.preguntas, function (pregunta) {
-                        FormulariosService.insertarPreguntasForm(pregunta.idpreg, 0)
-                            .then(function (data) {
-                                alert("Guardado con éxito")
-                            });
-                    })
+                for (var i = 0; i<$scope.list2[0].people.length;i++){
 
-                })
+                    var pagina = $scope.list2[0].people[i];
+
+                    FormulariosService.insertarPag(pagina.pagina, pagina.orden,function (data) {
+                        console.log("pagina");
+                        console.log(pagina);
+
+
+                        for (var k = 0; k <pagina.preguntas.length;k++){
+
+                            var pregunta = pagina.preguntas[k];
+
+                            FormulariosService.insertarPreguntasForm(pregunta.idpreg, 0,function (response) {
+                                    console.log("preg");
+                                    console.log((pregunta.idpreg));
+                                });
+                               /* .then(function (data) {
+                                    console.log("preg");
+                                    console.log((pregunta.idpreg));
+                                });*/
+                        }
+                    });
+
+
+
+                }
 
             }
 
@@ -278,6 +289,7 @@ angular.module('AppPrueba').controller('ModalInstanceCtrl', function ($scope, $u
 angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope, $uibModalInstance) {
     var $ctrl = this;
     $ctrl.ok = function () {
+        console.log("drg");
         var infoForm = {
             nombre: $scope.nombreForm,
             descripcion: $scope.descripcionForm,
