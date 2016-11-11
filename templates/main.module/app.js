@@ -28,7 +28,7 @@ angular
                 controller:'SubirController'
             })
 
-            .state('agregar',{
+            .state('dusTabs.agregar',{
                 url:'/agregar',
                 templateUrl:'templates/agregar.module/agregar.view.html',
                 controller:'AgregarController'

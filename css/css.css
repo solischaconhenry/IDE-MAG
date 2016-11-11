@@ -119,7 +119,7 @@ nav.sidebar, .main{
 
 /* .....NavBar: Fully showing nav bar..... */
 
-@media (min-width: 1330px) {
+@media (min-width: 1960px) {
 
     /*Allow main to be next to Nav*/
     .main{

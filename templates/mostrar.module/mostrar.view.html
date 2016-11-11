@@ -18,42 +18,28 @@
                  style="fill:#26C281;stroke:black;stroke-width:1" />
 
     </svg>
-    <h4>El id de Finca a Mostrar: {{apartoGid}}</h4>
-    <h4 ng-if="numHistoricoActual">Historico #{{numHistoricoActual}}</h4>
-    <br>
-    <button class="btn btn-default" ng-click="AnteriorFinca()">
-      <span class="glyphicon glyphicon-chevron-left"></span> Anterior Finca
-    </button>
-    <button class="btn btn-default" ng-click="siguienteFinca()">
-      <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Finca
-    </button>
+
 
   </div> <!--div seleccion finca-->
   <div class="col-md-1"></div>
   <div class="col-md-5">
-    <br><br>
-    <svg
-         width="500"
-         height="500"
-         style="border:2px groove #0455BF">
-
-        <polygon
-                 ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-                 ng-repeat="coordenadas in jsonSeleccionado"
-                 ng-attr-points="{{coordenadas.puntos}}"
-                 style="fill:#0455BF;stroke:black;stroke-width:1" />
-
-    </svg>
+    <h4>El id de Finca a Mostrar: {{apartoGid}}</h4>
     <br>
-    <h4>El id del Aparto a Mostrar:{{gidAparto}} </h4>
-    <br>
-    <button class="btn btn-default" ng-click="AnteriorAparto()">
-      <span class="glyphicon glyphicon-chevron-left"></span> Anterior Aparto
+    <table class="table" ng-if="apartoAtual">
+      <tr>
+        <th>IDAparto</th>
+        <th>Tipo de Actividades</th>
+        <th>Distribución del Trabajo</th>
+      </tr>
+      <tr>
+        <td>{{dataAparto.idaparto}}</td>
+        <td>{{dataAparto.distribuciontrabajo}}</td>
+        <td>{{dataAparto.nombre}}</td>
+      </tr>
+    </table>
+    <button ng-if="apartoAtual" class="btn btn-default">
+      <span class="glyphicon glyphicon-floppy-open"></span> Insertar Formulario Finca
     </button>
-    <button class="btn btn-default" ng-click="siguienteAparto()">
-      <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Aparto
-    </button>
-
   </div> <!--div apartos-->
 </div><!--div seleccion finca-->
 
@@ -82,16 +68,5 @@
     </tr>
   </table>
 <br>
-  <table class="table" ng-if="apartoAtual">
-    <tr>
-      <th>IDAparto</th>
-      <th>Tipo de Actividades</th>
-      <th>Distribución del Trabajo</th>
-    </tr>
-    <tr>
-      <td>{{dataAparto.idaparto}}</td>
-      <td>{{dataAparto.distribuciontrabajo}}</td>
-      <td>{{dataAparto.nombre}}</td>
-    </tr>
-  </table>
+
 </div>

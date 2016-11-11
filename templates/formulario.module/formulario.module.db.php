@@ -83,6 +83,25 @@ Class CargarPregunta {
         return (json_encode($resulFin));
     }
 
+    public function obtenerCategorias()
+        {
+              $user = "postgres";
+              $password = "12345";
+              $dbname = "AGROMAG";
+              $port = "5432";
+              $host = "localhost";
+
+              $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+              $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+              $query = "select categoria from pregunta group by categoria;";
+              $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+
+              $row = pg_fetch_all_columns($result);
+              return (json_encode($row));
+
+        }
+
 
 
 }
@@ -165,6 +184,10 @@ if($_REQUEST['action']=='loadPreguntas') {
 
 if($_REQUEST['action']=='loadOpciones') {
     print_r($nuevoCargar->loadOpciones($_REQUEST['idPreg']));
+}
+
+if($_REQUEST['action']=='loadCategorias') {
+    print_r($nuevoCargar->obtenerCategorias());
 }
 
 if($_REQUEST['action']=='insertarForm') {
