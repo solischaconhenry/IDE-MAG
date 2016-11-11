@@ -3,6 +3,17 @@ angular.module('AppPrueba')
 
     .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,$uibModal, $log, $document) {
 
+       //ALERTAS DE EXITO Y FRACASO
+        $scope.alerts = [
+           // { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+          //  { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+        ];
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
+
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
@@ -241,11 +252,11 @@ angular.module('AppPrueba')
                                     console.log((pregunta.idpreg));
                                 });*/
                         }
+
                     });
 
-
-
                 }
+                $scope.alerts.push({type: 'success',msg: 'Formulario creado con éxito!'});
 
             }
 
@@ -261,7 +272,8 @@ angular.module('AppPrueba')
                 alert("Formulario vacío !!!")
             }
         }
-
+    
+        
 
     });
 
@@ -297,3 +309,6 @@ angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope
         $uibModalInstance.close(undefined);
     };
 });
+
+
+

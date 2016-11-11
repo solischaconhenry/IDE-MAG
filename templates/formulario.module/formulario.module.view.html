@@ -14,6 +14,11 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+</script>
+
+
 <script type="text/ng-template" id="myModalContentForm.html">
     <div class="modal-header">
         <h3 class="modal-title" id="modal-titleForm">Guardar Formulario</h3>
@@ -43,9 +48,9 @@
 
 
 
-
-
-
+<div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
+<!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
+</div>
 <h1>Formularios</h1>
 
 <div class="typesDemo row">
