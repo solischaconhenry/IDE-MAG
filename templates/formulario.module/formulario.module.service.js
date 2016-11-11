@@ -88,10 +88,10 @@ angular.module('AppPrueba')
         }
 
 
-    });
+    })
 
-//mantiene en actualización la finca selecccionada por el usuario para agregarle un formulario
-service("InsertarFormularioFincaxForm",function ($scope) {
-    this.idFinca="";
-    
-});
+    //mantiene en actualización la finca selecccionada por el usuario para agregarle un formulario
+    .service("InsertarFormularioFincaxForm",function () {
+        this.idFincaxFormulario="";
+        
+    });
