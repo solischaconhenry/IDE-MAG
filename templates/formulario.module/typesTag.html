@@ -37,8 +37,14 @@
                         ng-if="person.type == categoria"
                     >
                         <dnd-nodrag>
-                            <div dnd-handle class="handle">:::</div>
+                            <div dnd-handle class="handle">
+                                <span ng-if="person.hel == 'radio'" class="glyphicon glyphicon-record"></span>
+                                <span ng-if="person.hel == 'checkbox'" class="glyphicon glyphicon-ok"></span>
+                                <span ng-if="person.hel == 'text'" class="glyphicon glyphicon-text-size"></span>
+                                <span ng-if="person.hel == 'combobox'" class="glyphicon glyphicon-collapse-down"></span>
+                            </div>
                             <div class="name">{{person.name}}</div>
+
                         </dnd-nodrag>
                     </li>
 
