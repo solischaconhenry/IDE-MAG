@@ -108,7 +108,7 @@ Class CargarPregunta {
 
 
 Class Insertar {
-    public function insertarForm($nombre,$descripcionl,$fechal)
+    public function insertarForm($nombre,$descripcionl,$fechal,$codigoFinca)
     {
           $user = "postgres";
           $password = "12345";
@@ -119,7 +119,7 @@ Class Insertar {
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-          $query = "insert into formulario (nombreform,descripcion,fecha) values ('$nombre','$descripcionl','$fechal')";
+          $query = "insert into formulario (nombreform,descripcion,fecha,codigoFinca) values ('$nombre','$descripcionl','$fechal','$$codigoFinca')";
           $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
     }
@@ -191,7 +191,7 @@ if($_REQUEST['action']=='loadCategorias') {
 }
 
 if($_REQUEST['action']=='insertarForm') {
-   $nuevoInsertar->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha']);
+   $nuevoInsertar->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha'],$_REQUEST['codigoFinca']);
 }
 
 if($_REQUEST['action']=='insertarPag') {

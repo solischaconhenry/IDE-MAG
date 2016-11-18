@@ -232,7 +232,7 @@ angular.module('AppPrueba')
                 //insertar en la tabla formulario
                 console.log("hh");
                 console.log($scope.infoForm);
-                FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha)
+                FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha,InsertarFormularioFincaxForm.idFincaxFormulario)
                     .then(function (data) {
                     });
                 //RECORRER LAS PÁGINAS

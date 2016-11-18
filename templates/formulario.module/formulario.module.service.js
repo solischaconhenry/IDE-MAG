@@ -36,12 +36,12 @@ angular.module('AppPrueba')
 
 
         //FUNCIONES DE INSERTAR
-        this.insertarForm = function (nombre,descripcion,fecha) {
+        this.insertarForm = function (nombre,descripcion,fecha,codigoFinca) {
             var defered = $q.defer();
             var promise = defered.promise;
 
             $http.get('templates/formulario.module/formulario.module.db.php?action=insertarForm&nombre='+nombre
-                +'&descripcion='+descripcion+'&fecha='+ fecha)
+                +'&descripcion='+descripcion+'&fecha='+ fecha+'&codigoFinca='+codigoFinca)
                 .success(function(response) {
                     defered.resolve(response);
                 });
