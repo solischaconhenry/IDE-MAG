@@ -12,11 +12,10 @@ angular.module('AppPrueba')
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
-
-
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
         $scope.categorias = [];
+        
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {
                 alert("ok");
@@ -262,7 +261,7 @@ angular.module('AppPrueba')
                     });
 
                 }
-                $scope.alerts.push({type: 'success',msg: 'Formulario creado con éxito!'});
+                $scope.alerts.push({type: 'success',msg: 'Formulario creado con éxito!!'});
 
             }
 
