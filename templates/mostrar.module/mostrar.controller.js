@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('MostrarController', function ($scope,MostrarService) {
+.controller('MostrarController', function ($scope,MostrarService, InsertarFormularioFincaxForm,$state) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.apartoGid ="";
@@ -23,7 +23,8 @@ angular.module('AppPrueba')
           $scope.dataFinca = data[0];
           console.log(data);
         });
-    }
+        InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
+    };
 
     $scope.json = [];
     function reconvertJsonPolygon(puntos,aparto) {
@@ -61,6 +62,8 @@ angular.module('AppPrueba')
         $scope.apartoAtual = true;
     };
 
-    
+    $scope.gotoForm = function(){
+        $state.go("formularioGanaderia");
+    }    
 
-    });
+});

@@ -1,7 +1,9 @@
 
 angular.module('AppPrueba')
 
-    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,$uibModal, $log, $document) {
+    .controller('FormularioGanaderia',function ($scope, Pagination,FormulariosService,$uibModal, $log, $document, InsertarFormularioFincaxForm) {
+
+        console.log("ID: " + InsertarFormularioFincaxForm.idFincaxFormulario);
 
        //ALERTAS DE EXITO Y FRACASO
         $scope.alerts = [

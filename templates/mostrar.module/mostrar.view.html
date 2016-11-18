@@ -23,7 +23,7 @@
   </div> <!--div seleccion finca-->
   <div class="col-md-1"></div>
   <div class="col-md-5">
-    <h4>El id de Finca a Mostrar: {{apartoGid}}</h4>
+    <h4 ng-if="apartoAtual">El id de Finca a Mostrar: {{apartoGid}}</h4>
     <br>
     <table class="table" ng-if="apartoAtual">
       <tr>
@@ -37,7 +37,7 @@
         <td>{{dataAparto.nombre}}</td>
       </tr>
     </table>
-    <button ng-if="apartoAtual" class="btn btn-default">
+    <button ng-if="gidFinca" ng-click="gotoForm()" class="btn btn-default">
       <span class="glyphicon glyphicon-floppy-open"></span> Insertar Formulario Finca
     </button>
   </div> <!--div apartos-->
