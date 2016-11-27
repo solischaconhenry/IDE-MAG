@@ -1,0 +1,99 @@
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Crear Página</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="form-group">
+            <input ng-model="nombrePagina" type="text" class="form-control" placeholder="Nombre" id="usr">
+        </div>
+       <!-- Selected: <b>{{ $ctrl.selected.item }}</b>-->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Aceptar</button>
+        <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+</script>
+
+
+<script type="text/ng-template" id="myModalContentForm.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-titleForm">Guardar Formulario</h3>
+    </div>
+
+        <form>
+            <div class="modal-body" id="modal-bodyForm">
+                <div class="form-group">
+                    <!--<p>Nombre: </p>-->
+                   <input ng-model="nombreForm" type="text" class="form-control" placeholder="Nombre" required>
+               </div>
+               <div class="form-group">
+                   <!--<p>Descripción: </p>-->
+                    <input ng-model="descripcionForm" type="text" class="form-control" placeholder="Descripción" required>
+                </div>
+                <div class="form-group">
+                    <!--<p>Fecha: </p>-->
+                   <input ng-model="fechaForm" type="date" class="form-control" placeholder="Fecha" required>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" ng-click="$ctrl.ok()">Aceptar</button>
+                <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+            </div>
+         </form>
+</script>
+
+
+
+<div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
+<!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
+
+
+
+<div class="typesDemo row">
+    <h1>Formularios</h1>
+    <div ng-repeat="list in lists" class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Tipos de preguntas</h3>
+            </div>
+            <div class="panel-body" ng-include="'./templates/formulario.module/typesTag.html'"></div>
+        </div>
+    </div>
+
+
+    <div ng-repeat="list in list2" class="col-md-8 ">
+        <div class="panel panel-info" >
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formulario   (Página:{{nombrePag}})</h3>
+
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default btn-sm" ng-click = "guardarForm()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Guardar</button>
+                </div>
+            </div>
+
+            <div class="panel-body"  style=" max-width: 1200px;" ng-include="'./templates/formulario.module/types.html'"></div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Generated Model</h3>
+            </div>
+            <div class="panel-body">
+                <pre class="code">{{modelAsJson}}</pre>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
