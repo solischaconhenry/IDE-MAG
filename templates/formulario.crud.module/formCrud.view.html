@@ -1,0 +1,30 @@
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios </h4>
+                        <div class="input-group">
+                            <input id="Special" type="text" class="form-control" ng-model="searchBox" placeholder="Search...">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li ng-repeat="data in formularios | filter: searchBox" class="list-group-item">
+                                {{data.nombre}}
+                                <span class="pull-right">
+                                    <a href="#/formCrud/crud" ng-click = 'change(data.idform)'><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                                </span>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

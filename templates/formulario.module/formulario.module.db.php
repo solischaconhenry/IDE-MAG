@@ -6,7 +6,7 @@ Class CargarPregunta {
 
           $user = "postgres";
           $password = "12345";
-          $dbname = "AGROMAG";
+          $dbname = "MAG";
           $port = "5432";
           $host = "localhost";
 
@@ -23,7 +23,7 @@ Class CargarPregunta {
 
         $user = "postgres";
         $password = "12345";
-        $dbname = "AGROMAG";
+        $dbname = "MAG";
         $port = "5432";
         $host = "localhost";
 
@@ -45,7 +45,7 @@ Class CargarPregunta {
 
         $user = "postgres";
         $password = "12345";
-        $dbname = "AGROMAG";
+        $dbname = "MAG";
         $port = "5432";
         $host = "localhost";
 
@@ -87,7 +87,7 @@ Class CargarPregunta {
         {
               $user = "postgres";
               $password = "12345";
-              $dbname = "AGROMAG";
+              $dbname = "MAG";
               $port = "5432";
               $host = "localhost";
 
@@ -112,7 +112,7 @@ Class Insertar {
     {
           $user = "postgres";
           $password = "12345";
-          $dbname = "AGROMAG";
+          $dbname = "MAG";
           $port = "5432";
           $host = "localhost";
 
@@ -128,7 +128,7 @@ Class Insertar {
     {
           $user = "postgres";
           $password = "12345";
-          $dbname = "AGROMAG";
+          $dbname = "MAG";
           $port = "5432";
           $host = "localhost";
 
@@ -145,7 +145,7 @@ Class Insertar {
           echo ($orden);
           $user = "postgres";
           $password = "12345";
-          $dbname = "AGROMAG";
+          $dbname = "MAG";
           $port = "5432";
           $host = "localhost";
 

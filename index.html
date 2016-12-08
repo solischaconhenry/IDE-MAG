@@ -10,9 +10,10 @@
 
     <link href="css/css.css" rel="stylesheet" type="text/css">
     <link href="templates/formulario.module/formulario.module.style.css" rel="stylesheet" type="text/css">
+    <link href="templates/crud.module/crud.module.style.css" rel="stylesheet" type="text/css">
 
     <!-- Jquery-->
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
@@ -25,59 +26,36 @@
     <script src="libs/paginitation/simplePagination.js"></script>
     <script src="./libs/drag_and_drop_responsive/ios-drag-drop.js" type="text/javascript" charset="utf-8"></script>
 
-
+    <script>
+        $(document).ready(function() {
+            $('#signin').modal('show');
+        });
+    </script>
 
 </head>
 
-<body ng-app="AppPrueba" >
 
-<nav class="navbar navbar-inverse sidebar" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header brand-ico">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+<body ng-app="AppPrueba" ui-view>
 
-            <img src="res/logo2_opt.png" class="img-responsive">
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Inicio<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-                <li class="dropdown">
-                    <a href="#/tabs" class="dropdown-toggle" data-toggle="dropdown">Fincas <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-grain"></span></a>
-                    <ul class="dropdown-menu forAnimate" role="menu">
-                        <!--<li><a href="#/subir">Subir Finca</a></li>
-                        <li><a href="#/dividir">Dividir Finca</a></li>
-                        <li><a href="#/unir">Unir Finca</a></li>-->
-                        <li><a href="#/historicos">Historicos</a></li>
-                        <li><a href="#/mostrar">Mostrar</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Formularios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
-                    <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="#/formularioGanaderia">Ganadería</a></li>
-                        <li><a href="#">Agricultura</a></li>
-                        <li><a href="#">Pecuria</a></li>
-                    </ul>
-                </li>
+<!-- INICIA MODAL DE LOGIN data-backdrop="static"
 
-            </ul>
+<div class="modal fade" id="signin" role="dialog" ng-model="loginModal">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header navbar-custom">
+                <h4 class="modal-title" style="font-size:25px">Bienvenido</h4>
+            </div>
+            <div class="modal-body" id="modalBSelectSize">
+                <div align="center">
+                    <p>Para comenzar a jugar usa tu cuenta Google</p>
+                    <a href="/"></a>
+
+                </div>
+            </div>
         </div>
     </div>
-</nav>
-<div class="main">
-    <!-- Content Here -->
-    <div class="">
-        <div ui-view></div>
-    </div>
-
-</div>
+</div>-->
 
 
 
@@ -106,7 +84,14 @@
     <script src="templates/mostrar.module/mostrar.service.js"></script>
     <script src="templates/dusTab.module/dusTab.controller.js"></script>
     <script src="templates/dusTab.module/dustTab.service.js"></script>
+    <script src="templates/dashboard.module/dashboard.controller.js"></script>
+    <script src="templates/dashboard.module/dashboard.service.js"></script>
     <script src="templates/login.module/login.controller.js"></script>
+    <script src="templates/login.module/login.service.js"></script>
+    <script src="templates/formulario.crud.module/formCrud.controller.js"></script>
+    <script src="templates/formulario.crud.module/formCrud.service.js"></script>
+    <script src="templates/crud.module/crud.module.controller.js"></script>
+    <script src="templates/crud.module/crud.module.service.js"></script>
 
     <script src="indexFunctions.js"></script>
 

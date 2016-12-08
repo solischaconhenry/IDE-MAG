@@ -1,6 +1,6 @@
 <?php
 
-Class CargarPregunta {
+Class CrudCargarPregunta {
       public function conexion(){
        //include '../BD/acceso.php';
 
@@ -107,7 +107,7 @@ Class CargarPregunta {
 }
 
 
-Class Insertar {
+Class CrudInsertar {
     public function insertarForm($nombre,$descripcionl,$fechal)
     {
           $user = "postgres";
@@ -140,7 +140,7 @@ Class Insertar {
 
 
     }
-    public function insertarPreguntasForm($idPreg,$orden)
+    public function insertarPreguntasForm($idPreg,$orden,$idform,$idpag)
     {
           echo ($orden);
           $user = "postgres";
@@ -152,26 +152,103 @@ Class Insertar {
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-          $queryIdForm = "select idform from formulario order by idform desc limit 1";
-          $resultIdForm =  pg_query($conn, $queryIdForm) or die("Error al ejecutar la consulta");
-          $rowForm = pg_fetch_row($resultIdForm);
-
-          $queryIdPagina = "select idpag from pagina order by idpag desc limit 1";
-          $resultIdPagina =   pg_query($conn, $queryIdPagina) or die("Error al ejecutar la consulta");
-          $rowPagina = pg_fetch_row($resultIdPagina);
-          echo ($rowPagina[0]);
-
-          $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($rowForm[0],$idPreg,$orden,$rowPagina[0])";
+          $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($idform, $idPreg, $orden, $idpag)";
           $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
     }
+
+    public function insertarPregPagNueva($idPreg,$orden,$idform)
+    {
+        echo ($orden);
+        $user = "postgres";
+        $password = "12345";
+        $dbname = "MAG";
+        $port = "5432";
+        $host = "localhost";
+
+        $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+
+        $queryIdPagina = "select idpag from pagina order by idpag desc limit 1";
+        $resultIdPagina =   pg_query($conn, $queryIdPagina) or die("Error al ejecutar la consulta");
+        $rowPagina = pg_fetch_row($resultIdPagina);
+        echo ($rowPagina[0]);
+
+        $query = "insert into form_preg (idform,idpreg,orden,pagina) values ($idform,$idPreg,$orden,$rowPagina[0])";
+        $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+
+    }
+
 
 }
 
 
 
-$nuevoCargar = new CargarPregunta();
-$nuevoInsertar = new Insertar();
+class editarformulario{
+
+    function getPaginasByID($idformulario){
+
+        include '../main.module/acceso.php';
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+        $query = "select fp.pagina, pg.idpag, pg.descripcion, pg.orden from form_preg as fp
+                  inner join pagina as pg on (pg.idpag = fp.pagina and fp.idform = $idformulario) group by fp.pagina, pg.idpag, pg.descripcion, pg.orden order by pg.orden;";
+        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        $row = pg_fetch_all($result);
+
+        return ($row);
+    }
+
+    function getAllPreguntas($idformulario2){
+        include '../main.module/acceso.php';
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+        $query = "select * from pregunta as pr inner join(select pg.descripcion, pg.orden, fp.idpreg from form_preg as fp
+        inner join pagina as pg on (pg.idpag = fp.pagina and fp.idform = $idformulario2))as pag
+        on (pr.idpreg = pag.idpreg)";
+
+        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        $row =  pg_fetch_all($result);
+
+        return $row;
+    }
+
+    function deletePreguntas($idPag,$idPreg){
+        include '../main.module/acceso.php';
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+        $query = "delete from form_preg where pagina = $idPag and idpreg = $idPreg;";
+
+        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+    }
+
+    function deletePaginas($idPag){
+         include '../main.module/acceso.php';
+         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+         $query = "delete from pagina where idpag = $idPag;";
+
+         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+    }
+
+    function updateOrdenPag($idPag, $ordenN){
+         include '../main.module/acceso.php';
+         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+         $query = "update pagina set orden = $ordenN where idpag = $idPag;";
+
+         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+    }
+}
+
+
+$nuevoCargarC = new CrudCargarPregunta();
+$nuevoInsertarC = new CrudInsertar();
+$editarFormC = new editarformulario();
 
 //$nuevoInsertar->insertarPreguntasForm(9,1);
 //$nuevoInsertar->insertarPag("sdgfe",2);
@@ -179,25 +256,49 @@ $nuevoInsertar = new Insertar();
 
 
 if($_REQUEST['action']=='loadPreguntas') {
-    print_r($nuevoCargar->loadPreguntas());
+    print_r($nuevoCargarC->loadPreguntas());
 }
 
 if($_REQUEST['action']=='loadOpciones') {
-    print_r($nuevoCargar->loadOpciones($_REQUEST['idPreg']));
+    print_r($nuevoCargarC->loadOpciones($_REQUEST['idPreg']));
 }
 
 if($_REQUEST['action']=='loadCategorias') {
-    print_r($nuevoCargar->obtenerCategorias());
+    print_r($nuevoCargarC->obtenerCategorias());
 }
 
 if($_REQUEST['action']=='insertarForm') {
-   $nuevoInsertar->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha']);
+   $nuevoInsertarC->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha']);
 }
 
 if($_REQUEST['action']=='insertarPag') {
-   $nuevoInsertar->insertarPag($_REQUEST['descripcion'],$_REQUEST['orden']);
+   $nuevoInsertarC->insertarPag($_REQUEST['descripcion'],$_REQUEST['orden']);
 }
 
 if($_REQUEST['action']=='insertarPreguntasForm') {
-   $nuevoInsertar->insertarPreguntasForm($_REQUEST['idpreg'],$_REQUEST['orden']);
+   $nuevoInsertarC->insertarPreguntasForm($_REQUEST['idpreg'],$_REQUEST['orden'], $_REQUEST['idform'],$_REQUEST['idpag']);
+}
+
+if($_REQUEST['action']=='insertarPregNuevaPag') {
+   $nuevoInsertarC->insertarPregPagNueva($_REQUEST['idpreg'],$_REQUEST['orden'],$_REQUEST['idform']);
+}
+
+if($_REQUEST['action']=='getPaginas') {
+   print_r(json_encode($editarFormC->getPaginasByID($_REQUEST['idform'])));
+}
+
+if($_REQUEST['action']=='getPreguntas') {
+   print_r(json_encode($editarFormC->getAllPreguntas($_REQUEST['idform'])));
+}
+
+if($_REQUEST['action']=='deletePreguntas') {
+   $editarFormC->deletePreguntas($_REQUEST['idpag'],$_REQUEST['idpreg']);
+}
+
+if($_REQUEST['action']=='deletePaginas') {
+   $editarFormC->deletePaginas($_REQUEST['idpag']);
+}
+
+if($_REQUEST['action']=='updateOrdenPag') {
+   $editarFormC->updateOrdenPag($_REQUEST['idpag'], $_REQUEST['ordenN']);
 }

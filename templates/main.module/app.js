@@ -1,7 +1,7 @@
 /**
  * Created by usuario on 21/6/2016.
  */
-'use strict'
+'use strict';
 angular
     .module('AppPrueba', [
         'ui.router',
@@ -26,68 +26,162 @@ angular
         };
     }])
 
+    .directive('myEnter', function () {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if(event.which === 13) {
+                    scope.$apply(function (){
+                        scope.$eval(attrs.myEnter);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    })
+
     .config(function($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.when('/', '/login');
+        $urlRouterProvider.when('/formCrud/crud', '/dashboard/crud');
         $urlRouterProvider.otherwise('/login');
 
         $stateProvider
 
-            .state('dusTabs',{
-                url:'/tabs',
-                templateUrl:'templates/dusTab.module/dusTab.view.html',
-                controller:'dusTabsController'
-            })
-
-            .state('dusTabs.subir',{
-                url:'/subir',
-                templateUrl:'templates/subir.module/subir.view.html',
-                controller:'SubirController'
-            })
-
-            .state('dusTabs.agregar',{
-                url:'/agregar',
-                templateUrl:'templates/agregar.module/agregar.view.html',
-                controller:'AgregarController'
-            })
-
-            .state('dusTabs.dividir',{
-                url:'/dividir',
-                templateUrl:'templates/dividir.module/dividir.view.html',
-                controller:'DividirController'
-            })
-
-            .state('dusTabs.unir',{
-                url:'/unir',
-                templateUrl:'templates/unir.module/unir.view.html',
-                controller:'UnirController'
-            })
-
-            .state('historicos',{
-                url:'/historicos',
-                templateUrl:'templates/historicos.module/historicos.view.html',
-                controller:'HistoricosController'
-            })
-
-            .state('mostrar',{
-                url:'/mostrar',
-                templateUrl:'templates/mostrar.module/mostrar.view.html',
-                controller:'MostrarController'
-            })
-
-            .state('formularioGanaderia',{
-                url:'/formularioGanaderia',
-                templateUrl:'templates/formulario.module/formulario.module.view.html',
-                controller:'FormularioGanaderia'
-            })
             .state('login',{
                 url:'/login',
                 templateUrl:'templates/login.module/login.view.html',
-                controller:'LoginController'
+                controller:'LoginController',
+                authenticate: false
+            })
+
+            .state('dashboard',{
+                url:'/dashboard',
+                templateUrl:'templates/dashboard.module/dashboard.view.html',
+                controller:'DashboardController',
+                authenticate: true
+            })
+
+            .state('dashboard.dusTabs',{
+                url:'/tabs',
+                
+                views:{
+                    'dashboard':{
+                        templateUrl:'templates/dusTab.module/dusTab.view.html',
+                        controller:'dusTabsController'
+                    }
+                },
+                authenticate: true
+
+            })
+
+            .state('dashboard.dusTabs.subir',{
+                url:'/subir',
+                views: {
+                    'dusTabs': {
+                        templateUrl: 'templates/subir.module/subir.view.html',
+                        controller: 'SubirController'
+                    }
+                },
+                authenticate: true
+            })
+            .state('dashboard.dusTabs.agregar',{
+                url:'/agregar',
+                views: {
+                    'dusTabs': {
+                        templateUrl: 'templates/agregar.module/agregar.view.html',
+                        controller: 'AgregarController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.dusTabs.dividir',{
+                url:'/dividir',
+                views: {
+                    'dusTabs': {
+                        templateUrl: 'templates/dividir.module/dividir.view.html',
+                        controller: 'DividirController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.dusTabs.unir',{
+                url:'/unir',
+                views: {
+                    'dusTabs': {
+                        templateUrl: 'templates/unir.module/unir.view.html',
+                        controller: 'UnirController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.historicos',{
+                url:'/historicos',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/historicos.module/historicos.view.html',
+                        controller: 'HistoricosController'
+                    }
+                }
+            })
+
+            .state('dashboard.mostrar',{
+                url:'/mostrar',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/mostrar.module/mostrar.view.html',
+                        controller: 'MostrarController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.formularioGanaderia',{
+                url:'/formularioGanaderia',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/formulario.module/formulario.module.view.html',
+                        controller: 'FormularioGanaderia'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.formCrud',{
+                url:'/formCrud',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/formulario.crud.module/formCrud.view.html',
+                        controller: 'FromCrudController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboard.crud',{
+                url:'/crud',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/crud.module/crud.module.view.html',
+                        controller: 'CRUDController'
+                    }
+                },
+                authenticate: true
             })
 
 
-
-
         
+    }).run(function ($rootScope, $state, UserService) {
+    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+        if (toState.authenticate && !UserService.auth){
+            $state.transitionTo("login");
+            event.preventDefault();
+        }
+        else if (toState.url === '/login') {
+            UserService.auth = false;
+        }
     });
+});

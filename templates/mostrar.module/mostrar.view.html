@@ -1,72 +1,70 @@
-<h3>Mostrar Información de Finca</h3>
+  <div class="row">
+    <h3>Mostrar Información de Finca</h3>
+    <div class="col-md-5">
+      <select ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
+          <option style="display:none" value="">Seleccione una Finca</option>
+      </select>
 
-<div class="row">
-  <div class="col-md-5">
-    <select ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
-        <option style="display:none" value="">Seleccione una Finca</option>
-    </select>
+      <svg
+           width="500"
+           height="500"
+           style="border:2px groove #0455BF">
 
-    <svg
-         width="500"
-         height="500"
-         style="border:2px groove #0455BF">
+          <polygon
+                   ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                   ng-repeat="coordenadas in json"
+                   ng-attr-points="{{coordenadas.puntos}}"
+                   style="fill:#26C281;stroke:black;stroke-width:1" />
 
-        <polygon
-                 ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-                 ng-repeat="coordenadas in json"
-                 ng-attr-points="{{coordenadas.puntos}}"
-                 style="fill:#26C281;stroke:black;stroke-width:1" />
+      </svg>
 
-    </svg>
+      <br>
+      <table class="table" ng-if="gidFinca">
+        <tr>
+          <th>Provincia</th>
+          <th>Cantón</th>
+          <th>Distrito</th>
+          <th>Dirección Exacta</th>
+          <th>Latitud</th>
+          <th>Longitud</th>
+          <th>Codigo Finca</th>
+          <th>Nombre Productor</th>
+        </tr>
+        <tr>
+          <td>{{dataFinca.provincia}}</td>
+          <td>{{dataFinca.canton}}</td>
+          <td>{{dataFinca.distrito}}</td>
+          <td>{{dataFinca.direccionexacta}}</td>
+          <td>{{dataFinca.latitud}}</td>
+          <td>{{dataFinca.longitud}}</td>
+          <td>{{dataFinca.codigofinca}}</td>
+          <td>{{dataFinca.nombreproductor}}</td>
+        </tr>
+      </table>
+    </div> <!--div seleccion finca-->
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <h4 ng-if="apartoAtual">El id de Finca a Mostrar: {{apartoGid}}</h4>
+      <br>
+      <table class="table" ng-if="apartoAtual">
+        <tr>
+          <th>IDAparto</th>
+          <th>Tipo de Actividades</th>
+          <th>Distribución del Trabajo</th>
+        </tr>
+        <tr>
+          <td>{{dataAparto.idaparto}}</td>
+          <td>{{dataAparto.distribuciontrabajo}}</td>
+          <td>{{dataAparto.nombre}}</td>
+        </tr>
+      </table>
+      <button ng-if="gidFinca" ng-click="gotoForm()" class="btn btn-default">
+        <span class="glyphicon glyphicon-floppy-open"></span> Insertar Formulario Finca
+      </button>
+    </div> <!--div apartos-->
+  </div><!--div seleccion finca-->
 
 
-  </div> <!--div seleccion finca-->
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
-    <h4 ng-if="apartoAtual">El id de Finca a Mostrar: {{apartoGid}}</h4>
-    <br>
-    <table class="table" ng-if="apartoAtual">
-      <tr>
-        <th>IDAparto</th>
-        <th>Tipo de Actividades</th>
-        <th>Distribución del Trabajo</th>
-      </tr>
-      <tr>
-        <td>{{dataAparto.idaparto}}</td>
-        <td>{{dataAparto.distribuciontrabajo}}</td>
-        <td>{{dataAparto.nombre}}</td>
-      </tr>
-    </table>
-    <button ng-if="gidFinca" ng-click="gotoForm()" class="btn btn-default">
-      <span class="glyphicon glyphicon-floppy-open"></span> Insertar Formulario Finca
-    </button>
-  </div> <!--div apartos-->
-</div><!--div seleccion finca-->
 
-<br><br>
-<div class="row">
-  <table class="table" ng-if="gidFinca">
-    <tr>
-      <th>Provincia</th>
-      <th>Cantón</th>
-      <th>Distrito</th>
-      <th>Dirección Exacta</th>
-      <th>Latitud</th>
-      <th>Longitud</th>
-      <th>Codigo Finca</th>
-      <th>Nombre Productor</th>
-    </tr>
-    <tr>
-      <td>{{dataFinca.provincia}}</td>
-      <td>{{dataFinca.canton}}</td>
-      <td>{{dataFinca.distrito}}</td>
-      <td>{{dataFinca.direccionexacta}}</td>
-      <td>{{dataFinca.latitud}}</td>
-      <td>{{dataFinca.longitud}}</td>
-      <td>{{dataFinca.codigofinca}}</td>
-      <td>{{dataFinca.nombreproductor}}</td>
-    </tr>
-  </table>
-<br>
 
-</div>
+

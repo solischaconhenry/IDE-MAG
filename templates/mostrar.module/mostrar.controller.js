@@ -63,7 +63,7 @@ angular.module('AppPrueba')
     };
 
     $scope.gotoForm = function(){
-        $state.go("formularioGanaderia");
+        $state.go("dashboard.formularioGanaderia");
     }    
 
 });

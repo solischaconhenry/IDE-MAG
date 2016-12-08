@@ -1,0 +1,15 @@
+<div class="body"></div>
+<div class="grad"></div>
+<div class="header">
+    <div><img src="res/logo2_opt.png" class="img-responsive"></div>
+</div>
+<br>
+<div class="login">
+    <input type="text" placeholder="username" name="user" ng-model="username" required title="Ej: 101110222"><br>
+    <input type="password" placeholder="password" name="password" ng-model="password" my-enter="login()" required><br>
+    <input type="button" value="Login" ng-click="login()" >
+    <br><br>
+    <div class="alert alert-danger" ng-show="show">
+        <strong>Error!</strong> Usuario/Contraseña Incorrecta.
+    </div>
+</div>
