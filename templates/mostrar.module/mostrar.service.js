@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.service('MostrarService', ['$http','$q', function ($http, $q) {
+.service('MostrarService', ['$http','$q', function ($http, $q,InsertarFormularioFincaxF) {
 
     this.getFincas = function (idUser) {
         var defered = $q.defer();
@@ -12,6 +12,19 @@ angular.module('AppPrueba')
 
         return promise;
     };
+
+    this.getCodigoFincaById = function (gid) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/historicos.module/mostrar.logic.php?action=getCodigoFincaById&gid='+gid)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    };
+
 
 
     this.preview = function (gidFinca) {
@@ -72,6 +85,48 @@ angular.module('AppPrueba')
 
         return promise;
     }
+
+
+
+
+    this.getFormulariosNoFinca = function (codigofinca) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosNoFinca&codigofinca='+codigofinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+    this.getFormulariosFinca = function (codigofinca) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosFinca&codigofinca='+codigofinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+
+    this.insertarFormFinca = function (idform,codigofinca) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=insertarFormFinca&idform=' +idform +'&codigofinca='+codigofinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+
+
+
+
 
 
 

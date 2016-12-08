@@ -66,11 +66,11 @@ angular.module('AppPrueba')
                                     idpreg: pregunta[preg].idpreg,
                                     name: pregunta[preg].titulo,
                                     enunciadopreg: pregunta[preg].enunciadopreg,
-                                    type: pregunta[preg].categoria,
-                                    tipo: pregunta[preg].tipo,
+                                    categoria: pregunta[preg].categoria,
+                                    hel: pregunta[preg].tipo,
                                     fijo: pregunta[preg].fijo,
                                     requerido: pregunta[preg].requerido,
-                                    hel: pregunta[preg].mascara
+                                    mascara: pregunta[preg].mascara
                                 };
                                 item.preguntas.push(itemP);
 

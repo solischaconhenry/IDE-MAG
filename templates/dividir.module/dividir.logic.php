@@ -6,7 +6,7 @@ class Dividir
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select gid from fincas where iduser = $idUsuario"; 
+        $query = "select gid from fincas where iduser = $idUsuario";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;

@@ -1,0 +1,62 @@
+
+.btn-eiminarOpcion{
+    border: none;
+    background-color:transparent;
+
+}
+
+.btn-eiminarOpcion:hover{
+    border: none;
+    background-color:transparent;
+}
+
+.btn-eiminarOpcion:focus {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.btn-eiminarOpcion:active{
+    border-color: #2F4D99;
+
+}
+
+.icon-eiminarOpcion:active{
+    color:#5b9bd1;
+    font-size:1.5em;
+}
+
+
+.btn-agregarOpcion{
+    border: none;
+    background-color:transparent;
+    font-size:1.7em;
+    color: #bce8f1;
+    padding-left: 0%;
+}
+
+.btn-agregarOpcion:hover{
+    border: none;
+    background-color:transparent;
+    font-size:1.7em;
+}
+
+.btn-agregarOpcion:focus{
+    border: none;
+    outline: none;
+    background-color:transparent;
+    font-size:1.7em;
+}
+
+.btn-agregarOpcion:active{
+    border-color: #2F4D99;
+
+}
+
+.icon-agregarOpcion:active{
+    color:#5b9bd1;
+
+}
+.sinpadding [class*="col-"] {
+    padding: 0;
+}

@@ -14,11 +14,10 @@ angular.module('AppPrueba')
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
-
-
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
         $scope.categorias = [];
+
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {
                 alert("ok");
@@ -71,17 +70,12 @@ angular.module('AppPrueba')
             if($scope.list2[0]["people"][0]["preguntas"] == null){
                 $scope.list2[0]["people"][0]["preguntas"]=[];
             }
-            console.log(id);
-            console.log($scope.list2);
-            console.log($scope.list2[0]["people"]);
-            console.log($scope.list2[0]["people"][0]["preguntas"]);
+          
            var index = $scope.list2[0]["people"][0]["preguntas"].map(function(d) { return d['name']; }).indexOf(id);
 
             $scope.preguntas.push( $scope.list2[0]["people"][0].preguntas[index])
             $scope.list2[0]["people"][0]["preguntas"].splice(index,1);
-//
-            console.log(index);
-            console.log($scope.list2[0]["people"][0]["preguntas"]);
+
         };
 
 
@@ -233,7 +227,7 @@ angular.module('AppPrueba')
                 //insertar en la tabla formulario
                 console.log("hh");
                 console.log($scope.infoForm);
-                FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha)
+                FormulariosService.insertarForm($scope.infoForm.nombre,$scope.infoForm.descripcion,$scope.infoForm.fecha,InsertarFormularioFincaxForm.idFincaxFormulario)
                     .then(function (data) {
                     });
                 //RECORRER LAS PÁGINAS
@@ -264,7 +258,7 @@ angular.module('AppPrueba')
                     });
 
                 }
-                $scope.alerts.push({type: 'success',msg: 'Formulario creado con éxito!'});
+                $scope.alerts.push({type: 'success',msg: 'Formulario creado con éxito!!'});
 
             }
 

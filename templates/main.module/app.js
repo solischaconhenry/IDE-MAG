@@ -62,6 +62,18 @@ angular
                 authenticate: true
             })
 
+            .state('dashboard.home',{
+                url:'/home',
+
+                views:{
+                    'dashboard':{
+                        templateUrl:'templates/home.module/home.module.view.html',
+                    }
+                },
+                authenticate: true
+
+            })
+
             .state('dashboard.dusTabs',{
                 url:'/tabs',
                 
@@ -148,6 +160,12 @@ angular
                     }
                 },
                 authenticate: true
+            })
+            /*?????????????????????????????????????**/
+            .state('formularioAgricultura',{
+                url:'/formularioAgricultura',
+                templateUrl:'templates/administrarFormulario.module/administrarFormulario.module.view.html',
+                controller:'AdministrarFormulario'
             })
 
             .state('dashboard.formCrud',{

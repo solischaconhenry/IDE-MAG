@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body" id="modal-body">
         <div class="form-group">
-            <input ng-model="nombrePagina" type="text" class="form-control" placeholder="Nombre" id="usr">
+            <input ng-model="nombrePagina" type="text" class="form-control" placeholder="Nombre" id="usr" required>
         </div>
        <!-- Selected: <b>{{ $ctrl.selected.item }}</b>-->
     </div>
@@ -50,8 +50,6 @@
 
 <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 <!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
-
-
 
 <div class="typesDemo row">
     <h1>Formularios</h1>

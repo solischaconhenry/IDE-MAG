@@ -24,7 +24,7 @@ angular.module('AppPrueba')
                     UserService.auth = true;
                     console.info("Logged");
                     $scope.show = false;
-                    $state.go('dashboard');
+                    $state.go('dashboard.home');
                     
                 }
                 else if(data == 'user'){

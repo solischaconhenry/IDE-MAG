@@ -55,7 +55,7 @@ Class CrudCargarPregunta {
 
 
 
-        $query = "SELECT idpreg,titulo as name,enunciadoPreg ,categoria as type,tipo ,fijo,requerido,mascara as hel FROM pregunta";
+        $query = "SELECT idpreg,titulo as name,enunciadoPreg,categoria,tipo  as hel ,fijo,requerido,mascara FROM pregunta";
 
 
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
@@ -84,7 +84,41 @@ Class CrudCargarPregunta {
     }
 
     public function obtenerCategorias()
-        {
+    {
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "MAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+          $query = "select categoria from pregunta group by categoria;";
+          $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+
+          $row = pg_fetch_all_columns($result);
+          return (json_encode($row));
+
+    }
+    public function getFormularios(){
+          $user = "postgres";
+          $password = "12345";
+          $dbname = "MAG";
+          $port = "5432";
+          $host = "localhost";
+
+          $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+          $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+          $query = "select nombreform,idform,descripcion,fecha from formulario  group by nombreform,idform,descripcion,fecha;";
+          $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+
+          $row = pg_fetch_all($result);
+          return (json_encode($row));
+        }
+
+    public function getFormulariosNoFinca($codigoFinca){
               $user = "postgres";
               $password = "12345";
               $dbname = "MAG";
@@ -94,13 +128,32 @@ Class CrudCargarPregunta {
               $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
               $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-              $query = "select categoria from pregunta group by categoria;";
+              $query = "select f.nombreform,f.idform,f.descripcion,f.fecha from formulario as f EXCEPT
+                         (select  f.nombreform,f.idform,f.descripcion,f.fecha from formulario as f inner join finca_formulario as p on (f.idform = p.idform) where p.codigofinca = $codigoFinca);";
               $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
-              $row = pg_fetch_all_columns($result);
+              $row = pg_fetch_all($result);
               return (json_encode($row));
+            }
 
-        }
+     public function getFormulariosFinca($codigoFinca){
+             $user = "postgres";
+             $password = "12345";
+             $dbname = "MAG";
+             $port = "5432";
+             $host = "localhost";
+
+             $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+             $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
+                       (select * from finca_formulario where codigofinca = $codigoFinca )as o on form.idform = o.idform ";
+             $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+
+             $row = pg_fetch_all($result);
+             return (json_encode($row));
+           }
+
 
 
 
@@ -179,6 +232,20 @@ Class CrudInsertar {
         $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
     }
+
+     public function insertarFormFinca($idform,$codigofinca){
+            $user = "postgres";
+            $password = "12345";
+            $dbname = "MAG";
+            $port = "5432";
+            $host = "localhost";
+
+            $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "insert into finca_formulario values ($idform,$codigofinca)";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        }
 
 
 }
@@ -266,6 +333,15 @@ if($_REQUEST['action']=='loadOpciones') {
 if($_REQUEST['action']=='loadCategorias') {
     print_r($nuevoCargarC->obtenerCategorias());
 }
+if($_REQUEST['action']=='getFormulariosNoFinca') {
+   print_r($nuevoCargar->getFormulariosNoFinca($_REQUEST['codigofinca']));
+}
+
+if($_REQUEST['action']=='getFormulariosFinca') {
+   print_r($nuevoCargar->getFormulariosFinca($_REQUEST['codigofinca']));
+}
+
+
 
 if($_REQUEST['action']=='insertarForm') {
    $nuevoInsertarC->insertarForm($_REQUEST['nombre'],$_REQUEST['descripcion'],$_REQUEST['fecha']);
@@ -301,4 +377,8 @@ if($_REQUEST['action']=='deletePaginas') {
 
 if($_REQUEST['action']=='updateOrdenPag') {
    $editarFormC->updateOrdenPag($_REQUEST['idpag'], $_REQUEST['ordenN']);
+}
+
+if($_REQUEST['action']=='insertarFormFinca') {
+   $nuevoInsertar->insertarFormFinca($_REQUEST['idform'],$_REQUEST['codigofinca']);
 }

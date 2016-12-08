@@ -1,4 +1,4 @@
-
+<div>
     <script type="text/ng-template" id="group-template.html">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -27,7 +27,7 @@
                 <ul dnd-list="list.people">
 
                     <!--For Text Inputs-->
-                    <li ng-repeat="person in list.people"
+                    <li ng-click ="cargarPregunta(person.idpreg)" ng-repeat="person in list.people"
                         dnd-draggable="person"
                         dnd-type="person.categoria"
                         dnd-disable-if="person.categoria == 'unknown'"
@@ -42,8 +42,7 @@
                                 <span ng-if="person.hel == 'radio'" class="glyphicon glyphicon-record"></span>
                                 <span ng-if="person.hel == 'checkbox'" class="glyphicon glyphicon-ok"></span>
                                 <span ng-if="person.hel == 'text'" class="glyphicon glyphicon-text-size"></span>
-                                <span ng-if="person.hel == 'select'" class="glyphicon glyphicon-collapse-down"></span>
-                                <span ng-if="person.hel == 'textarea'" class="glyphicon glyphicon-unchecked"></span>
+                                <span ng-if="person.hel == 'combobox'" class="glyphicon glyphicon-collapse-down"></span>
                             </div>
                             <div title = "{{person.enunciadopreg}}". class="name">{{person.name}}</div>
 
@@ -59,7 +58,7 @@
             </div>
         </div>
     </uib-accordion>
-
+</div>
 
 
 

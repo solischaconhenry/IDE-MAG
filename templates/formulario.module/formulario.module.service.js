@@ -36,7 +36,7 @@ angular.module('AppPrueba')
 
 
         //FUNCIONES DE INSERTAR
-        this.insertarForm = function (nombre,descripcion,fecha) {
+        this.insertarForm = function (nombre,descripcion,fecha,codigoFinca) {
             var defered = $q.defer();
             var promise = defered.promise;
 

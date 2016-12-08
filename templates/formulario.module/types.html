@@ -1,201 +1,203 @@
 
 
 <div ng-repeat="data in list.people"
-    ng-if="data.orden == seccionActiva">
+     ng-if="data.orden == seccionActiva">
 
 
-<ul dnd-list="data.preguntas">
+    <ul dnd-list="data.preguntas">
 
 
-    <!--For Text Inputs-->
-    <li ng-repeat="person in data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.type == 'unknown'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'text'"
-    >
+        <!--For Text Inputs-->
+        <li ng-repeat="person in data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.type == 'unknown'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'text'"
+        >
 
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="row">
-                <div class="name col-md-10">
-                    <input  placeholder="{{person.name}}" type="text"  class="background-{{person.type}} form-control input-sm">
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="row">
+                    <div class="name col-md-10">
+                        <input  placeholder="{{person.name}}" type="text"  class="background-{{person.type}} form-control input-sm">
 
+                    </div>
+                    <div class="name col-md-1">
+
+                        <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
+                            <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="name col-md-1">
+            </dnd-nodrag>
+        </li>
 
-                    <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
-                        <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
-                    </button>
+        <!--For Checkbox Inputs-->
+        <li ng-repeat="person in  data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.hel == 'text'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'checkbox'"
+        >
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="name">
+                    <dnd-nodrag>
+                        <div class="row">
+                            <div class="name col-md-10">
+                                <p>{{person.name}}</p>
+                                <div ng-repeat="chk1 in person.options">
+                                    <input  name="{{person.name}}" type="{{person.hel}}"  form-control input-sm>{{chk1.opcion}}
+                                </div>
+                            </div>
+                            <div class="name col-md-1">
+
+                                <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
+                                    <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </dnd-nodrag>
                 </div>
-            </div>
-        </dnd-nodrag>
-    </li>
+            </dnd-nodrag>
+        </li>
 
-    <!--For Checkbox Inputs-->
-    <li ng-repeat="person in  data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.hel == 'text'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'checkbox'"
-    >
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="name">
-                <dnd-nodrag>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <p>{{person.name}}</p>
-                            <div ng-repeat="chk1 in person.options">
-                                <input  name="{{person.name}}" type="{{person.hel}}"  form-control input-sm>{{chk1.opcion}}
+        <!--For Radio Inputs-->
+        <li ng-repeat="person in  data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.hel == 'text'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'radio'"
+        >
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="name">
+                    <dnd-nodrag>
+                        <div class="row">
+                            <div class="name col-md-10">
+                                <p>{{person.name}}</p>
+                                <div ng-repeat="rad in person.options">
+                                    <input  name="{{person.name}}"type="{{person.hel}}"  form-control input-sm>{{rad.opcion}}
+                                </div>
+                            </div>
+                            <div class="name col-md-1">
+
+                                <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
+                                    <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
+                                </button>
                             </div>
                         </div>
-                        <div class="name col-md-1">
+                    </dnd-nodrag>
+                </div>
+            </dnd-nodrag>
+        </li>
 
-                            <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
-                                <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
-                            </button>
-                        </div>
-                    </div>
+        <!--For Text Inputs-->
+        <li ng-repeat="person in  data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.type == 'unknown'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'plain'"
+        >
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="name">
+                    <dnd-nodrag>
+                        <p model="person.name">{{person.name}}</p>
+                    </dnd-nodrag>
+                </div>
+            </dnd-nodrag>
+        </li>
 
-                </dnd-nodrag>
-            </div>
-        </dnd-nodrag>
-    </li>
 
-    <!--For Radio Inputs-->
-    <li ng-repeat="person in  data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.hel == 'text'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'radio'"
-    >
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="name">
-                <dnd-nodrag>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <p>{{person.name}}</p>
-                            <div ng-repeat="rad in person.options">
-                                <input  name="{{person.name}}"type="{{person.hel}}"  form-control input-sm>{{rad.opcion}}
+        <!--For Combobox o Dropdown o select-->
+        <li ng-repeat="person in  data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.hel == 'text'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'select'"
+        >
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="name">
+                    <dnd-nodrag>
+                        <div class="row">
+                            <div class="name col-md-10">
+                                <p>{{person.name}}</p>
+                                <div>
+                                    <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="selectForm" class="form-control">
+                                        <option style="display:none" value="">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="name col-md-1">
+
+                                <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
+                                    <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
+                                </button>
                             </div>
                         </div>
-                        <div class="name col-md-1">
+                    </dnd-nodrag>
+                </div>
+            </dnd-nodrag>
+        </li>
 
-                            <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
-                                <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
-                            </button>
-                        </div>
-                    </div>
-                </dnd-nodrag>
-            </div>
-        </dnd-nodrag>
-    </li>
-
-    <!--For Text Inputs-->
-    <li ng-repeat="person in  data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.type == 'unknown'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'plain'"
-    >
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="name">
-                <dnd-nodrag>
-                    <p model="person.name">{{person.name}}</p>
-                </dnd-nodrag>
-            </div>
-        </dnd-nodrag>
-    </li>
-
-    <!--For Combobox o Dropdown o select-->
-    <li ng-repeat="person in  data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.hel == 'text'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'select'"
-    >
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="name">
-                <dnd-nodrag>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <p>{{person.name}}</p>
-                            <div>
-                                <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="selectForm" class="form-control">
-                                    <option style="display:none" value="">Seleccione</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="name col-md-1">
-
-                            <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
-                                <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
-                            </button>
-                        </div>
-                    </div>
-                </dnd-nodrag>
-            </div>
-        </dnd-nodrag>
-    </li>
-
-    <!--For Text TextArea-->
-    <li ng-repeat="person in  data.preguntas"
-        dnd-type="person.type"
-        dnd-disable-if="person.type == 'unknown'"
-        dnd-moved="list.people.splice($index, 1)"
-        dnd-effect-allowed="move"
-        class="background-{{person.type}}"
-        ng-if="person.hel == 'textarea'"
-    >
-        <dnd-nodrag>
-            <div dnd-handle class="handle">:::</div>
-            <div class="name">
-                <dnd-nodrag>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <p>{{person.name}}</p>
-                            <div>
+        <!--For Text TextArea-->
+        <li ng-repeat="person in  data.preguntas"
+            dnd-type="person.type"
+            dnd-disable-if="person.type == 'unknown'"
+            dnd-moved="list.people.splice($index, 1)"
+            dnd-effect-allowed="move"
+            class="background-{{person.type}}"
+            ng-if="person.hel == 'textarea'"
+        >
+            <dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="name">
+                    <dnd-nodrag>
+                        <div class="row">
+                            <div class="name col-md-10">
+                                <p>{{person.name}}</p>
+                                <div>
                                 <textarea rows="4" cols="50">
                                     Texto...
                                 </textarea>
+                                </div>
+                            </div>
+                            <div class="name col-md-1">
+
+                                <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
+                                    <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
+                                </button>
                             </div>
                         </div>
-                        <div class="name col-md-1">
 
-                            <button class="btn-eiminar" type="button" class="btn btn-default" ng-click="eliminarPregForm(person.name)">
-                                <span class="glyphicon  glyphicon-trash icon-eliminar"></span>
-                            </button>
-                        </div>
-                    </div>
-
-                </dnd-nodrag>
-            </div>
-        </dnd-nodrag>
-    </li>
+                    </dnd-nodrag>
+                </div>
+            </dnd-nodrag>
+        </li>
 
 
-    <li class="dndPlaceholder">
-        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
-    </li>
+
+        <li class="dndPlaceholder">
+            Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+        </li>
 
 
 
 
-</ul>
+    </ul>
 </div>
 <ul class="pagination">
     <li><a href="" ng-click="pagination.prevPage(); change(n+1);">&laquo;</a></li>

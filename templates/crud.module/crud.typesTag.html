@@ -1,63 +1,64 @@
 
-    <script type="text/ng-template" id="group-template.html">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title" style="color:#fa39c3">
-                    <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+<script type="text/ng-template" id="group-template.html">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" style="color:#fa39c3">
+                <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
             <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
               {{heading}}
             </span>
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" uib-collapse="!isOpen">
-                <div class="panel-body" style="text-align: right" ng-transclude></div>
-            </div>
+                </a>
+            </h4>
         </div>
-    </script>
-
-
-    <uib-accordion close-others="oneAtATime">
-
-        <div ng-repeat="categoria in categorias"><!--Div de ngrepeat de categorias-->
-            <div uib-accordion-group class="panel-default" is-open="status.open">
-                <uib-accordion-heading>
-                    {{categoria}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                </uib-accordion-heading>
-                <ul dnd-list="list.people">
-
-                    <!--For Text Inputs-->
-                    <li ng-repeat="person in list.people"
-                        dnd-draggable="person"
-                        dnd-type="person.type"
-                        dnd-disable-if="person.type == 'unknown'"
-                        dnd-moved="list.people.splice($index, 1)"
-                        dnd-effect-allowed="move"
-                        class="background-{{person.type}}"
-                        ng-if="person.type == categoria"
-                    >
-                        <dnd-nodrag>
-                            <div dnd-handle class="handle">
-                                <span ng-if="person.hel == 'radio'" class="glyphicon glyphicon-record"></span>
-                                <span ng-if="person.hel == 'checkbox'" class="glyphicon glyphicon-ok"></span>
-                                <span ng-if="person.hel == 'text'" class="glyphicon glyphicon-text-size"></span>
-                                <span ng-if="person.hel == 'select'" class="glyphicon glyphicon-collapse-down"></span>
-                                <span ng-if="person.hel == 'textarea'" class="glyphicon glyphicon-unchecked"></span>
-                            </div>
-                            <div class="name" data-toggle="tooltip" data-placement="top" title="Hooray!">{{person.name}}</div>
-
-                        </dnd-nodrag>
-                    </li>
-
-
-                    <li class="dndPlaceholder">
-                        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
-                    </li>
-
-                </ul>
-            </div>
+        <div class="panel-collapse collapse" uib-collapse="!isOpen">
+            <div class="panel-body" style="text-align: right" ng-transclude></div>
         </div>
-    </uib-accordion>
+    </div>
+</script>
+
+
+<uib-accordion close-others="oneAtATime">
+
+    <div ng-repeat="categoria in categorias"><!--Div de ngrepeat de categorias-->
+        <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+                {{categoria}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+            <ul dnd-list="list.people">
+
+                <!--For Text Inputs-->
+                <li ng-repeat="person in list.people"
+                    dnd-draggable="person"
+                    dnd-type="person.categoria"
+                    dnd-disable-if="person.categoria == 'unknown'"
+                    dnd-moved="list.people.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    class="background-{{person.categoria}}"
+                    ng-if="person.categoria == categoria"
+
+                >
+                    <dnd-nodrag>
+                        <div dnd-handle class="handle">
+                            <span ng-if="person.hel == 'radio'" class="glyphicon glyphicon-record"></span>
+                            <span ng-if="person.hel == 'checkbox'" class="glyphicon glyphicon-ok"></span>
+                            <span ng-if="person.hel == 'text'" class="glyphicon glyphicon-text-size"></span>
+                            <span ng-if="person.hel == 'select'" class="glyphicon glyphicon-collapse-down"></span>
+                            <span ng-if="person.hel == 'textarea'" class="glyphicon glyphicon-unchecked"></span>
+                        </div>
+                        <div title = "{{person.enunciadopreg}}". class="name">{{person.name}}</div>
+
+                    </dnd-nodrag>
+                </li>
+
+
+                <li class="dndPlaceholder">
+                    Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</uib-accordion>
 
 
 
