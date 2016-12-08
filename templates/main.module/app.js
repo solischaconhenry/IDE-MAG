@@ -80,6 +80,13 @@ angular
                 templateUrl:'templates/formulario.module/formulario.module.view.html',
                 controller:'FormularioGanaderia'
             })
+
+            .state('formularioAgricultura',{
+                url:'/formularioAgricultura',
+                templateUrl:'templates/administrarFormulario.module/administrarFormulario.module.view.html',
+                controller:'AdministrarFormulario'
+            })
+
             .state('login',{
                 url:'/login',
                 templateUrl:'templates/login.module/login.view.html',

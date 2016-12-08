@@ -27,7 +27,7 @@
                 <ul dnd-list="list.people">
 
                     <!--For Text Inputs-->
-                    <li ng-repeat="person in list.people"
+                    <li ng-click ="cargarPregunta(person.idpreg)" ng-repeat="person in list.people"
                         dnd-draggable="person"
                         dnd-type="person.categoria"
                         dnd-disable-if="person.categoria == 'unknown'"

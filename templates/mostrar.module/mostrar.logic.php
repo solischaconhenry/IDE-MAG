@@ -312,11 +312,24 @@ class Mostrar
         return $row;
     }
 
+      function getCodigoFincaById($gid){
+            include '../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "select codigofinca from fincas where gid = $gid";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+            return $row;
+        }
+
+
 
 
 }
 
 $mostrar = new Mostrar();
+
+//print_r(json_encode($mostrar->getFormularios()))
 
 if($_REQUEST['action']=='getFincas') {
     print_r(json_encode($mostrar->getFincas($_REQUEST['idUser'])));
@@ -344,3 +357,9 @@ else if($_REQUEST['action']=='getFincasByID') {
 else if($_REQUEST['action']=='getApartoByID') {
     print_r(json_encode($mostrar->getApartoByID($_REQUEST['gidAparto'])));
 }
+
+else if($_REQUEST['action']=='getCodigoFincaById') {
+    print_r(json_encode($mostrar->getCodigoFincaById($_REQUEST['gid'])));
+}
+
+?>

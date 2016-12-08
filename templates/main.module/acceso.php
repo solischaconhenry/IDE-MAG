@@ -2,7 +2,7 @@
 
 $user = "postgres";
 $password = "12345";
-$dbname = "MAG";
+$dbname = "AGROMAG2";
 $port = "5432";
 $host = "localhost"; 
 

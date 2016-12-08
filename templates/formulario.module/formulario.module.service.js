@@ -41,7 +41,7 @@ angular.module('AppPrueba')
             var promise = defered.promise;
 
             $http.get('templates/formulario.module/formulario.module.db.php?action=insertarForm&nombre='+nombre
-                +'&descripcion='+descripcion+'&fecha='+ fecha+'&codigoFinca='+codigoFinca)
+                +'&descripcion='+descripcion+'&fecha='+ fecha)
                 .success(function(response) {
                     defered.resolve(response);
                 });

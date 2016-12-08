@@ -1,0 +1,159 @@
+<div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+     close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
+<!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
+</div>
+<h2 >Formularios</h2>
+
+<div class="typesDemo row">
+
+    <div ng-repeat="list in lists" class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Tipos de preguntas</h3>
+            </div>
+            <div class="panel-body" ng-include="'./templates/administrarFormulario.module/typesTag.html'"></div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 ">
+
+        <div class="panel panel-info" >
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Agregar preguntas ({{accion.action}} pregunta {{tituloPregunta}})</h3>
+
+               <div class="btn-group pull-right">
+                    <button class="btn btn-default btn-sm" style="color: #18953C;  font-size:115%;" title="{{accion.action}}"
+                            ng-click = "agregarEditarPregunta()">
+                        <span class="glyphicon glyphicon-{{accion.icon}}"></span>
+                        </button>
+                   <button class="btn btn-default btn-sm" style="color: #F40909;  font-size:115%;" title="Limpiar campos"
+                           ng-click = "limpiarCampos()">
+                       <span class="glyphicon glyphicon-floppy-remove"></span>
+                       </button>
+                </div>
+            </div>
+
+            <div  class="panel-body "   style=" max-width: 1200px;">
+                <div class="form-group row"  style="margin-bottom: 1%">
+                    <label  class="col-md-2" >Título:</label>
+                    <div class="col-md-8">
+                        <input ng-model="tituloPregunta" type="text" class="form-control" placeholder="Título de la pregunta" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label  class="col-md-2" >Enunciado:</label>
+                    <div class="col-md-8">
+                        <textarea ng-model="enunciadoPregunta" class="form-control" rows="5" placeholder ="Enunciado de la pregunta" ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row"  style="margin-bottom: 2%; margin-top: 2%">
+                    <label class="col-md-2">Fijo:</label>
+                    <div class="col-md-8">
+                        <label class="radio-inline"><input  ng-model="fijoPregunta"  type="radio" name="radiofijo" value="True"  >Sí</label>
+                        <label class="radio-inline"><input ng-model="fijoPregunta" type="radio" name="radiofijo" value="False">No</label>
+
+                    </div>
+                </div>
+
+                <div class="form-group row"  style="margin-bottom: 2%">
+                    <label class="col-md-2">Requerido:</label>
+                    <div class="col-md-8">
+                        <label class="radio-inline"><input  ng-model="requeridoPregunta"  type="radio" name="radiorequerido" value="True">Sí</label>
+                        <label class="radio-inline"><input ng-model="requeridoPregunta" type="radio" name="radiorequerido" value="False">No</label>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group row">
+                    <label class="col-md-2">Categoría:</label>
+                    <div class="col-md-8">
+                        <select ng-model="categoriaElegidaPregunta" class="form-control selectsTabs">
+                            <option value="">Seleccione una categoría</option>
+                            <option ng-repeat="categoria in categorias" value="{{categoria}}">{{categoria}}</option>
+                            <option value="otro">Otro</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group row" ng-if="categoriaElegidaPregunta == 'otro'" style="margin-bottom: 1%" >
+                    <label  class="col-md-2" >Nombre:</label>
+                    <div class="col-md-8">
+                        <input  ng-model="$parent.nombreCategoriaPregunta" type="text" class="form-control" placeholder="Nombre de categoría"  >
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label class="col-md-2">Tipo:</label>
+                    <div class="col-md-8">
+                        <select  ng-model="tipoPregunta" class="form-control selectsTabs" >
+                            <option  value="">Seleccione un tipo</option>
+                            <option ng-repeat="tipo in tiposPregunta" value="{{tipo.value}}">{{tipo.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row" ng-if="tipoPregunta == 'select' || tipoPregunta == 'checkbox' || tipoPregunta == 'radio'"  style="margin-bottom: 1%">
+                    <label  class="col-md-2">Opciones:</label>
+                    <div class="col-md-7">
+                        <input ng-model="$parent.opcionNueva" type="text" class="form-control" placeholder="Opción a añadir">
+                    </div>
+                    <div class="col-md-1">
+                        <button title="Añadir nueva opción" class="btn-agregarOpcion" ng-click = "agregarOpcion()">
+                            <span class="glyphicon glyphicon-plus-sign icon-agregarOpcion"></span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="form-group row" ng-if="tipoPregunta == 'select' || tipoPregunta == 'checkbox' || tipoPregunta == 'radio'">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <ul class="list-group" >
+
+                            <li class="list-group-item"  ng-repeat="opcion in opciones" >
+                                <div class=" row">
+                                    <div class="col-md-10">
+                                        <input ng-model="opcion.opcion" type="text" class="form-control" placeholder="Título de la pregunta" >
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">
+                                            <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+               <!-- <div class="form-group row" >
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6">
+                        <button class="btn btn-default btn-sm" type="submit" ng-click = "agregarPregunta(tituloPregunta,enunciadoPregunta,categoriaElegidaPregunta,tipoPregunta,fijoPregunta,requeridoPregunta)">
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            Añadir</button>
+                    </div>
+
+                </div>-->
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

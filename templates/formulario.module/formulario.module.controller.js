@@ -17,7 +17,7 @@ angular.module('AppPrueba')
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
         $scope.categorias = [];
-        
+
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {
                 alert("ok");
@@ -70,17 +70,12 @@ angular.module('AppPrueba')
             if($scope.list2[0]["people"][0]["preguntas"] == null){
                 $scope.list2[0]["people"][0]["preguntas"]=[];
             }
-            console.log(id);
-            console.log($scope.list2);
-            console.log($scope.list2[0]["people"]);
-            console.log($scope.list2[0]["people"][0]["preguntas"]);
+          
            var index = $scope.list2[0]["people"][0]["preguntas"].map(function(d) { return d['name']; }).indexOf(id);
 
             $scope.preguntas.push( $scope.list2[0]["people"][0].preguntas[index])
             $scope.list2[0]["people"][0]["preguntas"].splice(index,1);
-//
-            console.log(index);
-            console.log($scope.list2[0]["people"][0]["preguntas"]);
+
         };
 
 
