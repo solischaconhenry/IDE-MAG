@@ -8,6 +8,16 @@ angular.module('AppPrueba')
 
         $scope.formularios =[];
 
+        //ALERTAS DE EXITO Y FRACASO
+        $scope.alertsForm = [
+            // { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+            //  { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+        ];
+
+        $scope.closeAlert = function (index) {
+            $scope.alertsForm.splice(index, 1);
+        };
+
         FormCrudService.getAllForms().then(function (data) {
             var values = [];
 
@@ -25,11 +35,19 @@ angular.module('AppPrueba')
             $scope.formularios = values;
             
 
-        })
+        });
 
         $scope.change =function (id) {
             
             EditarFormularioFincaxForm.idFormularioEditar = id
+        };
+
+        $scope.deleteForm = function (id) {
+            console.log(id);
+            FormCrudService.deleteFormbyID(id).then(function () {
+                $scope.alertsForm.push({type: 'success', msg: 'Formulario eliminado con éxito!'});
+            });
+
         }
        
 

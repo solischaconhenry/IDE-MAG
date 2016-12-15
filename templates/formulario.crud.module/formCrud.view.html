@@ -1,5 +1,6 @@
 
     <div class="container">
+        <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alertsForm" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
         <div class="row">
             <div class="col-md-10">
                 <div class="panel panel-primary">
@@ -18,7 +19,7 @@
                                 {{data.nombre}}
                                 <span class="pull-right">
                                     <a href="#/formCrud/crud" ng-click = 'change(data.idform)'><span class="glyphicon glyphicon-pencil"></span></a>
-                                    <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a ng-click="deleteForm(data.idform)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                 </span>
 
                             </li>

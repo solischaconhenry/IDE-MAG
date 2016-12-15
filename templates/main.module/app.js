@@ -161,11 +161,16 @@ angular
                 },
                 authenticate: true
             })
-            /*?????????????????????????????????????**/
-            .state('formularioAgricultura',{
+
+            .state('dashboard.formularioAgricultura',{
                 url:'/formularioAgricultura',
-                templateUrl:'templates/administrarFormulario.module/administrarFormulario.module.view.html',
-                controller:'AdministrarFormulario'
+                views:{
+                    'dashboard':{
+                        templateUrl:'templates/administrarFormulario.module/administrarFormulario.module.view.html',
+                        controller:'AdministrarFormulario'
+                    }
+                },
+                authenticate: true
             })
 
             .state('dashboard.formCrud',{

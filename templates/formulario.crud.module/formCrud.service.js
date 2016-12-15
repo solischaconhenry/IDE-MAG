@@ -22,4 +22,19 @@ angular.module('AppPrueba')
             return promise;
         }
 
+        this.deleteFormbyID = function (id) {
+
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/formulario.crud.module/formCrud.php?action=deleteForm&idform='+id)
+                .success(function(response) {
+
+                    defered.resolve(response);
+
+                });
+
+            return promise;
+        }
+
     });
