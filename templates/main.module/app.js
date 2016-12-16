@@ -55,6 +55,7 @@ angular
                 authenticate: false
             })
 
+            //dashboard de administrador
             .state('dashboard',{
                 url:'/dashboard',
                 templateUrl:'templates/dashboard.module/dashboard.view.html',
@@ -62,12 +63,12 @@ angular
                 authenticate: true
             })
 
+
             .state('dashboard.home',{
                 url:'/home',
-
                 views:{
                     'dashboard':{
-                        templateUrl:'templates/home.module/home.module.view.html',
+                        templateUrl:'templates/home.module/home.module.view.html'
                     }
                 },
                 authenticate: true
@@ -196,7 +197,87 @@ angular
             })
 
 
-        
+
+        //***********************USER SECTION******************************/
+            //dashboard de usuario
+            .state('dashboardUser',{
+                url:'/dashboardUser',
+                templateUrl:'templates/user.module/dashboard.module/dashboard.view.html',
+                controller:'DashboardController',
+                authenticate: true
+            })
+
+
+            .state('dashboardUser.homeUser',{
+                url:'/homeUser',
+
+                views:{
+                    'dashboardUser':{
+                        templateUrl:'templates/user.module/home.module/home.module.view.html'
+                    }
+                },
+                authenticate: true
+
+            })
+
+            .state('dashboardUser.dusTabsUser',{
+                url:'/tabsUser',
+
+                views:{
+                    'dashboardUser':{
+                        templateUrl:'templates/user.module/dusTab.module/dusTab.view.html',
+                        controller:'dusTabsController'
+                    }
+                },
+                authenticate: true
+
+            })
+
+            .state('dashboardUser.dusTabsUser.subirUser',{
+                url:'/subirUser',
+                views: {
+                    'dusTabsUser': {
+                        templateUrl: 'templates/user.module/subir.module/subir.view.html',
+                        controller: 'SubirController'
+                    }
+                },
+                authenticate: true
+            })
+            .state('dashboardUser.dusTabsUser.agregarUser',{
+                url:'/agregarUser',
+                views: {
+                    'dusTabsUser': {
+                        templateUrl: 'templates/user.module/agregar.module/agregar.view.html',
+                        controller: 'AgregarController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboardUser.dusTabsUser.dividirUser',{
+                url:'/dividirUser',
+                views: {
+                    'dusTabsUser': {
+                        templateUrl: 'templates/user.module/dividir.module/dividir.view.html',
+                        controller: 'DividirController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboardUser.dusTabsUser.unirUser',{
+                url:'/unirUser',
+                views: {
+                    'dusTabsUser': {
+                        templateUrl: 'templates/user.module/unir.module/unir.view.html',
+                        controller: 'UnirController'
+                    }
+                },
+                authenticate: true
+            })
+
+
+
     }).run(function ($rootScope, $state, UserService) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
         if (toState.authenticate && !UserService.auth){

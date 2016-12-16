@@ -1,0 +1,41 @@
+<div class="row">
+    <h3>Unir Finca</h3>
+    <div class="col-md-5"><!--SECCION DE SELECCIONAR EL APARTO A UNIR-->
+        <select ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
+            <option style="display:none" value="">Seleccione una Finca</option>
+        </select>
+
+
+        <svg
+             width="500"
+             height="500"
+             style="border:2px groove #0455BF">
+
+            <polygon
+                     ng-click="unir(coordenadas.gid, coordenadas.puntos,$event)"
+                     ng-repeat="coordenadas in json"
+                     ng-attr-points="{{coordenadas.puntos}}"
+                     style="fill:#26C281;stroke:black;stroke-width:1" />
+
+        </svg>
+
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5"><!--SECCIÓN DE CARGAR EL APARTO NUEVO-->
+        <h4 style="margin-bottom: 2%">El id del aparto a editar: {{gidAparto}}</h4>
+        <svg
+             width="500"
+             height="500"
+             style="border:2px groove #0455BF">
+
+            <polygon
+                     ng-repeat="coordenadas in jsonSeleccionado"
+                     ng-attr-points="{{coordenadas.puntos}}"
+                     style="fill:#0455BF;stroke:black;stroke-width:1" />
+
+        </svg>
+        <button class="btn btn-default" ng-click="unirApartos()">
+            <span class="glyphicon glyphicon-resize-small"></span> Aceptar Union
+        </button>
+    </div>
+</div>
