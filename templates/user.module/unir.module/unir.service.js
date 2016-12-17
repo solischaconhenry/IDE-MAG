@@ -1,11 +1,11 @@
 angular.module('AppPrueba')
-.service('UnirService', ['$http','$q', function ($http, $q) {
+.service('UnirUserService', ['$http','$q', function ($http, $q) {
 
     this.getFincas = function (idUser) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/unir.module/unir.logic.php?action=getFincas&idUser='+idUser)
+        $http.get('templates/user.module/unir.module/unir.logic.php?action=getFincas&idUser='+idUser)
             .success(function(response) {
             defered.resolve(response);
         });
@@ -18,13 +18,13 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/unir.module/unir.logic.php?action=preview&gidFinca='+gidFinca)
+        $http.get('templates/user.module/unir.module/unir.logic.php?action=preview&gidFinca='+gidFinca)
             .success(function(response) {
             defered.resolve(response);
         });
 
         return promise;
-    }
+    };
     
     this.unir = function (gidFinca,arrayIdAparto) {
         var defered = $q.defer();
@@ -33,9 +33,9 @@ angular.module('AppPrueba')
                 action: 'unir',
                 gidFinca: gidFinca,
                 arrayAparto: arrayIdAparto
-            })
+            });
         console.log(data);
-        $http.get('templates/unir.module/unir.logic.php?'+data)
+        $http.get('templates/user.module/unir.module/unir.logic.php?'+data)
             .success(function(response) {
             defered.resolve(response);
         });

@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('SubirController', function ($scope, fileUpload, Previsualizar, Save) {
+.controller('SubirUserController', function ($scope, fileUploadUser, PrevisualizarUser, SaveUser) {
 
     $scope.svg = false;
 
@@ -7,8 +7,8 @@ angular.module('AppPrueba')
         var file = $scope.myFile;
         console.log("file: ");
         console.log("File2:" + file);
-        var uploadUrl = "templates/subir.module/subir.logic.php?action=upload";
-        fileUpload.uploadFileToUrl(file, uploadUrl)
+        var uploadUrl = "templates/user.module/subir.module/subir.logic.php?action=upload";
+        fileUploadUser.uploadFileToUrl(file, uploadUrl)
             .then(function (data) {
             $scope.svg = true;
             $scope.previsualizar();
@@ -18,7 +18,7 @@ angular.module('AppPrueba')
 
 
     $scope.previsualizar = function(){
-        Previsualizar.getData()
+        PrevisualizarUser.getData()
             .then(function (data) {
             reconvertJsonPolygon(data);
         });
@@ -42,7 +42,7 @@ angular.module('AppPrueba')
     
     $scope.idUser = 1;
     $scope.save = function(){
-        Save.putData($scope.idUser)
+        SaveUser.putData($scope.idUser)
             .then(function (data) {
             alert("ok");
             console.log(data);

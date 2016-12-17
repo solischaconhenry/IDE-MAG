@@ -1,7 +1,7 @@
 angular.module('AppPrueba')
 
 
-    .controller('DashboardController', function ($scope, $state, UserService) {
+    .controller('DashboardUserController', function ($scope, $state, UserService) {
 
         $scope.username = UserService.username;
         $scope.tipo = UserService.tipo;

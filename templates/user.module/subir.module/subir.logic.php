@@ -4,7 +4,7 @@ class Subir
 {
 
     function insertar($string){
-        include '../main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         $query = "delete from temp_table"; 
@@ -20,7 +20,7 @@ class Subir
     }
 
     function previsualizar(){
-        include '../main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
 
@@ -104,7 +104,7 @@ class Subir
 
     function save($idUser){
 
-        include 'templates/main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
 

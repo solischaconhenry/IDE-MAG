@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.service('fileUpload', ['$http', '$q',function ($http, $q) {
+.service('fileUploadUser', ['$http', '$q',function ($http, $q) {
     this.uploadFileToUrl = function(file, uploadUrl){
 
         var defered = $q.defer();
@@ -46,15 +46,15 @@ angular.module('AppPrueba')
                 var dat = {"string": myString, "action": 'insert'};
                 $http({
                     method: 'GET',
-                    url: "templates/subir.module/subir.logic.php",
+                    url: "templates/user.module/subir.module/subir.logic.php",
                     params: dat
                 })
                     .success(function (response) {
-                        console.log(response)
+                        console.log(response);
                         defered.resolve(response);
                     })
                     .error(function (err) {
-                        console.log(err)
+                        console.log(err);
                         defered.reject(err)
                     });
 
@@ -67,13 +67,13 @@ angular.module('AppPrueba')
 }])
 
 
-.service('Previsualizar', ['$http','$q', function ($http, $q) {
+.service('PrevisualizarUser', ['$http','$q', function ($http, $q) {
 
     this.getData = function () {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/subir.module/subir.logic.php?action=preview')
+        $http.get('templates/user.module/subir.module/subir.logic.php?action=preview')
             .success(function(response) {
                 defered.resolve(response);
             });
@@ -83,13 +83,13 @@ angular.module('AppPrueba')
 }])
 
 
-.service('Save', ['$http','$q', function ($http, $q) {
+.service('SaveUser', ['$http','$q', function ($http, $q) {
 
     this.putData = function (idUser) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/subir.module/subir.logic.php?action=save&idUser='+idUser)
+        $http.get('templates/user.module/subir.module/subir.logic.php?action=save&idUser='+idUser)
             .success(function(response) {
                 defered.resolve(response);
             });

@@ -1,16 +1,16 @@
 angular.module('AppPrueba')
-.controller('DividirController', function ($scope,DividirService, fileUpload, Previsualizar) {
+.controller('DividirUserController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
     $scope.fincas = [];
     $scope.gidFinca = "";
 
     // Se debe de obtener el id del usuario
     $scope.idUser=1;
-    DividirService.getFincas($scope.idUser).then(function (data) {
+    DividirUserService.getFincas($scope.idUser).then(function (data) {
         $scope.fincas = data;
     });
 
     $scope.change = function(){
-        DividirService.preview($scope.gidFinca).then(function (data) {
+        DividirUserService.preview($scope.gidFinca).then(function (data) {
            $scope.json = reconvertJsonPolygon(data);
         });
     }
@@ -41,8 +41,8 @@ angular.module('AppPrueba')
     $scope.uploadFile = function(){
         var file = $scope.myFile;
         console.log(file);
-        var uploadUrl = "templates/subir.module/subir.logic.php?action=upload";
-        fileUpload.uploadFileToUrl(file, uploadUrl)
+        var uploadUrl = "templates/user.module/subir.module/subir.logic.php?action=upload";
+        fileUploadUser.uploadFileToUrl(file, uploadUrl)
             .then(function (data) {
             $scope.svg = true;
             $scope.previsualizar();
@@ -51,7 +51,7 @@ angular.module('AppPrueba')
     };
     
     $scope.previsualizar = function(){
-        Previsualizar.getData()
+        PrevisualizarUser.getData()
             .then(function (data) {
             $scope.jsonCargado = reconvertJsonPolygon(data);
         });
@@ -59,7 +59,7 @@ angular.module('AppPrueba')
     
     
     $scope.dividirAparto = function(){
-        DividirService.putData ($scope.gidAparto, $scope.gidFinca)
+        DividirUserService.putData ($scope.gidAparto, $scope.gidFinca)
         .then(function (data) {
             console.log(data)
         });

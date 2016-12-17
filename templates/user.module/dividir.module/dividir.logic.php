@@ -3,7 +3,7 @@
 class Dividir
 {
     function getFincas($idUsuario){
-        include '../main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         $query = "select gid from fincas where iduser = $idUsuario";
@@ -14,7 +14,7 @@ class Dividir
     
     
     function getPreview($gidFinca){
-        include '../main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
 
@@ -100,7 +100,7 @@ class Dividir
     
     
     function separar($gidAparto, $gidFinca){
-        include '../main.module/acceso.php';
+        include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         

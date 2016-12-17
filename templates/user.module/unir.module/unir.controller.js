@@ -1,17 +1,17 @@
 angular.module('AppPrueba')
-.controller('UnirController', function ($scope,UnirService) {
+.controller('UnirUserController', function ($scope,UnirUserService) {
     $scope.fincas = [];
     $scope.gidFinca = "";
 
     // Se debe de obtener el id del usuario
     $scope.idUser=1;
-    UnirService.getFincas($scope.idUser).then(function (data) {
+    UnirUserService.getFincas($scope.idUser).then(function (data) {
         $scope.fincas = data;
     });
 
     $scope.change = function(){
         $scope.jsonSeleccionado=[];
-        UnirService.preview($scope.gidFinca).then(function (data) {
+        UnirUserService.preview($scope.gidFinca).then(function (data) {
             reconvertJsonPolygon(data);
         });
     }
@@ -61,7 +61,7 @@ angular.module('AppPrueba')
         
         idApartos = idApartos.slice(0,-1);
         
-        UnirService.unir($scope.gidFinca,idApartos).then(function (data) {
+        UnirUserService.unir($scope.gidFinca,idApartos).then(function (data) {
            console.log(data);
         });
     }

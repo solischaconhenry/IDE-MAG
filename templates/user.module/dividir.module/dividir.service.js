@@ -1,11 +1,11 @@
 angular.module('AppPrueba')
-.service('DividirService', ['$http','$q', function ($http, $q) {
+.service('DividirUserService', ['$http','$q', function ($http, $q) {
 
     this.getFincas = function (idUser) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/dividir.module/dividir.logic.php?action=getFincas&idUser='+idUser)
+        $http.get('templates/user.module/dividir.module/dividir.logic.php?action=getFincas&idUser='+idUser)
             .success(function(response) {            
             defered.resolve(response);
         });
@@ -18,7 +18,7 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/dividir.module/dividir.logic.php?action=preview&gidFinca='+gidFinca)
+        $http.get('templates/user.module/dividir.module/dividir.logic.php?action=preview&gidFinca='+gidFinca)
             .success(function(response) {
             console.log(response)
             defered.resolve(response);
@@ -31,7 +31,7 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/dividir.module/dividir.logic.php?action=divide&gidAparto='+idAparto+'&gidFinca='+idFinca)
+        $http.get('templates/user.module/dividir.module/dividir.logic.php?action=divide&gidAparto='+idAparto+'&gidFinca='+idFinca)
             .success(function(response) {
             defered.resolve(response);
         });

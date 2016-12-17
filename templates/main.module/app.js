@@ -203,7 +203,7 @@ angular
             .state('dashboardUser',{
                 url:'/dashboardUser',
                 templateUrl:'templates/user.module/dashboard.module/dashboard.view.html',
-                controller:'DashboardController',
+                controller:'DashboardUserController',
                 authenticate: true
             })
 
@@ -226,7 +226,7 @@ angular
                 views:{
                     'dashboardUser':{
                         templateUrl:'templates/user.module/dusTab.module/dusTab.view.html',
-                        controller:'dusTabsController'
+                        controller:'dusTabsUserController'
                     }
                 },
                 authenticate: true
@@ -238,7 +238,7 @@ angular
                 views: {
                     'dusTabsUser': {
                         templateUrl: 'templates/user.module/subir.module/subir.view.html',
-                        controller: 'SubirController'
+                        controller: 'SubirUserController'
                     }
                 },
                 authenticate: true
@@ -248,7 +248,7 @@ angular
                 views: {
                     'dusTabsUser': {
                         templateUrl: 'templates/user.module/agregar.module/agregar.view.html',
-                        controller: 'AgregarController'
+                        controller: 'AgregarUserController'
                     }
                 },
                 authenticate: true
@@ -259,7 +259,7 @@ angular
                 views: {
                     'dusTabsUser': {
                         templateUrl: 'templates/user.module/dividir.module/dividir.view.html',
-                        controller: 'DividirController'
+                        controller: 'DividirUserController'
                     }
                 },
                 authenticate: true
@@ -270,7 +270,18 @@ angular
                 views: {
                     'dusTabsUser': {
                         templateUrl: 'templates/user.module/unir.module/unir.view.html',
-                        controller: 'UnirController'
+                        controller: 'UnirUserController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboardUser.mostrarUser',{
+                url:'/mostrarUser',
+                views: {
+                    'dashboardUser': {
+                        templateUrl: 'templates/user.module/mostrar.module/mostrar.view.html',
+                        controller: 'MostrarUserController'
                     }
                 },
                 authenticate: true

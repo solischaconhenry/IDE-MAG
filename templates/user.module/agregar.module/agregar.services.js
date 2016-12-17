@@ -1,10 +1,10 @@
 angular.module('AppPrueba')
-    .service('AgregarService', ['$http', '$q',function ($http, $q) {
+    .service('AgregarUserService', ['$http', '$q',function ($http, $q) {
     this.getFincas = function (idUser) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/dividir.module/dividir.logic.php?action=getFincas&idUser='+idUser)
+        $http.get('templates/user.module/dividir.module/dividir.logic.php?action=getFincas&idUser='+idUser)
             .success(function(response) {            
             defered.resolve(response);
         });
@@ -16,7 +16,7 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/dividir.module/dividir.logic.php?action=preview&gidFinca='+gidFinca)
+        $http.get('templates/user.module/dividir.module/dividir.logic.php?action=preview&gidFinca='+gidFinca)
             .success(function(response) {
             console.log(response)
             defered.resolve(response);
@@ -29,7 +29,7 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/agregar.module/agregar.logic.php?action=add&gidFinca='+gidFinca)
+        $http.get('templates/user.module/agregar.module/agregar.logic.php?action=add&gidFinca='+gidFinca)
             .success(function(response) {
             defered.resolve(response);
         });
