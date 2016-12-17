@@ -128,7 +128,4 @@ angular.module('AppPrueba')
 
 
 
-
-
-
 }]);

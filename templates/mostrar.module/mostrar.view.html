@@ -1,6 +1,7 @@
-<h3>Mostrar Información de Finca</h3>
 
-<div class="row">
+<h3 style="margin-top: 0%">Mostrar Información de Finca</h3>
+
+<div class="row" style="overflow-x: hidden;">
   <div class="col-md-5">
     <select ng-change="change();" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
       <option style="display:none" value="">Seleccione una Finca</option>
@@ -22,158 +23,190 @@
 
   </div> <!--div seleccion finca-->
 
+  <div class="col-md-7">
+
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Información general</a></li>
+        <li><a data-toggle="tab" href="#menu1">Formularios de fincas</a></li>
+        <li><a data-toggle="tab" href="#menu2">Formularios de apartos</a></li>
+      </ul>
+
+      <div class="tab-content" style="margin-top: 4%">
+        <div id="home" class="tab-pane fade in active">
+          <div class="col-md-8" ng-if="gidFinca">
+            <div class="panel panel-info">
+              <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de finca</h3>
+              </div>
+              <div class="panel-body">
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Provincia:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.provincia}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Cantón:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.canton}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Distrito:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.distrito}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Dirección Exacta:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.direccionexacta}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Latitud:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.latitud}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Longitud:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.longitud}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Codigo Finca:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.codigofinca}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Nombre Productor:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.nombreproductor}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
 
 
-  <div class="col-md-4" ng-if="gidFinca">
-    <div class="panel panel-info">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de finca</h3>
+            <div class="panel panel-info" ng-if="apartoAtual">
+              <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de Apartos</h3>
+              </div>
+              <div class="panel-body">
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >ID Aparto:</label>
+                  <div class="col-md-6">
+                    {{dataAparto.idaparto}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Tipo Actividad:</label>
+                  <div class="col-md-6">
+                    {{dataAparto.nombre}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Dist de Trabajo:</label>
+                  <div class="col-md-6">
+                    {{dataAparto.distribuciontrabajo}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+          <div class="col-md-10" ng-if="gidFinca">
+            <div class="panel panel-info">
+              <div class="panel-heading clearfix" >
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de la fica</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-9" >
+                    <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
+                      <!--<option value="" >Seleccione un Formulario</option>-->
+                      <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
+                    </select>
+
+                  </div>
+                  <div class="col-md-2" style="padding-left:0" >
+                    <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
+                  </div>
+                </div>
+                <div class="row" style="padding-left:3%">
+                  <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
+                    -- No hay formularios --
+                  </div>
+                  <div ng-if="formulariosFincaAcual.length > 0">
+                    <table class="table table-condensed">
+                      <tr >
+                        <!--<th>Id</th>-->
+                        <th>Nombre</th>
+                        <th>Ver respuestas</th>
+                        <th></th>
+                        <th></th>
+                        <!--<th>Descripción</th>-->
+                        <!-- <th>Fecha</th>-->
+                      </tr>
+
+                      <tr ng-repeat="form in formulariosFincaAcual">
+                        <!--<td>{{form.idform}}</td>-->
+                        <td style="width: 40%">{{form.nombreform}}</td>
+                        <!--<td>{{form.descripcion}}</td>-->
+                        <!--<td>{{form.fecha}}</td>-->
+                        <td style="width: 40%">
+                          <select style="padding-left:0%;" ng-model="$parent.formActual" class="form-control selectsTabs">
+                            <!--<option value="" >Seleccione un Formulario</option>-->
+                            <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha}}</option>
+                          </select>
+
+                        </td>
+                        <td style="width:1%">
+                          <button type="button" class="btn-eiminarOpcion">
+                            <span class="glyphicon glyphicon-eye-open "></span>
+                          </button>
+                        </td>
+                        <td style="width:1%">
+                          <button type="button" class="btn-eiminarOpcion">
+                            <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
+                          </button>
+
+                        </td>
+
+                        <td>
+                          <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
+                          <span style="color: darkgray" title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
+                          <!-- </button>-->
+
+                        </td>
+                        <!-- After seven iterations a new `<tr>` should be aded -->
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+
+
+                </div> <!--div apartos-->
+              </div><!--div seleccion finca-->
+            </div>
+          </div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+          <h3>Menu 2</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+
       </div>
-      <div class="panel-body">
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Provincia:</label>
-          <div class="col-md-6">
-            {{dataFinca.provincia}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Cantón:</label>
-          <div class="col-md-6">
-            {{dataFinca.canton}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Distrito:</label>
-          <div class="col-md-6">
-            {{dataFinca.distrito}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Dirección Exacta:</label>
-          <div class="col-md-6">
-            {{dataFinca.direccionexacta}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Latitud:</label>
-          <div class="col-md-6">
-            {{dataFinca.latitud}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Longitud:</label>
-          <div class="col-md-6">
-            {{dataFinca.longitud}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Codigo Finca:</label>
-          <div class="col-md-6">
-            {{dataFinca.codigofinca}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Nombre Productor:</label>
-          <div class="col-md-6">
-            {{dataFinca.nombreproductor}}
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="panel panel-info" ng-if="apartoAtual">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de Apartos</h3>
-      </div>
-      <div class="panel-body">
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >ID Aparto:</label>
-          <div class="col-md-6">
-            {{dataAparto.idaparto}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Tipo Actividad:</label>
-          <div class="col-md-6">
-            {{dataAparto.nombre}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Dist de Trabajo:</label>
-          <div class="col-md-6">
-            {{dataAparto.distribuciontrabajo}}
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
 
   </div>
-  <div class="col-md-3" ng-if="gidFinca">
-    <div class="panel panel-info">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de la fica</h3>
-      </div>
-      <div class="panel-body">
-        <div class="row" style="margin-bottom:3%">
-          <div class="col-md-9"  style="padding-left:0">
-            <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
-              <!--<option value="" >Seleccione un Formulario</option>-->
-              <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
-            </select>
-
-          </div>
-          <div class="col-md-2" style="padding-left:0" >
-            <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
-            -- No hay formularios --
-          </div>
-          <div ng-if="formulariosFincaAcual.length > 0">
-            <table class="table table-condensed">
-              <tr>
-                <!--<th>Id</th>-->
-                <th>Nombre</th>
-                <th></th>
-                <th></th>
-                <!--<th>Descripción</th>-->
-                <!-- <th>Fecha</th>-->
-              </tr>
-
-              <tr ng-repeat="form in formulariosFincaAcual">
-                <!--<td>{{form.idform}}</td>-->
-                <td>{{form.nombreform}}</td>
-                <!--<td>{{form.descripcion}}</td>-->
-                <!--<td>{{form.fecha}}</td>-->
-                <td>
-                  <button type="button" class="btn-eiminarOpcion">
-                    <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
-                  </button>
-
-                </td>
-                <td>
-                  <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
-                  <span title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
-                  <!-- </button>-->
-
-                </td>
-                <!-- After seven iterations a new `<tr>` should be aded -->
-                </td>
-              </tr>
-            </table>
-          </div>
 
 
-        </div> <!--div apartos-->
-      </div><!--div seleccion finca-->
-    </div>
 
-  </div>
 </div>
