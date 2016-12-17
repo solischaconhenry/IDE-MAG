@@ -1,0 +1,51 @@
+<h3>Agregar Aparto</h3>
+
+<div class="row">
+    <div class="col-md-5">
+
+        <select ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
+            <option style="display:none" value="">Seleccione una Finca</option>
+        </select>
+
+        <svg
+             width="500"
+             height="500"
+             style="border:2px groove #0455BF">
+
+            <polygon
+                     ng-repeat="coordenadas in json"
+                     ng-attr-points="{{coordenadas.puntos}}"
+                     style="fill:#26C281;stroke:black;stroke-width:1" />
+        </svg>
+
+
+        <div class="file-upload">
+            <input class="btn btn-default" type="file" file-model="myFile"/>
+            <br>
+            <button class="btn btn-default" ng-click="uploadFile()">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Cargar
+            </button>
+
+        </div>
+    </div> <!--div seleccion finca-->
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+    <br><br>
+        <svg
+             ng-show = "svg"
+             width="500"
+             height="500"
+             style="border:2px groove #0455BF">
+
+            <polygon
+                     ng-repeat="coordenadas in jsonCargado"
+                     ng-attr-points="{{coordenadas.puntos}}"
+                     style="fill:#26C281;stroke:black;stroke-width:1" />
+
+        </svg>
+        <br>
+        <button class="btn btn-default" ng-show="svg" ng-click="save()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar aparto
+        </button>
+    </div> <!--div apartos-->
+</div><!--div seleccion finca-->

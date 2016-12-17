@@ -29,7 +29,12 @@ angular.module('AppPrueba')
                 }
                 else if(data == 'user'){
                     //acá sección incial de user
-                    console.info("Logged");
+                    UserService.username = $scope.username;
+                    UserService.tipo = data;
+                    UserService.auth = true;
+                    $scope.show = false;
+                    $state.go('dashboardUser.homeUser');
+                    console.info("Logged User");
                     $scope.show = false;
                 }
                 else if (data == 'error'){
