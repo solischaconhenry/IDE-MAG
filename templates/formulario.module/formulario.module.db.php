@@ -118,6 +118,7 @@ Class CargarDatos {
           return (json_encode($row));
         }
 
+
     public function getFormulariosNoFinca($codigoFinca){
               $user = "postgres";
               $password = "12345";
@@ -136,23 +137,45 @@ Class CargarDatos {
               return (json_encode($row));
             }
 
-     public function getFormulariosFinca($codigoFinca){
-             $user = "postgres";
-             $password = "12345";
-             $dbname = "MAG";
-             $port = "5432";
-             $host = "localhost";
+   public function getFormulariosFinca($codigoFinca){
+        $user = "postgres";
+        $password = "12345";
+        $dbname = "MAG";
+        $port = "5432";
+        $host = "localhost";
 
-             $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
-             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+        $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-             $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
-                       (select * from finca_formulario where codigofinca = $codigoFinca )as o on form.idform = o.idform ";
-             $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+        $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
+                  (select * from finca_formulario where codigofinca = $codigoFinca )as o on form.idform = o.idform ";
+        $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+        $resulFin = [];
 
-             $row = pg_fetch_all($result);
-             return (json_encode($row));
-           }
+       while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
+       {
+           //Se recorren las respuestas
+            $queryResp = "select resp.idrespuesta,resp.fecha,resp.hora from respuesta as resp where codigofinca = $codigoFinca and idform = $reg[idform]";
+
+            $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
+
+            $rowsResp  = pg_fetch_all($resultResp );
+            if( pg_num_rows($resultResp) > 0)
+             {
+                $reg["respuestas"] = $rowsResp;
+             }
+
+             $resulFin[] =  $reg;
+
+        }
+        return (json_encode($resulFin));
+      }
+
+
+
+
+
+
 
 
 
@@ -241,7 +264,10 @@ $nuevoInsertar = new Insertar();
 //$nuevoInsertar->insertarPreguntasForm(9,1);
 //$nuevoInsertar->insertarPag("sdgfe",2);
 //$nuevoInsertar->insertarForm("lala","lala","07-07-2016",1);
+
 //print_r($nuevoCargar->getFormulariosFinca(2));
+//print_r("_______________");
+//print_r($nuevoCargar->getFormulariosNoFinca(6));
 
 
 if($_REQUEST['action']=='loadPreguntas') {
@@ -262,6 +288,10 @@ else if($_REQUEST['action']=='getFormulariosNoFinca') {
 
 else if($_REQUEST['action']=='getFormulariosFinca') {
    print_r($nuevoCargar->getFormulariosFinca($_REQUEST['codigofinca']));
+}
+
+else if($_REQUEST['action']=='getRespuestaForbyIdFom') {
+   print_r($nuevoCargar->getRespuestaForbyIdFom($_REQUEST['idform']));
 }
 
 

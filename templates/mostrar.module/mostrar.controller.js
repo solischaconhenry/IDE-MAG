@@ -7,6 +7,7 @@ angular.module('AppPrueba')
     $scope.apartoAtual = "";
     $scope.formularios = [];
     $scope.formulariosFincaAcual = [];
+    $scope.respuestasFormActual = [];
     $scope.codigofinca = 0;
     $scope.dataFinca = {};
     // Se debe de obtener el id del usuario
