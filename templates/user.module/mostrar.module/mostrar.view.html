@@ -1,179 +1,57 @@
-<h3>Mostrar Información de Finca</h3>
 
-<div class="row">
-  <div class="col-md-5">
-    <select ng-change="change();" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
-      <option style="display:none" value="">Seleccione una Finca</option>
-    </select>
+  <h3>Mostrar Información de Finca</h3>
 
-    <svg
-            width="500"
-            height="500"
-            style="border:2px groove #0455BF">
+  <div class="row">
+    <div class="col-md-4 col-xs-4">
 
-      <polygon
-              ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-              ng-repeat="coordenadas in json"
-              ng-attr-points="{{coordenadas.puntos}}"
-              style="fill:#26C281;stroke:black;stroke-width:1" />
+      <select ng-change="change();" ng-options="finca.codigofinca as finca.codigofinca for finca in fincas" ng-model="gidFinca" class="form-control selectsTabsUser">
+        <option style="display:none" value="">Seleccione una Finca (#Finca)</option>
+      </select>
 
-    </svg>
+      <svg
+              width="400"
+              height="400"
+              style="border:2px groove #0455BF">
+        <polygon
+                ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                ng-repeat="coordenadas in json"
+                ng-attr-points="{{coordenadas.puntos}}"
+                style="fill:#26C281;stroke:black;stroke-width:1" />
+
+      </svg>
+    </div> <!--div seleccion finca-->
+
+    <!-- Add the extra clearfix for only the required viewport -->
+    <div class="clearfix visible-xs-block"></div>
+    <div class="col-md-1"></div>
 
 
-  </div> <!--div seleccion finca-->
-
-
-
-  <div class="col-md-4" ng-if="gidFinca">
-    <div class="panel panel-info">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de finca</h3>
-      </div>
-      <div class="panel-body">
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Provincia:</label>
-          <div class="col-md-6">
-            {{dataFinca.provincia}}
+    <div class="col-md-7 col-xs-6" ng-if="gidFinca">
+      <div class="panel panel-primary">
+        <div class="panel-heading clearfix">
+          <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios </h4>
+          <div class="input-group">
+            <input id="Special" type="text" class="form-control" ng-model="searchBox" placeholder="Search...">
+            <div class="input-group-btn">
+              <button class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
           </div>
         </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Cantón:</label>
-          <div class="col-md-6">
-            {{dataFinca.canton}}
-          </div>
+        <div class="panel-body">
+          <ul class="list-group">
+            <li class="list-group-item" ng-if="formulariosFincaAcual.length == 0">
+              -- No hay formularios --
+            </li>
+            <li ng-repeat="data in formulariosFincaAcual | filter: searchBox" class="list-group-item" ng-if="formulariosFincaAcual.length > 0">
+              {{data.nombreform}}
+              <span class="pull-right">
+                  <span title="ID:{{data.idform}}&#13; Descripción:{{data.descripcion}}&#13; Fecha:{{data.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
+                  <a ng-click = 'chooseForm(data.idform)'><span class="glyphicon glyphicon-flag"></span></a>
+              </span>
+            </li>
+          </ul>
         </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Distrito:</label>
-          <div class="col-md-6">
-            {{dataFinca.distrito}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Dirección Exacta:</label>
-          <div class="col-md-6">
-            {{dataFinca.direccionexacta}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Latitud:</label>
-          <div class="col-md-6">
-            {{dataFinca.latitud}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Longitud:</label>
-          <div class="col-md-6">
-            {{dataFinca.longitud}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Codigo Finca:</label>
-          <div class="col-md-6">
-            {{dataFinca.codigofinca}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Nombre Productor:</label>
-          <div class="col-md-6">
-            {{dataFinca.nombreproductor}}
-          </div>
-        </div>
-
       </div>
     </div>
-
-
-    <div class="panel panel-info" ng-if="apartoAtual">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de Apartos</h3>
-      </div>
-      <div class="panel-body">
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >ID Aparto:</label>
-          <div class="col-md-6">
-            {{dataAparto.idaparto}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Tipo Actividad:</label>
-          <div class="col-md-6">
-            {{dataAparto.nombre}}
-          </div>
-        </div>
-        <div class=" row"  style="margin-bottom: 1%">
-          <label  class="col-md-6" >Dist de Trabajo:</label>
-          <div class="col-md-6">
-            {{dataAparto.distribuciontrabajo}}
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
-
   </div>
-  <div class="col-md-3" ng-if="gidFinca">
-    <div class="panel panel-info">
-      <div class="panel-heading clearfix" >
-        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de la fica</h3>
-      </div>
-      <div class="panel-body">
-        <div class="row" style="margin-bottom:3%">
-          <div class="col-md-9"  style="padding-left:0">
-            <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
-              <!--<option value="" >Seleccione un Formulario</option>-->
-              <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
-            </select>
 
-          </div>
-          <div class="col-md-2" style="padding-left:0" >
-            <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
-            -- No hay formularios --
-          </div>
-          <div ng-if="formulariosFincaAcual.length > 0">
-            <table class="table table-condensed">
-              <tr>
-                <!--<th>Id</th>-->
-                <th>Nombre</th>
-                <th></th>
-                <th></th>
-                <!--<th>Descripción</th>-->
-                <!-- <th>Fecha</th>-->
-              </tr>
-
-              <tr ng-repeat="form in formulariosFincaAcual">
-                <!--<td>{{form.idform}}</td>-->
-                <td>{{form.nombreform}}</td>
-                <!--<td>{{form.descripcion}}</td>-->
-                <!--<td>{{form.fecha}}</td>-->
-                <td>
-                  <button type="button" class="btn-eiminarOpcion">
-                    <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
-                  </button>
-
-                </td>
-                <td>
-                  <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
-                  <span title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
-                  <!-- </button>-->
-
-                </td>
-                <!-- After seven iterations a new `<tr>` should be aded -->
-                </td>
-              </tr>
-            </table>
-          </div>
-
-
-        </div> <!--div apartos-->
-      </div><!--div seleccion finca-->
-    </div>
-
-  </div>
-</div>

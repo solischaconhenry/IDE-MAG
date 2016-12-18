@@ -276,10 +276,29 @@ class editarformulario{
         on (pr.idpreg = pag.idpreg)";
 
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
-        $row =  pg_fetch_all($result);
 
-        return $row;
-    }
+        $resulFin = [];
+
+       //Recorrer las preguntas
+       while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+
+          $queryOp = "SELECT opcion FROM opciones where idPreg = $reg[idpreg]";
+
+            $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
+            $rowsOp = pg_fetch_all($resultOp);
+
+            if( pg_num_rows($resultOp)> 0)
+            {
+               //Agrega las opciones a las que sean de tipo checkbox
+               $reg["options"] = $rowsOp;
+
+             }
+           //Va agregando las preguntas a un arreglo
+           $resulFin[] =  $reg;
+
+       }
+       return (json_encode($resulFin));
+     }
 
     function deletePreguntas($idPag,$idPreg){
         include '../main.module/acceso.php';
@@ -364,7 +383,7 @@ if($_REQUEST['action']=='getPaginas') {
 }
 
 if($_REQUEST['action']=='getPreguntas') {
-   print_r(json_encode($editarFormC->getAllPreguntas($_REQUEST['idform'])));
+   print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
 
 if($_REQUEST['action']=='deletePreguntas') {

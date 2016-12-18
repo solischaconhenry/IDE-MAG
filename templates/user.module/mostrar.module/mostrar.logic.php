@@ -6,7 +6,7 @@ class Mostrar
         include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select gid from fincas where iduser = $idUsuario";
+        $query = "select codigofinca from fincas where iduser = $idUsuario";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;
@@ -25,7 +25,7 @@ class Mostrar
             $query = "
                 SELECT 	gid,
                     ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                    (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                    (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                 FROM
                    (SELECT
                     gid,
@@ -36,7 +36,7 @@ class Mostrar
                    ) geometria,
                    (SELECT
                        min(st_xmin(geom)) xinicial,
-                       (max(st_ymax(geom))-min(st_ymin(geom)))/480 factor,
+                       (max(st_ymax(geom))-min(st_ymin(geom)))/380 factor,
                        min(st_ymin(geom)) yinicial
                     FROM
                        apartos
@@ -47,7 +47,7 @@ class Mostrar
             $query = "
                 SELECT 	gid,
                     ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                    (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                    (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                 FROM
                    (SELECT
                     gid,
@@ -58,7 +58,7 @@ class Mostrar
                    ) geometria,
                    (SELECT
                        min(st_xmin(geom)) xinicial,
-                       (max(st_xmax(geom))-min(st_xmin(geom)))/480 factor,
+                       (max(st_xmax(geom))-min(st_xmin(geom)))/380 factor,
                        min(st_ymin(geom)) yinicial
                     FROM
                        apartos
@@ -119,7 +119,7 @@ class Mostrar
             $query = "
                     SELECT 	gid,
                         ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                        (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                     FROM
                        (SELECT
                         gid,
@@ -135,7 +135,7 @@ class Mostrar
                        ) geometria,
                        (SELECT
                            min(st_xmin(geom)) xinicial,
-                           (max(st_ymax(geom))-min(st_ymin(geom)))/480 factor,
+                           (max(st_ymax(geom))-min(st_ymin(geom)))/380 factor,
                            min(st_ymin(geom)) yinicial
                         FROM
                            fincas where gid = $gidFinca
@@ -146,7 +146,7 @@ class Mostrar
             $query = "
                     SELECT 	gid,
                         ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                        (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                     FROM
                        (SELECT
                         gid,
@@ -162,7 +162,7 @@ class Mostrar
                        ) geometria,
                        (SELECT
                            min(st_xmin(geom)) xinicial,
-                           (max(st_xmax(geom))-min(st_xmin(geom)))/480 factor,
+                           (max(st_xmax(geom))-min(st_xmin(geom)))/380 factor,
                            min(st_ymin(geom)) yinicial
                         FROM
                            fincas where gid = $gidFinca
@@ -223,7 +223,7 @@ class Mostrar
             $query = "
                     SELECT 	gid,
                         ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                        (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                     FROM
                        (SELECT
                         gid,
@@ -233,7 +233,7 @@ class Mostrar
                            ($consulta)s) geometria,
                        (SELECT
                            min(st_xmin(geom)) xinicial,
-                           (max(st_ymax(geom))-min(st_ymin(geom)))/480 factor,
+                           (max(st_ymax(geom))-min(st_ymin(geom)))/380 factor,
                            min(st_ymin(geom)) yinicial
                         FROM
                            fincas where gid = $gidFinca
@@ -244,7 +244,7 @@ class Mostrar
             $query = "
                     SELECT 	gid,
                         ((geometria.x - medidas.xinicial)/medidas.factor) x,
-                        (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        (380 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
                     FROM
                        (SELECT
                         gid,
@@ -254,7 +254,7 @@ class Mostrar
                            ($consulta)s) geometria,
                        (SELECT
                            min(st_xmin(geom)) xinicial,
-                           (max(st_xmax(geom))-min(st_xmin(geom)))/480 factor,
+                           (max(st_xmax(geom))-min(st_xmin(geom)))/380 factor,
                            min(st_ymin(geom)) yinicial
                         FROM
                            fincas where gid = $gidFinca
@@ -296,7 +296,7 @@ class Mostrar
         include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select provincia, canton, distrito, direccionexacta, latitud, longitud, codigofinca, nombreproductor from fincas where iduser = $idUsuario and gid = $fincaID;";
+        $query = "select gid from fincas where iduser = $idUsuario and codigofinca = $fincaID;";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;

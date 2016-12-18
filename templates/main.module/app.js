@@ -287,6 +287,19 @@ angular
                 authenticate: true
             })
 
+            .state('dashboardUser.responderForm',{
+                url:'/responderForm',
+
+                views:{
+                    'dashboardUser':{
+                        templateUrl:'templates/user.module/responder.module/responder.view.html',
+                        controller: 'ResponderController'
+                    }
+                },
+                authenticate: true
+
+            })
+
 
 
     }).run(function ($rootScope, $state, UserService) {

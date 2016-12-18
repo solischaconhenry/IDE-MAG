@@ -1,8 +1,11 @@
+/**
+ * Created by usuario on 17/12/2016.
+ */
 angular.module('AppPrueba')
 
-    .controller('CRUDController', function ($scope, Pagination, CrudFormulariosService, $uibModal, $timeout,$log, $document, $http, EditarFormularioFincaxForm) {
+    .controller('ResponderController', function ($scope, Pagination, ResponderService, $uibModal, $timeout,$log, $document, $http, FormularioResolver) {
 
-        console.log("ID: " + EditarFormularioFincaxForm.idFormularioEditar);
+        console.log("ID: " + FormularioResolver.idFormularioResolver);
 
 
         //ALERTAS DE EXITO Y FRACASO
@@ -25,33 +28,17 @@ angular.module('AppPrueba')
         $scope.respaldoPreguntas = [];
 
 
-        //funcion para eliminar las preguntas
-        $scope.eliminarPregCateg = function (listaid) {
-            // console.log($scope.lists);
-            for (var x = 0; x < listaid.length; x++) {
-                if ($scope.lists[0]["people"] == null) {
-                    $scope.lists[0]["people"] = [];
-                }
-                console.log(listaid[x]);
-                var index = $scope.lists[0]["people"].map(function (d) {
-                    return d['name'];
-                }).indexOf(listaid[x]);
-                //console.log(index);
-                $scope.lists[0]["people"].splice(index, 1);
-            }
-
-        };
 
         /****************************************CARGADO Y EDICIÓN DE FORMULARIOS*********************************************/
 
         var tempArray = [];
         var pregUsadas = [];
         $scope.edicion = function (callback) {
-            var idForm = EditarFormularioFincaxForm.idFormularioEditar;
-            //console.log("form: " + idForm);
-            CrudFormulariosService.obtenerPaginasByID(idForm).then(function (pagina) {
-                //  console.log(pagina);
-                CrudFormulariosService.obtenerAllPreguntas(idForm).then(function (pregunta) {
+            var idForm = FormularioResolver.idFormularioResolver;
+            console.log("form: " + idForm);
+            ResponderService.obtenerPaginasByID(idForm).then(function (pagina) {
+                console.log(pagina);
+                ResponderService.obtenerAllPreguntas(idForm).then(function (pregunta) {
                     console.log(pregunta);
                     for (var pag = 0; pag < pagina.length; pag++) {
                         var item = {
@@ -97,12 +84,11 @@ angular.module('AppPrueba')
                         }
 
                         tempArray.push(item);
-                        //    console.info(tempArray);
+                        console.info(tempArray);
                     }
                     // $scope.peopleEdit = tempArray;
                     $scope.respaldoEdicion = angular.copy(tempArray);
                     $scope.pagination.numPages = pagina.length;
-                    $scope.eliminarPregCateg(pregUsadas);
                     $scope.change(1);
 
                 });
@@ -115,24 +101,7 @@ angular.module('AppPrueba')
 
         /****************************************FIN CARGADO Y EDICIÓN DE FORMULARIOS*********************************************/
 
-        //obtiene la lista de categorías para filtrar los datos en el typesTAG5
-        CrudFormulariosService.obtenerCategorias().then(function (data) {
-            $scope.categorias = data;
-            //console.log($scope.categorias);
-        });
-        //carga las preguntas a arrastrar
-        CrudFormulariosService.getPreguntas().then(function (data) {
-            $scope.preguntas = data;
 
-            $scope.lists = [
-                {
-                    label: "Tipos de preguntas",
-                    people: $scope.preguntas
-                }
-
-            ];
-            $scope.respaldoPreguntas = angular.copy($scope.lists);
-        });
         //carga el formulario a las seccion ya arrastrada y borra las preguntas usadas de las categ
         $scope.edicion(function (data) {
             $scope.peopleEdit = data;
@@ -150,39 +119,6 @@ angular.module('AppPrueba')
         });
 
 
-        //opcion de ELIMINAR UNA PREGUNTA ARRASTRADA
-        $scope.eliminarPregForm = function (id) {
-            if ($scope.list2[0]["people"][0]["preguntas"] == null) {
-                $scope.list2[0]["people"][0]["preguntas"] = [];
-            }
-
-            var index = $scope.list2[0]["people"][0]["preguntas"].map(function (d) {
-                return d['name'];
-            }).indexOf(id);
-
-            $scope.preguntas.push($scope.list2[0]["people"][0].preguntas[index]);
-            $scope.list2[0]["people"][0]["preguntas"].splice(index, 1);
-
-        };
-
-        //AUX DE ELIMINAR PREGUNTA ARRASTRADA
-        $scope.eliminar = function (id) {
-            var index = ($scope.list2['people']).map(function (d) {
-                return d['name'];
-            }).indexOf(id);
-            alert(index);
-
-        };
-
-
-        // Model to JSON for demo purpose
-        $scope.$watch('list2', function (list2) {
-            $scope.modelAsJson = angular.toJson(list2, true);
-        }, true);
-        // Model to JSON for demo purpose
-        $scope.$watch('lists', function (lists) {
-            $scope.pregAsJson = angular.toJson(lists, true);
-        }, true);
 
         //for control expandable panel
         $scope.status = {
@@ -247,62 +183,6 @@ angular.module('AppPrueba')
             }
         });
 
-        $scope.addPage = function () {
-            if ($scope.pagination.numPages > 0) {
-                if ($scope.list2[0].people[$scope.pagination.numPages - 1].preguntas.length != 0) {
-                    $ctrl.open('sm');
-
-                    //change($scope.pagination.numPages);
-                }
-                else {
-                    alert("Agregue preguntas a la sección creada")
-                }
-            }
-            else {
-                $ctrl.open('sm');
-
-                //change($scope.pagination.numPages);
-            }
-
-        };
-
-        $scope.deletePage = function (id) {
-            //localiza pag en JSON paginas
-            console.log("ID: " + id);
-            console.warn($scope.list2[0]["people"]);
-            var index = $scope.list2[0]["people"].map(function (d) {
-                return d['idpag'];
-            }).indexOf(id);
-            console.log(index);
-            //retorna todas las preguntas a la pila de categorías
-            for (var z = 0; z < $scope.list2[0]["people"][index]["preguntas"].length; z++) {
-                if ($scope.list2[0]["people"][index]["preguntas"] == null) {
-                    $scope.list2[0]["people"][index]["preguntas"] = [];
-                    break;
-                }
-                var idP = $scope.list2[0]["people"][index].preguntas[z].idpreg;
-                var indexPreg = $scope.list2[0]["people"][index]["preguntas"].map(function (d) {
-                    return d['idpag'];
-                }).indexOf(idP);
-                $scope.preguntas.push($scope.list2[0]["people"][index].preguntas[z]);
-                $scope.list2[0]["people"][index]["preguntas"].splice(indexPreg, 1);
-            }
-            //quita la pag
-            $scope.list2[0]["people"].splice(index, 1);
-            //reduce el orden en las pag
-            for (var orden = 0; orden < $scope.list2[0]["people"].length; orden++) {
-                //si el orden es diferente al consecutivo del anterior, se cambia al ant+1
-                console.info($scope.list2[0]["people"][orden].orden);
-                if ($scope.list2[0]["people"][orden].orden > 1 && $scope.list2[0]["people"][orden].orden != $scope.list2[0]["people"][orden - 1].orden + 1) {
-                    var ant = parseInt($scope.list2[0]["people"][orden - 1].orden);
-                    $scope.list2[0]["people"][orden].orden = ant + 1;
-                }
-            }
-            //reduce la cant de pag que hay activas
-            $scope.pagination.numPages -= 1;
-            $scope.seccionActiva = 1;
-
-        };
 
 
         //cuando se presiona una pagina actualiza la varible con el #
@@ -345,7 +225,7 @@ angular.module('AppPrueba')
                     console.log($scope.respaldoList2[indexRL2].orden);
                     if($scope.respaldoEdicion[pag].orden != $scope.respaldoList2[indexRL2].orden){
                         console.log("Update: "+$scope.respaldoList2[indexRL2].orden);
-                        CrudFormulariosService.updateOrdenPagina(idPag, $scope.respaldoList2[indexRL2].orden);
+                        ResponderService.updateOrdenPagina(idPag, $scope.respaldoList2[indexRL2].orden);
                         $scope.respaldoEdicion[pag].orden = $scope.respaldoList2[indexRL2].orden
                     }
 
@@ -356,14 +236,14 @@ angular.module('AppPrueba')
                         var indexRL2Preg = $scope.respaldoList2[indexRL2]["preguntas"].map(function (d) {return d['idpreg'];}).indexOf(idPreg);
                         //si el indice indica -1 no se encontró la preg en el respado de list2 por tanto fue eliminada y la quitamos de BD y del Arreglo respaldo
                         if(indexRL2Preg == -1){
-                            CrudFormulariosService.deletePregunta(idPag, idPreg);
+                            ResponderService.deletePregunta(idPag, idPreg);
                             //$scope.respaldoEdicion[pag]["preguntas"].splice(preg,1);
                         }
                         /*else{
-                            //sino eliminarmos ambas preguntas para que no vuelvan a ser evaluadas y reducir tiempos en for siguientes y no se les hace nada
-                            $scope.respaldoEdicion[pag]["preguntas"].splice(preg, 1);
-                            $scope.respaldoList2[indexRL2]["preguntas"].splice(indexRL2Preg, 1)
-                        }*/
+                         //sino eliminarmos ambas preguntas para que no vuelvan a ser evaluadas y reducir tiempos en for siguientes y no se les hace nada
+                         $scope.respaldoEdicion[pag]["preguntas"].splice(preg, 1);
+                         $scope.respaldoList2[indexRL2]["preguntas"].splice(indexRL2Preg, 1)
+                         }*/
 
                     }
                     //recorremos el respaldo del actual para verificar si hay preguntas nuevas
@@ -375,7 +255,7 @@ angular.module('AppPrueba')
                         //siendo la pag ya anterior y conociendo el IDPAG
                         if(indexREPreg == -1){
 
-                            CrudFormulariosService.insertarPreguntasForm(idPreg2, 0, EditarFormularioFincaxForm.idFormularioEditar, idPag, function (data) {
+                            ResponderService.insertarPreguntasForm(idPreg2, 0, FormularioResolver.idFormularioResolver, idPag, function (data) {
                                 if(data == false){
                                     $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
                                     //break;
@@ -391,12 +271,12 @@ angular.module('AppPrueba')
                         //obtenemos el id de la pregunta a eliminar
                         var idPregDL = $scope.respaldoEdicion[pag]["preguntas"][delPreg].idpreg;
                         //borramos la pregu y la sacamos de la pag y arreglo
-                        CrudFormulariosService.deletePregunta(idPag, idPregDL);
+                        ResponderService.deletePregunta(idPag, idPregDL);
                         //$scope.respaldoEdicion[pag]["preguntas"].splice(delPreg,1);
 
                     }
                     //se elimina la pagina en BD y se saca la PAG DEL Arreglo respaldo de BD
-                    CrudFormulariosService.deletePagina(idPag);
+                    ResponderService.deletePagina(idPag);
                     //$scope.respaldoEdicion.splice(pag,1);
                 }
 
@@ -410,26 +290,26 @@ angular.module('AppPrueba')
                         arregloPreg.push($scope.respaldoList2[pagRL2]["preguntas"][preg3].idpreg);
                     }
 
-                    CrudFormulariosService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden, arregloPreg);
+                    ResponderService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden, arregloPreg);
                     /*//no se encontró la pag en el respaldoEdición por tanto es una pag nueva y se agrega a bd
-                    CrudFormulariosService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden)
-                        .then(function (data) {
-                            if(!data){
-                                $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
-                                console.warn("Error insertar PAG");
-                            }
-                        });
-                    //insertamos preguntas en la pagina nueva
-                    for(var preg3 = 0; preg3 < $scope.respaldoList2[pagRL2]["preguntas"].length; preg3++){
-                        var idPregN = $scope.respaldoList2[pagRL2]["preguntas"][preg3].idpreg;
-                        CrudFormulariosService.insertarPregNuevaPag(idPregN,0,EditarFormularioFincaxForm.idFormularioEditar)
-                            .then(function (data2) {
-                                if(!data2){
-                                    $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
-                                    console.warn("Error insertar Preguntas en PAG");
-                                }
-                            });
-                    }*/
+                     ResponderService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden)
+                     .then(function (data) {
+                     if(!data){
+                     $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
+                     console.warn("Error insertar PAG");
+                     }
+                     });
+                     //insertamos preguntas en la pagina nueva
+                     for(var preg3 = 0; preg3 < $scope.respaldoList2[pagRL2]["preguntas"].length; preg3++){
+                     var idPregN = $scope.respaldoList2[pagRL2]["preguntas"][preg3].idpreg;
+                     ResponderService.insertarPregNuevaPag(idPregN,0,FormularioResolver.idFormularioResolver)
+                     .then(function (data2) {
+                     if(!data2){
+                     $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
+                     console.warn("Error insertar Preguntas en PAG");
+                     }
+                     });
+                     }*/
                 }
             }
 
@@ -490,6 +370,7 @@ angular.module('AppPrueba').controller('ModalInstanceCtrlForm', function ($scope
         $uibModalInstance.close(undefined);
     };
 });
+
 
 
 

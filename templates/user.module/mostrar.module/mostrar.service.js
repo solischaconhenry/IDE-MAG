@@ -39,11 +39,11 @@ angular.module('AppPrueba')
         return promise;
     };
 
-    this.getFincasByID = function (idUser, idFinca) {
+    this.getFincasByID = function (idUser, codigoFinca) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/user.module/mostrar.module/mostrar.logic.php?action=getFincasByID&idUser=' + idUser + '&gidFinca=' + idFinca)
+        $http.get('templates/user.module/mostrar.module/mostrar.logic.php?action=getFincasByID&idUser=' + idUser + '&gidFinca=' + codigoFinca)
             .success(function(response) {
             defered.resolve(response);
         });
@@ -100,6 +100,7 @@ angular.module('AppPrueba')
 
         return promise;
     };
+
     this.getFormulariosFinca = function (codigofinca) {
         var defered = $q.defer();
         var promise = defered.promise;
@@ -111,24 +112,8 @@ angular.module('AppPrueba')
 
         return promise;
     };
+}])
 
-    this.insertarFormFinca = function (idform,codigofinca) {
-        var defered = $q.defer();
-        var promise = defered.promise;
-
-        $http.get('templates/formulario.module/formulario.module.db.php?action=insertarFormFinca&idform=' +idform +'&codigofinca='+codigofinca)
-            .success(function(response) {
-                defered.resolve(response);
-            });
-
-        return promise;
-    }
-
-
-
-
-
-
-
-
-}]);
+.service('FormularioResolver', function () {
+    this.idFormularioResolver = "";
+});

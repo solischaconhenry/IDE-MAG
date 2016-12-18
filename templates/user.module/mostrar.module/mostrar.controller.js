@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('MostrarUserController', function ($scope,MostrarUserService,$state,InsertarFormularioFincaxForm) {
+.controller('MostrarUserController', function ($scope,MostrarUserService,$state,UserService, FormularioResolver) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.formActual = 0;
@@ -7,69 +7,41 @@ angular.module('AppPrueba')
     $scope.apartoAtual = "";
     $scope.formularios = [];
     $scope.formulariosFincaAcual = [];
-    $scope.codigofinca = 0;
-    $scope.dataFinca = {};
+    $scope.idFinca = 0;
+
+
     // Se debe de obtener el id del usuario
-    $scope.idUser=1;
+    $scope.idUser = UserService.username;
     MostrarUserService.getFincas($scope.idUser).then(function (data) {
         $scope.fincas = data;
     });
 
-    $scope.change2 = function() {
-        console.log($scope.formActual);
-    }
-
     $scope.change = function(){
-        MostrarUserService.preview($scope.gidFinca).then(function (data) {
+
+        /**
+         * Busca el con el código de la finca el ID de la finca para mostrarla
+         * @Params: idUser: id de user relacionado con el usuario
+         * @Params: gidFinca: Código de la finca
+         * @Return: el id de la finca en BD para hacer el preview
+         */
+        MostrarUserService.getFincasByID($scope.idUser, $scope.gidFinca).then(function(data){
+
+            console.warn(data[0].gid);
+            $scope.idFinca = data[0].gid;
+
+        });
+
+        //muestra un preview de la finca, la carga de BD por los punto geom
+        MostrarUserService.preview($scope.idFinca).then(function (data) {
             $scope.numHistoricoActual = data.max;
             $scope.Max = data.max;
             reconvertJsonPolygon(data.finca,false);
         });
 
-        //obtener idUsuario
-        MostrarUserService.getFincasByID("1", $scope.gidFinca).then(function(data){
-                     $scope.dataFinca = data[0];
+        $scope.actualizarlistaForm();
 
-            $scope.codigofinca = $scope.dataFinca.codigofinca;
 
-            InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
-            // Aqui se actializa la lista de formularios disponibles para la finca seleccionada
-            $scope.actualizarlistaForm();
-
-        });
     };
-    $scope.anadirFormFinca = function () {
-        if($scope.formActual == undefined || $scope.formActual == "")
-        {
-
-        }
-        else {
-            MostrarUserService.insertarFormFinca($scope.formActual, $scope.codigofinca).then(function (data) {
-            });
-
-            $scope.actualizarlistaForm();
-        }
-    }
-
-    $scope.actualizarlistaForm = function () {
-
-        MostrarUserService.getFormulariosFinca($scope.dataFinca.codigofinca).then(function (data) {
-            console.log(data);
-            if(data != "false") {
-                $scope.formulariosFincaAcual = data;
-            }
-            else {
-                $scope.formulariosFincaAcual = [];
-            }
-
-
-        });
-        //Aqui se actializa la lista de formularios ya añadidos a la finca
-        MostrarUserService.getFormulariosNoFinca($scope.dataFinca.codigofinca).then(function (data) {
-            $scope.formularios = data;
-            // console.log($scope.formularios);
-        });
-    }
 
     $scope.json = [];
     function reconvertJsonPolygon(puntos,aparto) {
@@ -111,6 +83,31 @@ angular.module('AppPrueba')
     $scope.gotoForm = function(){
 
         $state.go("dashboard.formularioGanaderia");
+    };
+
+    /**
+     * Trae los formularios relacionados a una finca y usuario
+     */
+    $scope.actualizarlistaForm = function () {
+
+        MostrarUserService.getFormulariosFinca($scope.gidFinca).then(function (data) {
+            console.log(data);
+            if(data != "false") {
+                $scope.formulariosFincaAcual = data;
+            }
+            else {
+                $scope.formulariosFincaAcual = [];
+            }
+
+
+        });
+    };
+
+    //CAMBIA EL ESTADO AL FORMULARIO SELECCIONADO PARA RESPONDERLO
+    $scope.chooseForm = function(idform){
+        console.info(idform);
+        FormularioResolver.idFormularioResolver = idform;
+        $state.go("dashboardUser.responderForm")
     }
 
 });
