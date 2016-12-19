@@ -66,15 +66,20 @@ angular.module('AppPrueba')
 
 
 
+        //opcion de ELIMINAR UNA PREGUNTA ARRASTRADA
         $scope.eliminarPregForm = function (id) {
-            if($scope.list2[0]["people"][0]["preguntas"] == null){
-                $scope.list2[0]["people"][0]["preguntas"]=[];
+            if ($scope.list2[0]["people"][0]["preguntas"] == null) {
+                $scope.list2[0]["people"][0]["preguntas"] = [];
             }
-          
-           var index = $scope.list2[0]["people"][0]["preguntas"].map(function(d) { return d['name']; }).indexOf(id);
 
-            $scope.preguntas.push( $scope.list2[0]["people"][0].preguntas[index])
-            $scope.list2[0]["people"][0]["preguntas"].splice(index,1);
+            for(var pag = 0; pag < $scope.list2[0].people.length; pag++){
+                var index = $scope.list2[0]["people"][pag]["preguntas"].map(function (d) {return d['name'];}).indexOf(id);
+                if(index != -1){
+                    $scope.preguntas.push($scope.list2[0]["people"][pag].preguntas[index]);
+                    $scope.list2[0]["people"][pag]["preguntas"].splice(index, 1);
+                }
+
+            }
 
         };
 
