@@ -10,6 +10,8 @@ angular.module('AppPrueba')
     $scope.idFinca = 0;
 
 
+    //TODO: Un aparto puede tambien tener formularios relacionados, entonces hay que mostrarlos
+
     // Se debe de obtener el id del usuario
     $scope.idUser = UserService.username;
     MostrarUserService.getFincas($scope.idUser).then(function (data) {
