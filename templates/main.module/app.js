@@ -204,7 +204,7 @@ angular
                 url:'/dashboardUser',
                 templateUrl:'templates/user.module/dashboard.module/dashboard.view.html',
                 controller:'DashboardUserController',
-                authenticate: true
+                authenticate: false
             })
 
 
@@ -216,7 +216,7 @@ angular
                         templateUrl:'templates/user.module/home.module/home.module.view.html'
                     }
                 },
-                authenticate: true
+                authenticate: false
 
             })
 
@@ -229,7 +229,7 @@ angular
                         controller:'dusTabsUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
 
             })
 
@@ -241,7 +241,7 @@ angular
                         controller: 'SubirUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
             })
             .state('dashboardUser.dusTabsUser.agregarUser',{
                 url:'/agregarUser',
@@ -251,7 +251,7 @@ angular
                         controller: 'AgregarUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
             })
 
             .state('dashboardUser.dusTabsUser.dividirUser',{
@@ -262,7 +262,7 @@ angular
                         controller: 'DividirUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
             })
 
             .state('dashboardUser.dusTabsUser.unirUser',{
@@ -273,7 +273,7 @@ angular
                         controller: 'UnirUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
             })
 
             .state('dashboardUser.mostrarUser',{
@@ -284,7 +284,7 @@ angular
                         controller: 'MostrarUserController'
                     }
                 },
-                authenticate: true
+                authenticate: false
             })
 
             .state('dashboardUser.responderForm',{
@@ -296,7 +296,7 @@ angular
                         controller: 'ResponderController'
                     }
                 },
-                authenticate: true
+                authenticate: false
 
             })
 
