@@ -9,6 +9,7 @@ angular.module('AppPrueba')
         $scope.opciones = [];
         $scope.opcionesRespaldo = [];
         $scope.idpregEditar="";
+        $scope.heightListaPreg = screen.height - (screen.height/3) - 12;
         //Nombre de categoría en caso de ser una nueva
         $scope.nombreCategoriaPregunta ="";
         $scope.closeAlert = function(index) {
@@ -241,15 +242,22 @@ angular.module('AppPrueba')
 
         $scope.cargarPregunta = function(idpreg)
         {   $scope.idpregEditar = idpreg;
-            $scope.accion = {action:"Editar", icon:"pencil"}
+            $scope.actraduccionBooleancion = {action:"Editar", icon:"pencil"}
             pregActual = {};
             AdministrarFormService.getPreguntaById(idpreg).then(function (data) {
                 pregActual = data[0];
 
                 AdministrarFormService.getOpcionesById(idpreg).then(function (data) {
-                    $scope.opciones = data;
-                    $scope.opcionesRespaldo = angular.copy($scope.opciones);
-                    console.log( $scope.opcionesRespaldo);
+                    console.log(data);
+                    if(data != "false") {
+                        $scope.opciones = data;
+                        $scope.opcionesRespaldo = angular.copy($scope.opciones);
+                        console.log($scope.opcionesRespaldo);
+                    }
+                    else
+                    {
+                        $scope.opciones = [];
+                    }
                 });
 
                 $scope.tituloPregunta = pregActual.titulo;

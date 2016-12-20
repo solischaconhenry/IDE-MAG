@@ -1,5 +1,5 @@
-<div class="row">
-    <h3>Historicos de Fincas</h3>
+<div class="row" style="overflow-x: hidden;">
+    <h3 style="margin-top: 0%">Historicos de Fincas</h3>
     <div class="col-md-5">
         <select ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
             <option style="display:none" value="">Seleccione una Finca</option>
@@ -30,28 +30,121 @@
 
     </div> <!--div seleccion finca-->
     <div class="col-md-1"></div>
-    <div class="col-md-5">
-        <br><br>
 
 
-        <svg
-             width="500"
-             height="500"
-             style="border:2px groove #0455BF">
+    <div class="col-md-6">
 
-            <polygon
-                     ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-                     ng-repeat="coordenadas in jsonSeleccionado"
-                     ng-attr-points="{{coordenadas.puntos}}"
-                     style="fill:#0455BF;stroke:black;stroke-width:1" />
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Información general</a></li>
+            <li><a data-toggle="tab" href="#menu1">Formularios de apartos</a></li>
+        </ul>
 
-        </svg>
-        <br>
-        <button class="btn btn-default" ng-click="AnteriorAparto()">
-            <span class="glyphicon glyphicon-chevron-left"></span> Anterior Aparto
-        </button>
-        <button class="btn btn-default" ng-click="siguienteAparto()">
-            <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Aparto
-        </button>
+        <div class="tab-content" style="margin-top: 4%">
+            <div id="home" class="tab-pane fade in active">
+                <div class="col-md-8" ng-if="gidFinca">
+
+                    <svg
+                            width="500"
+                            height="500"
+                            style="border:2px groove #0455BF">
+
+                        <polygon
+                                ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                                ng-repeat="coordenadas in jsonSeleccionado"
+                                ng-attr-points="{{coordenadas.puntos}}"
+                                style="fill:#0455BF;stroke:black;stroke-width:1" />
+
+                    </svg>
+                    <br>
+                    <button class="btn btn-default" ng-click="AnteriorAparto()">
+                        <span class="glyphicon glyphicon-chevron-left"></span> Anterior Aparto
+                    </button>
+                    <button class="btn btn-default" ng-click="siguienteAparto()">
+                        <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Aparto
+                    </button>
+                 </div>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <div class="col-md-10" ng-if="gidFinca">
+                    <div class="panel panel-info">
+                        <div class="panel-heading clearfix" >
+                            <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de aparto</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-9" >
+                                    <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
+                                        <!--<option value="" >Seleccione un Formulario</option>-->
+                                        <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-2" style="padding-left:0" >
+                                    <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-left:3%">
+                                <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
+                                    -- No hay formularios --
+                                </div>
+                                <div ng-if="formulariosFincaAcual.length > 0">
+                                    <table class="table table-condensed">
+                                        <tr >
+                                            <!--<th>Id</th>-->
+                                            <th>Nombre</th>
+                                            <th>Ver respuestas</th>
+                                            <th></th>
+                                            <th></th>
+                                            <!--<th>Descripción</th>-->
+                                            <!-- <th>Fecha</th>-->
+                                        </tr>
+
+                                        <tr ng-repeat="form in formulariosFincaAcual">
+                                            <!--<td>{{form.idform}}</td>-->
+                                            <td style="width: 40%">{{form.nombreform}}</td>
+                                            <!--<td>{{form.descripcion}}</td>-->
+                                            <!--<td>{{form.fecha}}</td>-->
+                                            <td style="width: 40%">
+                                                <select style="padding-left:0%;" ng-model="$parent.formActual" class="form-control selectsTabs">
+                                                    <!--<option value="" >Seleccione un Formulario</option>-->
+                                                    <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha}}</option>
+                                                </select>
+
+                                            </td>
+                                            <td style="width:1%">
+                                                <button type="button" class="btn-eiminarOpcion">
+                                                    <span class="glyphicon glyphicon-eye-open "></span>
+                                                </button>
+                                            </td>
+                                            <td style="width:1%">
+                                                <button type="button" class="btn-eiminarOpcion">
+                                                    <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
+                                                </button>
+
+                                            </td>
+
+                                            <td>
+                                                <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
+                                                <span style="color: darkgray" title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
+                                                <!-- </button>-->
+
+                                            </td>
+                                            <!-- After seven iterations a new `<tr>` should be aded -->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                            </div> <!--div apartos-->
+                        </div><!--div seleccion finca-->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
     </div>
+
 </div>
