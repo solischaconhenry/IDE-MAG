@@ -1,27 +1,41 @@
 
 <div class="row">
-    <h3>Dividir Finca</h3>
 
-    <div class="col-md-5"><!--SECCION DE SELECCIONAR EL APARTO A DIVIDIR-->
+    <div class="col-sm-2">
         <select  ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
             <option style="display:none" value="">Seleccione una Finca</option>
         </select>
+        <button class="btn btn-info" ng-click="printCoords()">Hit me</button>
+        <script>
+            var openFile = function(event) {
+                console.log(event);
+                var input = event.target;
 
-
-        <svg
-             width="500"
-             height="500"
-             style="border:2px groove #0455BF">
-
-            <polygon
-                     ng-click="dividir(coordenadas.gid, coordenadas.puntos)"
-                     ng-repeat="coordenadas in json"
-                     ng-attr-points="{{coordenadas.puntos}}"
-                     style="fill:#26C281;stroke:black;stroke-width:1"/>
-        </svg>
+                var reader = new FileReader();
+                reader.onload = function(){
+                    var text = reader.result;
+                   // var node = document.getElementById('output');
+                    //node.innerText = text;
+                    console.log(JSON.parse(text));
+                };
+                reader.readAsText(input.files[0]);
+            };
+        </script>
+        <div class="file-upload">
+            <input class="btn btn-default" type="file" file-model="myFile" onchange='openFile(event)'/>
+            <br>
+            <button ng-click="uploadFile()" class="btn btn-default">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Cargar
+            </button>
+        </div>
     </div>
+    <div class="col-sm-9"><!--SECCION DE SELECCIONAR EL APARTO A DIVIDIR-->
+        <div id="ScribbleMap" style="width: 100%; height: 800px" ng-init="loadViewver()"></div>
+    </div>
+
+    <!--
     <div class="col-md-1"></div>
-    <div class="col-md-5"><!--SECCIÓN DE CARGAR EL APARTO NUEVO-->
+    <div class="col-md-5"><!--SECCIÓN DE CARGAR EL APARTO NUEVO
         <h4 style="margin-bottom: 2%">El id del aparto a editar: {{gidAparto}}</h4>
         <svg
              width="500"
@@ -59,5 +73,5 @@
         <button class="btn btn-default" ng-show = "svg" ng-click="dividirAparto()">
             <span class="glyphicons-none-color-swatch" aria-hidden="true"></span> Dividir
         </button>
-    </div>
+    </div>-->
 </div>
