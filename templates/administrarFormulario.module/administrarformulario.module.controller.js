@@ -9,7 +9,7 @@ angular.module('AppPrueba')
         $scope.opciones = [];
         $scope.opcionesRespaldo = [];
         $scope.idpregEditar="";
-        $scope.heightListaPreg = screen.height%2;
+        $scope.heightListaPreg = screen.height - (screen.height/3) - 12;
         //Nombre de categoría en caso de ser una nueva
         $scope.nombreCategoriaPregunta ="";
         $scope.closeAlert = function(index) {
