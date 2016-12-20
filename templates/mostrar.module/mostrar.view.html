@@ -1,7 +1,6 @@
 
-<h3 style="margin-top: 0%">Mostrar Información de Finca</h3>
-
 <div class="row" style="overflow-x: hidden;">
+  <h3 style="margin-top: 0%">Mostrar Información de Finca</h3>
   <div class="col-md-5">
     <select ng-change="change();" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
       <option style="display:none" value="">Seleccione una Finca</option>
@@ -122,12 +121,12 @@
           </div>
         </div>
         <div id="menu1" class="tab-pane fade">
-          <div class="col-md-10" ng-if="gidFinca">
+          <div class="col-md-10" ng-if="gidFinca" >
             <div class="panel panel-info">
               <div class="panel-heading clearfix" >
                 <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de la fica</h3>
               </div>
-              <div class="panel-body">
+              <div class="panel-body" style="max-height: 440px;">
                 <div class="row">
                   <div class="col-md-9" >
                     <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
@@ -140,12 +139,12 @@
                     <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
                   </div>
                 </div>
-                <div class="row" style="padding-left:3%">
+                <div class="row" style="padding-left:3%" >
                   <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
                     -- No hay formularios --
                   </div>
-                  <div ng-if="formulariosFincaAcual.length > 0">
-                    <table class="table table-condensed">
+                  <div ng-if="formulariosFincaAcual.length > 0" style="overflow-y:auto; max-height: 370px; ">
+                    <table class="table table-condensed" >
                       <tr >
                         <!--<th>Id</th>-->
                         <th>Nombre</th>
