@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('DividirUserController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
+.controller('CRUDFincasController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.loadViewver = function () {
@@ -129,8 +129,12 @@ angular.module('AppPrueba')
         });
     }
 
-    
 
+
+    $(".nav a").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass("active");
+    });
 
 
 });

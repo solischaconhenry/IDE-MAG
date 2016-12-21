@@ -1,0 +1,35 @@
+
+<div class="btn-group btn-group-vertical col-xs-12" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary " ng-click="isCollapsed3 = !isCollapsed3">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editor
+        </button>
+        <div uib-collapse="!isCollapsed3">
+
+        </div>
+    </div>
+    <hr>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary " ng-click="isCollapsed2 = !isCollapsed2">
+            <span class="glyphicon glyphicon-open" aria-hidden="true"></span> Importar
+        </button>
+        <div uib-collapse="!isCollapsed2">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h4><label for="geojson" class="label label-primary">Importar GeoJson</label></h4>
+                            <input id="geojson" type="file" file-model="myFile" />
+                        </li>
+                    </ul>
+                    <button ng-click="uploadFile()" class="btn btn-success col-xs-12">
+                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Cargar en mapa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <button class="btn btn-success col-xs-12"  ng-click="printCoords()">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+</div>

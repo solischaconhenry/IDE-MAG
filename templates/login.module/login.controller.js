@@ -33,7 +33,7 @@ angular.module('AppPrueba')
                     UserService.tipo = data;
                     UserService.auth = true;
                     $scope.show = false;
-                    $state.go('dashboardUser.dusTabsUser.dividirUser');
+                    $state.go('dashboardUser.crudFincas.crudApartos');
                     console.info("Logged User");
                     $scope.show = false;
                 }
