@@ -101,7 +101,7 @@ Class CrudCargarPregunta {
           return (json_encode($row));
 
     }
-    public function getFormularios(){
+    public function getFormularios($idformulario){
           $user = "postgres";
           $password = "12345";
           $dbname = "MAG";
@@ -111,17 +111,12 @@ Class CrudCargarPregunta {
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-          $query = "select nombreform,idform,descripcion,fecha from formulario  group by nombreform,idform,descripcion,fecha;";
+          $query = "select nombreform,idform,descripcion,fecha from formulario where idform = $idformulario;";
           $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
           $row = pg_fetch_all($result);
           return (json_encode($row));
         }
-
-
-
-
-
 
 }
 
@@ -186,6 +181,10 @@ $editarFormC = new editarformulario();
 
 if($_REQUEST['action']=='loadPreguntas') {
     print_r($nuevoCargarC->loadPreguntas());
+}
+
+if($_REQUEST['action']=='getFormulario') {
+    print_r($nuevoCargarC->getFormularios($_REQUEST['idformulario']));
 }
 
 if($_REQUEST['action']=='loadOpciones') {

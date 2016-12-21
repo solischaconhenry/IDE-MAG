@@ -1,3 +1,5 @@
+
+
 /**
  * Created by usuario on 17/12/2016.
  */
@@ -26,8 +28,19 @@ angular.module('AppPrueba')
         $scope.peopleEdit = [];
         $scope.respaldoEdicion = [];
         $scope.respaldoPreguntas = [];
+        $scope.DataForm =[]; //muestra el nombre del formulario
 
-
+        //trae los sigueintes datos: nombreform,idform,descripcion,fecha
+        ResponderService.obtenerFormulario(FormularioResolver.idFormularioResolver).then(function (data) {
+            console.log(data);
+            var item = {
+                nombre: data[0]["nombreform"],
+                descripcion: data[0]["descripcion"],
+                fecha: data[0]["fecha"]
+            };
+            $scope.DataForm = item;
+            console.log($scope.DataForm);
+        });
 
         /****************************************CARGADO Y EDICIÓN DE FORMULARIOS*********************************************/
 
@@ -58,7 +71,7 @@ angular.module('AppPrueba')
                                         categoria: pregunta[preg].categoria,
                                         hel: pregunta[preg].tipo,
                                         fijo: pregunta[preg].fijo,
-                                        requerido: pregunta[preg].requerido,
+                                        requerido: (pregunta[preg].requerido ==="t"),
                                         mascara: pregunta[preg].mascara,
                                         options: pregunta[preg].options
                                     };
@@ -71,8 +84,8 @@ angular.module('AppPrueba')
                                         categoria: pregunta[preg].categoria,
                                         hel: pregunta[preg].tipo,
                                         fijo: pregunta[preg].fijo,
-                                        requerido: pregunta[preg].requerido,
-                                        mascara: pregunta[preg].mascara,
+                                        requerido: (pregunta[preg].requerido ==="t"),
+                                        mascara: pregunta[preg].mascara
                                     };
                                 }
                                 item.preguntas.push(itemP);
@@ -118,7 +131,10 @@ angular.module('AppPrueba')
 
         });
 
-
+        // Model to JSON for demo purpose
+        $scope.$watch('list2', function (list2) {
+            $scope.modelAsJson = angular.toJson(list2, true);
+        }, true);
 
         //for control expandable panel
         $scope.status = {

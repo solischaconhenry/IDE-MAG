@@ -51,8 +51,8 @@
 <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 <!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
 
-<div class="typesDemo row">
-    <h1>Formularios</h1>
+<div class="typesDemo row" style="overflow-x: hidden">
+    <h2>Formularios</h2>
     <div ng-repeat="list in lists" class="col-md-3">
         <div class="panel panel-info">
             <div class="panel-heading clearfix" >
@@ -63,7 +63,7 @@
     </div>
 
 
-    <div ng-repeat="list in list2" class="col-md-8 ">
+    <div ng-repeat="list in list2" class="col-md-7 ">
         <div class="panel panel-info" >
             <div class="panel-heading clearfix" >
                 <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formulario   (Página:{{nombrePag}})</h3>
