@@ -1,0 +1,62 @@
+{
+    "meta": {
+    "title": "",
+        "description": "",
+        "createdAt": "http://www.scribblemaps.com",
+        "id": null,
+        "listType": "public"
+},
+    "view": {
+    "zoom": 18,
+        "mapType": "hybrid",
+        "clustering": "none",
+        "center": [
+        10.359554258938775,
+        -84.50567625525798
+    ]
+},
+    "styles": [
+    {
+        "id": "c8836257e7",
+        "color_1": {
+            "color": "#FF0000",
+            "opacity": 0.65
+        },
+        "color_2": {
+            "color": "#00FF00",
+            "opacity": 0.65
+        },
+        "weight": 5,
+        "lineType": 0,
+        "cap": 0,
+        "join": 0
+    }
+],
+    "overlays": [
+    {
+        "id": "73e859f2ae",
+        "visible": true,
+        "editable": true,
+        "points": [
+            [
+                10.360483004424818,
+                -84.50734995368327
+            ],
+            [
+                10.361095130626724,
+                -84.5061483240446
+            ],
+            [
+                10.359775891634325,
+                -84.5056977129301
+            ],
+            [
+                10.359248194482506,
+                -84.50689934256877
+            ]
+        ],
+        "styleId": "c8836257e7",
+        "type": 4
+    }
+]
+}
