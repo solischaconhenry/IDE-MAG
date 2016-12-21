@@ -29,6 +29,7 @@ angular.module('AppPrueba')
         $scope.respaldoEdicion = [];
         $scope.respaldoPreguntas = [];
         $scope.DataForm =[]; //muestra el nombre del formulario
+        $scope.value="Culpa Gabriel";
 
         //trae los sigueintes datos: nombreform,idform,descripcion,fecha
         ResponderService.obtenerFormulario(FormularioResolver.idFormularioResolver).then(function (data) {
@@ -62,8 +63,10 @@ angular.module('AppPrueba')
                         };
                         for (var preg = 0; preg < pregunta.length; preg++) {
                             if (pregunta[preg].descripcion === pagina[pag].descripcion) {
-                                console.log(pregunta[preg].options);
+
                                 if(pregunta[preg].options != undefined && pregunta[preg].options != null &&pregunta[preg].options != "" ){
+                                    console.log(pregunta[preg].options);
+
                                     var itemP = {
                                         idpreg: pregunta[preg].idpreg,
                                         name: pregunta[preg].titulo,
@@ -74,6 +77,7 @@ angular.module('AppPrueba')
                                         requerido: (pregunta[preg].requerido ==="t"),
                                         mascara: pregunta[preg].mascara,
                                         options: pregunta[preg].options
+
                                     };
                                 }
                                 else{
@@ -226,110 +230,19 @@ angular.module('AppPrueba')
 
         //Edita EN BD TODO LO REFERENTE AL FORMULARIO
         $scope.editarForm = function () {
-            $scope.respaldoList2 = angular.copy($scope.list2[0].people);
-
-            //se recorre el arreglo de respado de la BD y sus pag y preguntas para ver el estado anterior con el actual
-            for(var pag = 0; pag < $scope.respaldoEdicion.length; pag++){
-                var idPag = $scope.respaldoEdicion[pag].idpag; //id pag buscada
-                var indexRL2 = $scope.respaldoList2.map(function (d) {return d['idpag'];}).indexOf(idPag); //pos de la pag en respaldoList2
 
 
-                if(indexRL2 != -1) {
+            //se recorre las páginas pare revisar el contenido de sus preguntas
+            for(var pag = 0; pag < $scope.list2[0]["people"].length; pag++) {
+                //recorremos las preguntas de esa pagina desde el respaldo de BD
+                for (var preg = 0; preg < $scope.respaldoEdicion[pag]["preguntas"].length; preg++) {
 
-                    //comprobamos que el orden se iguales en ambas paginas
-                    console.log($scope.respaldoEdicion[pag].orden);
-                    console.log($scope.respaldoList2[indexRL2].orden);
-                    if($scope.respaldoEdicion[pag].orden != $scope.respaldoList2[indexRL2].orden){
-                        console.log("Update: "+$scope.respaldoList2[indexRL2].orden);
-                        ResponderService.updateOrdenPagina(idPag, $scope.respaldoList2[indexRL2].orden);
-                        $scope.respaldoEdicion[pag].orden = $scope.respaldoList2[indexRL2].orden
-                    }
 
-                    //recorremos las preguntas de esa pagina desde el respaldo de BD
-                    for(var preg = 0; preg < $scope.respaldoEdicion[pag]["preguntas"].length; preg++){
-                        //buscamos las preguntas del respaldo de BD en el respaldo de List2
-                        var idPreg = $scope.respaldoEdicion[pag]["preguntas"][preg].idpreg;
-                        var indexRL2Preg = $scope.respaldoList2[indexRL2]["preguntas"].map(function (d) {return d['idpreg'];}).indexOf(idPreg);
-                        //si el indice indica -1 no se encontró la preg en el respado de list2 por tanto fue eliminada y la quitamos de BD y del Arreglo respaldo
-                        if(indexRL2Preg == -1){
-                            ResponderService.deletePregunta(idPag, idPreg);
-                            //$scope.respaldoEdicion[pag]["preguntas"].splice(preg,1);
-                        }
-                        /*else{
-                         //sino eliminarmos ambas preguntas para que no vuelvan a ser evaluadas y reducir tiempos en for siguientes y no se les hace nada
-                         $scope.respaldoEdicion[pag]["preguntas"].splice(preg, 1);
-                         $scope.respaldoList2[indexRL2]["preguntas"].splice(indexRL2Preg, 1)
-                         }*/
-
-                    }
-                    //recorremos el respaldo del actual para verificar si hay preguntas nuevas
-                    for(var preg2 = 0; preg2 < $scope.respaldoList2[indexRL2]["preguntas"].length; preg2++){
-                        //buscamos la pregunta del respaldoList2 en el respaldo de BD para ver si hay preg nuevas en esa pag
-                        var idPreg2 = $scope.respaldoList2[indexRL2]["preguntas"][preg2].idpreg;
-                        var indexREPreg = $scope.respaldoEdicion[pag]["preguntas"].map(function (d) {return d['idpreg'];}).indexOf(idPreg2);
-                        //si el indice indica -1 no se encontró la preg en el respaldoBD por tanto es nueva y la agregamos a la pag en BD
-                        //siendo la pag ya anterior y conociendo el IDPAG
-                        if(indexREPreg == -1){
-
-                            ResponderService.insertarPreguntasForm(idPreg2, 0, FormularioResolver.idFormularioResolver, idPag, function (data) {
-                                if(data == false){
-                                    $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
-                                    //break;
-                                }
-                            });
-                            //$scope.respaldoEdicion.splice(preg2,1);
-                        }
-                    }
-
-                }//cuando es -1 o sea no se encontró pag en el respaldoLista2m por tanto de eliminan las preguntas de esa pag y luego la pag como tal
-                else{
-                    for(var delPreg = 0; delPreg < $scope.respaldoEdicion[pag]["preguntas"].length; delPreg++){
-                        //obtenemos el id de la pregunta a eliminar
-                        var idPregDL = $scope.respaldoEdicion[pag]["preguntas"][delPreg].idpreg;
-                        //borramos la pregu y la sacamos de la pag y arreglo
-                        ResponderService.deletePregunta(idPag, idPregDL);
-                        //$scope.respaldoEdicion[pag]["preguntas"].splice(delPreg,1);
-
-                    }
-                    //se elimina la pagina en BD y se saca la PAG DEL Arreglo respaldo de BD
-                    ResponderService.deletePagina(idPag);
-                    //$scope.respaldoEdicion.splice(pag,1);
                 }
-
-            }
-            //ahora recorremos el arreglo RespaldoList2 para verificar si hay paginas nuevas
-            for(var pagRL2 = 0; pagRL2<$scope.respaldoList2.length; pagRL2++){
-                //una pagina nueva aún no tiene un ID de pag asignado por tanto si el ID es undefined es una pagina nueva a insertar
-                if($scope.respaldoList2[pagRL2].idpag == undefined) {
-                    var arregloPreg = [];
-                    for(var preg3 = 0; preg3 < $scope.respaldoList2[pagRL2]["preguntas"].length; preg3++){
-                        arregloPreg.push($scope.respaldoList2[pagRL2]["preguntas"][preg3].idpreg);
-                    }
-
-                    ResponderService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden, arregloPreg);
-                    /*//no se encontró la pag en el respaldoEdición por tanto es una pag nueva y se agrega a bd
-                     ResponderService.insertarPag($scope.respaldoList2[pagRL2].pagina, $scope.respaldoList2[pagRL2].orden)
-                     .then(function (data) {
-                     if(!data){
-                     $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
-                     console.warn("Error insertar PAG");
-                     }
-                     });
-                     //insertamos preguntas en la pagina nueva
-                     for(var preg3 = 0; preg3 < $scope.respaldoList2[pagRL2]["preguntas"].length; preg3++){
-                     var idPregN = $scope.respaldoList2[pagRL2]["preguntas"][preg3].idpreg;
-                     ResponderService.insertarPregNuevaPag(idPregN,0,FormularioResolver.idFormularioResolver)
-                     .then(function (data2) {
-                     if(!data2){
-                     $scope.alerts.push({type: 'danger', msg: 'Formulario NO guardado con éxito!'});
-                     console.warn("Error insertar Preguntas en PAG");
-                     }
-                     });
-                     }*/
-                }
+                //recorremos el respaldo del actual para verificar si hay preguntas nuevas
             }
 
-            $scope.alerts.push({type: 'success', msg: 'Formulario guardado con éxito!'});
+            $scope.alerts.push({type: 'success', msg: 'Respuesta enviada con éxito!'});
 
 
         };
@@ -352,8 +265,13 @@ angular.module('AppPrueba')
             }
         };
 
+        $scope.print = function(){
+            console.info($scope.list2);
+        };
 
     });
+
+
 
 //*************************** CONTROLLER PARA PAGINAS *******************************************************
 angular.module('AppPrueba').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {

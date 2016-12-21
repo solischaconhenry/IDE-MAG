@@ -1,17 +1,19 @@
 
 <div ng-repeat="data in list.people"
-     ng-if="data.orden == seccionActiva">
+     ng-show="data.orden == seccionActiva">
 
     <div>
+        {{value}}
         <!--For Text Inputs-->
         <div ng-repeat="person in data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'text'"
+             ng-show="person.hel == 'text'"
         >
             <div class="row">
                 <div class="name col-md-10 form-group">
                     <label>{{person.enunciadopreg}}</label>
-                    <input  placeholder="{{person.name}}" type="text" class="background-{{person.type}} form-control input-sm" ng-required="{{person.requerido}}">
+                    <input  ng-model="$parent.$parent.$parent.person.name" my-enter="print()" type="text" class="background-{{person.type}} form-control input-sm" >
+                    {{value}}
                 </div>
             </div>
         </div>
@@ -19,7 +21,7 @@
         <!--For Checkbox Inputs-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'checkbox'"
+             ng-show="person.hel == 'checkbox'"
         >
             <div class="name">
                 <label>{{person.enunciadopreg}}</label>
@@ -27,7 +29,7 @@
                     <div class="name col-md-10">
                         <div class="checkbox">
                             <div ng-repeat="chk1 in person.options">
-                                <label><input  name="{{person.name}}" type="{{person.hel}}"  ng-required="{{person.requerido}}">{{chk1.opcion}}</label>
+                                <label><input ng-model="$parent.$parent.$parent.person.idpreg" type="{{person.hel}}"  ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{chk1.opcion}}</label>
                             </div>
                         </div>
                     </div>
@@ -38,7 +40,7 @@
         <!--For Radio Inputs-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'radio'"
+             ng-show="person.hel == 'radio'"
         >
             <div class="name">
                 <label>{{person.enunciadopreg}}</label>
@@ -46,7 +48,7 @@
                     <div class="name col-md-10">
                         <div class="radio">
                             <div ng-repeat="rad in person.options">
-                                <label><input  name="{{person.name}}" type="{{person.hel}}" ng-required="{{person.requerido}}">{{rad.opcion}}</label>
+                                <label><input ng-model="$parent.$parent.$parent.person.idpreg" type="{{person.hel}}" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}</label>
                             </div>
                         </div>
                     </div>
@@ -58,10 +60,10 @@
         <!--For Text Inputs-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'plain'"
+             ng-show="person.hel == 'plain'"
         >
             <div class="name">
-                <p model="person.name">{{person.name}}</p>
+                <p >{{person.name}}</p>
             </div>
         </div>
 
@@ -69,14 +71,15 @@
         <!--For Combobox o Dropdown o select-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'select'"
+             ng-show="person.hel == 'select'"
         >
             <div class="name">
                 <div class="row">
                     <div class="name col-md-10 form-group">
                         <label>{{person.enunciadopreg}}</label>
                         <div>
-                            <select ng-options="options.opcion as options.opcion for options in person.options" ng-required="{{person.requerido}}" class="form-control input-sm">
+
+                            <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="$parent.$parent.$parent.person.idpreg" ng-required="{{person.requerido}}" class="form-control">
                                 <option style="display:none" value="">Seleccione</option>
                             </select>
                         </div>
@@ -88,7 +91,7 @@
         <!--For Text TextArea-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
-             ng-if="person.hel == 'textarea'"
+             ng-show="person.hel == 'textarea'"
         >
             <div class="name">
                 <div class="row">
@@ -96,7 +99,7 @@
                         <label>{{person.enunciadopreg}}</label>
                         <div>
 
-                                <textarea ng-required="{{person.requerido}}" rows="4" cols="50" class="form-control input-sm">
+                                <textarea ng-model="$parent.$parent.$parent.person.idpreg" ng-required="{{person.requerido}}" rows="4" cols="50" class="form-control input-sm">
                                     Texto...
                                 </textarea>
                         </div>

@@ -1,36 +1,35 @@
-<div class="container">
 
-    <div class="typesDemo row">
+
+<div class="typesDemo row">
+    <div class="col-xs-12 col-sm-6 col-md-10" >
         <h1>{{DataForm.nombre}}</h1>
+
         <blockquote class="blockquote">
             <p class="mb-0">{{DataForm.descripcion}}</p>
             <footer class="blockquote-footer">{{DataForm.fecha}}</footer>
         </blockquote>
         <form>
-            <div ng-repeat="list in list2" class="col-md-10">
+            <div ng-repeat="list in list2" ng-controller="ResponderController">
                 <div class="panel panel-info" >
                     <div class="panel-heading clearfix" >
                         <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{DataForm.nombre}}   (Página:{{nombrePag}})</h3>
-
-                        <button class="btn btn-default btn-sm" type="submit" ng-click = "">
+                        <button class="btn btn-default btn-sm" type="submit">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
                             Guardar</button>
-
-
                     </div>
-
-                    <div class="panel-body"  style=" max-width: 1200px;" ng-include="'./templates/user.module/responder.module/responderTypes.html'"></div>
+                    {{value}}
+                    <div class="panel-body" ng-include="'./templates/user.module/responder.module/responderTypes.html'"></div>
                 </div>
             </div>
         </form>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Generated Model</h3>
-                </div>
-                <div class="panel-body">
-                    <pre class="code">{{modelAsJson}}</pre>
-                </div>
+    </div>
+    <div class="col-xs-4 col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Generated Model</h3>
+            </div>
+            <div class="panel-body">
+                <pre class="code">{{modelAsJson}}</pre>
             </div>
         </div>
     </div>
