@@ -72,6 +72,17 @@ angular.module('AppPrueba')
         });
     }
 
+
+    $scope.mostrarRespuestasForm = function () {
+        if ($scope.respActual!= "" )
+        {
+            
+        }
+
+    }
+
+
+
     $scope.json = [];
     function reconvertJsonPolygon(puntos,aparto) {
         var json = [];

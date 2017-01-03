@@ -161,14 +161,14 @@
                         <!--<td>{{form.descripcion}}</td>-->
                         <!--<td>{{form.fecha}}</td>-->
                         <td style="width: 40%">
-                          <select style="padding-left:0%;" ng-model="$parent.formActual" class="form-control selectsTabs">
+                          <select style="padding-left:0%;" ng-model="$parent.respActual" class="form-control selectsTabs">
                             <!--<option value="" >Seleccione un Formulario</option>-->
                             <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha}}</option>
                           </select>
 
                         </td>
                         <td style="width:1%">
-                          <button type="button" class="btn-eiminarOpcion">
+                          <button type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasForm()">
                             <span class="glyphicon glyphicon-eye-open "></span>
                           </button>
                         </td>
