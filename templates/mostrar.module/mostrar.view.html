@@ -2,8 +2,10 @@
 <div class="row" style="overflow-x: hidden;">
   <h3 style="margin-top: 0%">Mostrar Información de Finca</h3>
   <div class="col-md-5">
-    <select ng-change="change();" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
-      <option style="display:none" value="">Seleccione una Finca</option>
+
+    <select   ng-change="change();"style="padding-left:0%" ng-model="gidFinca" class="form-control selectsTabs">
+      <!--<option value="" >Seleccione un Formulario</option>-->
+      <option ng-repeat="finca in fincas" value="{{finca.gid}}">{{finca.nombrefinca}}(Código:{{finca.codigofinca}})</option>
     </select>
 
     <svg
@@ -81,9 +83,9 @@
                   </div>
                 </div>
                 <div class=" row"  style="margin-bottom: 1%">
-                  <label  class="col-md-6" >Nombre Productor:</label>
+                  <label  class="col-md-6" >Nombre Finca:</label>
                   <div class="col-md-6">
-                    {{dataFinca.nombreproductor}}
+                    {{dataFinca.nombrefinca}}
                   </div>
                 </div>
 
