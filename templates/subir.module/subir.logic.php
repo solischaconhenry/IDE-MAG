@@ -104,7 +104,7 @@ class Subir
 
     function save($idUser){
 
-        include 'templates/main.module/acceso.php';
+        include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
 

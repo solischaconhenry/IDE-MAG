@@ -205,81 +205,37 @@ angular
                 templateUrl:'templates/user.module/dashboard.module/dashboard.view.html',
                 controller:'DashboardUserController',
                 authenticate: true
-            })
-
-
-            .state('dashboardUser.homeUser',{
-                url:'/homeUser',
-
-                views:{
-                    'dashboardUser':{
-                        templateUrl:'templates/user.module/home.module/home.module.view.html'
-                    }
-                },
-                authenticate: true
 
             })
 
-            .state('dashboardUser.dusTabsUser',{
-                url:'/tabsUser',
 
-                views:{
-                    'dashboardUser':{
-                        templateUrl:'templates/user.module/dusTab.module/dusTab.view.html',
-                        controller:'dusTabsUserController'
-                    }
-                },
-                authenticate: true
-
-            })
-
-            .state('dashboardUser.dusTabsUser.subirUser',{
-                url:'/subirUser',
-                views: {
-                    'dusTabsUser': {
-                        templateUrl: 'templates/user.module/subir.module/subir.view.html',
-                        controller: 'SubirUserController'
-                    }
-                },
-                authenticate: true
-            })
-            .state('dashboardUser.dusTabsUser.agregarUser',{
-                url:'/agregarUser',
-                views: {
-                    'dusTabsUser': {
-                        templateUrl: 'templates/user.module/agregar.module/agregar.view.html',
-                        controller: 'AgregarUserController'
-                    }
-                },
-                authenticate: true
-            })
-
-            .state('dashboardUser.dusTabsUser.dividirUser',{
-                url:'/dividirUser',
-                views: {
-                    'dusTabsUser': {
-                        templateUrl: 'templates/user.module/dividir.module/dividir.view.html',
-                        controller: 'DividirUserController'
-                    }
-                },
-                authenticate: true
-            })
-
-            .state('dashboardUser.dusTabsUser.unirUser',{
-                url:'/unirUser',
-                views: {
-                    'dusTabsUser': {
-                        templateUrl: 'templates/user.module/unir.module/unir.view.html',
-                        controller: 'UnirUserController'
-                    }
-                },
-                authenticate: true
-            })
-
-            .state('dashboardUser.mostrarUser',{
-                url:'/mostrarUser',
+            .state('dashboardUser.crudFincas',{
+                url:'/crudFincas',
                 views: {
                     'dashboardUser': {
+                        templateUrl: 'templates/user.module/crudFincas.module/crudFincas.view.html',
+                        controller: 'CRUDFincasController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboardUser.crudFincas.crudApartos',{
+                url:'/crudApartos',
+                views: {
+                    'dusTabsUser': {
+                        templateUrl: 'templates/user.module/crudApartos/crudApartos.view.html',
+                        controller: 'CRUDFincasController'
+                    }
+                },
+                authenticate: true
+            })
+
+            .state('dashboardUser.crudFincas.mostrarFormUser',{
+                url:'/formularioAparto',
+                views: {
+                    'dusTabsUser': {
+                        
                         templateUrl: 'templates/user.module/mostrar.module/mostrar.view.html',
                         controller: 'MostrarUserController'
                     }
@@ -287,7 +243,7 @@ angular
                 authenticate: true
             })
 
-            .state('dashboardUser.responderForm',{
+            .state('dashboardUser.crudFincas.responderForm',{
                 url:'/responderForm',
 
                 views:{

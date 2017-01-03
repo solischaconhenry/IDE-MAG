@@ -1,18 +1,5 @@
-// angular.module('AppPrueba').directive('fdInput', ['$timeout', function ($timeout) {
-//     return {
-//         link: function (scope, element, attrs) {
-//             element.on('change', function  (evt) {
-//                 var files = evt.target.files;
-//                 console.log(files[0].name);
-//                 console.log(files[0].size);
-//                 console.log(files);
-//             });
-//         }
-//     }
-// }]);
-
 angular.module('AppPrueba')
-.controller('DividirUserController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
+.controller('CRUDFincasController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.loadViewver = function () {
@@ -23,28 +10,26 @@ angular.module('AppPrueba')
             fillColorControl: false,
             lineColorControl: false,
             zoomControl: true,
-            tools: ["edit", "drag", "eraser", "line", "rectangle", "circle",
-                "polygon", "label"],
+            tools: ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
+                "polygon", "label" ],
             defaultTool: "edit",
             startCenter: [10.360414404, -84.5096459246],
-            startZoom:15,
+            startZoom:17,
             startMapType: "hybrid",
             disableZoom: false
         });
     }
+
     
     $scope.printCoords = function () {
-        $scope.sm.settings.clearListeners();
+
         console.log(JSON.stringify($scope.sm.data.getGeoJSON(), null, 2));
+        console.log($scope.sm.map.getOverlays());
+        //console.log(JSON.stringify($scope.sm.data.getSmJSON(), null, 2));
 
         //sm.ui.showLoader("Loading Data");
 
-        // $scope.sm.map.addListener(scribblemaps.MapEvent.OVERLAY_ADDED,function (event) {
-        //
-        //     var overlay = event.data;
-        //     var coords = overlay.getCoords();
-        //     console.log(coords);
-        // })
+
     }
 
 
@@ -84,27 +69,49 @@ angular.module('AppPrueba')
     
     
     $scope.svg = false;
-    $scope.uploadFile = function(){
-
-
-         var file = $scope.myFile;
+    
+    $scope.getJsonObjectFromFile = function(file) {
         var reader = new FileReader();
         reader.onload = function(){
-            var text = reader.result;
-            // var node = document.getElementById('output');
-            //node.innerText = text;
-            console.log(JSON.parse(text));
-        };
-        reader.readAsText(file.files[0]);
-        // console.log(file);
-        // var uploadUrl = "templates/user.module/subir.module/subir.logic.php?action=upload";
-        // fileUploadUser.uploadFileToUrl(file, uploadUrl)
-        //     .then(function (data) {
-        //         console.log(data);
-        //     $scope.svg = true;
-        //     $scope.previsualizar();
-        // });
 
+            // draw in the map
+            $scope.drawGeometyInScribbleMap(JSON.parse(reader.result));
+        };
+        reader.readAsText(file);
+    }
+
+    $scope.reverseLatitudeLong = function (coordsArray) {
+
+        for (i in coordsArray){
+            coordsArray[i] =  coordsArray[i].reverse();
+        }
+        return coordsArray;
+    }
+
+    
+    $scope.drawGeometyInScribbleMap = function (geoJson) {
+        if(geoJson.features[0].geometry.type == "Polygon"){
+            geoJson.features[0].geometry.coordinates[0] = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates[0]);
+            $scope.sm.draw.poly(geoJson.features[0].geometry.coordinates[0],{
+                fillOpacity: 0.3,
+                fillColor: "#D8D8D8",
+                lineColor: "#F3F781",
+                editable: false
+            }).setMetaData({idFinca:"hola"});
+            $scope.sm.view.setCenter([geoJson.features[0].geometry.coordinates[0][0][0],geoJson.features[0].geometry.coordinates[0][0][1]]);
+        }else if (geoJson.features[0].geometry.type == "LineString"){
+            geoJson.features[0].geometry.coordinates = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates);
+            $scope.sm.draw.line(geoJson.features[0].geometry.coordinates,{
+                lineColor: "#F3F781"
+            });
+            $scope.sm.view.setCenter([geoJson.features[0].geometry.coordinates[0][0],geoJson.features[0].geometry.coordinates[0][1]]);
+        }
+    }
+
+    $scope.uploadFile = function(){
+        if($scope.myFile != undefined){
+            var os =  $scope.getJsonObjectFromFile($scope.myFile);
+        }
     };
     
     $scope.previsualizar = function(){
@@ -122,8 +129,12 @@ angular.module('AppPrueba')
         });
     }
 
-    
 
+
+    $(".nav a").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass("active");
+    });
 
 
 });
