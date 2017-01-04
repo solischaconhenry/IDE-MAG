@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.service('DividirUserService', ['$http','$q', function ($http, $q) {
+.service('crudFincasUserService', ['$http','$q', function ($http, $q) {
 
     this.getFincas = function (idUser) {
         var defered = $q.defer();

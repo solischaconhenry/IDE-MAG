@@ -1,6 +1,5 @@
 angular.module('AppPrueba')
 
-
     .controller('LoginController', function ($scope, UserService, LoginService, $state) {
 
         $scope.users = [];

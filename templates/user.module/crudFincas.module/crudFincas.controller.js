@@ -1,49 +1,41 @@
 angular.module('AppPrueba')
-.controller('CRUDFincasController', function ($scope,DividirUserService, fileUploadUser, PrevisualizarUser) {
+.controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser) {
     $scope.fincas = [];
-    $scope.gidFinca = "";
-    $scope.loadViewver = function () {
-        $scope.sm = new scribblemaps.ScribbleMap('ScribbleMap', {
-            searchControl: true,
-            lineSettingsControl: false,
-            mapTypeControl: true,
-            fillColorControl: false,
-            lineColorControl: false,
-            zoomControl: true,
-            tools: ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
-                "polygon", "label" ],
-            defaultTool: "edit",
-            startCenter: [10.360414404, -84.5096459246],
-            startZoom:17,
-            startMapType: "hybrid",
-            disableZoom: false
-        });
-    }
+    $scope.selectedFinca = undefined;
+    $scope.showInfoFinca = false;
 
-    
+    $scope.loadMap = function () {
+        var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
+        $scope.sm = mapService.loadMapWithEditTools(startCenter);
+    };
+
     $scope.printCoords = function () {
-
         console.log(JSON.stringify($scope.sm.data.getGeoJSON(), null, 2));
         console.log($scope.sm.map.getOverlays());
         //console.log(JSON.stringify($scope.sm.data.getSmJSON(), null, 2));
-
         //sm.ui.showLoader("Loading Data");
-
-
+    }
+    
+    
+    $scope.getFincas = function () {
+        crudFincasUserService.getFincas(UserService.username).then(function (data) {
+            if(data != 'false'){
+                $scope.fincas = data;
+            }
+        });
     }
 
-
-
-    // Se debe de obtener el id del usuario
-    $scope.idUser=1;
-    DividirUserService.getFincas($scope.idUser).then(function (data) {
-        $scope.fincas = data;
-    });
-
-    $scope.change = function(){
-        DividirUserService.preview($scope.gidFinca).then(function (data) {
-           $scope.json = reconvertJsonPolygon(data);
-        });
+    $scope.fincaIsSelectedFromCombo = function(){
+        $scope.showInfoFinca = !$scope.showInfoFinca;
+        var type = JSON.parse($scope.selectedFinca.geom).type;
+        var geom = JSON.parse($scope.selectedFinca.geom)
+        if(type == "Polygon"){
+            mapService.dibujarFinca(geom.coordinates[0]);
+        }else if(type == "MultiPolygon"){
+            for (g in geom.coordinates[0]) {
+                mapService.dibujarFinca(geom.coordinates[0][g]);
+            }
+        }
     }
     
     function reconvertJsonPolygon(puntos) {
