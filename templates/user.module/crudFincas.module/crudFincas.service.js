@@ -9,7 +9,6 @@ angular.module('AppPrueba')
             .success(function(response) {            
             defered.resolve(response);
         });
-
         return promise;
     };
     

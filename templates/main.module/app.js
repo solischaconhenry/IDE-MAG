@@ -52,7 +52,7 @@ angular
                 url:'/login',
                 templateUrl:'templates/login.module/login.view.html',
                 controller:'LoginController',
-                authenticate: true
+                authenticate: false
             })
 
             //dashboard de administrador
