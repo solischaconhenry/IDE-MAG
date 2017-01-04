@@ -9,6 +9,10 @@ angular.module('AppPrueba')
         $scope.sm = mapService.loadMapWithEditTools(startCenter);
     };
 
+    $scope.hitme = function () {
+        alert("hola que hace :v");
+    }
+
     $scope.printCoords = function () {
         console.log(JSON.stringify($scope.sm.data.getGeoJSON(), null, 2));
         console.log($scope.sm.map.getOverlays());
