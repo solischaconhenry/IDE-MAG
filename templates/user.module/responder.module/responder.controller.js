@@ -21,6 +21,12 @@ angular.module('AppPrueba')
         };
 
 
+        $scope.print  = function(){
+            console.log($scope.valor);
+        }
+
+
+
         /*****PRINCIPALES VARIABLES DE LOS FORMS - ACA ESTAN LOS DE CARGA-*/
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
@@ -29,7 +35,9 @@ angular.module('AppPrueba')
         $scope.respaldoEdicion = [];
         $scope.respaldoPreguntas = [];
         $scope.DataForm =[]; //muestra el nombre del formulario
+
         $scope.value="Culpa Gabriel";
+
 
         //trae los sigueintes datos: nombreform,idform,descripcion,fecha
         ResponderService.obtenerFormulario(FormularioResolver.idFormularioResolver).then(function (data) {
@@ -76,8 +84,9 @@ angular.module('AppPrueba')
                                         fijo: pregunta[preg].fijo,
                                         requerido: (pregunta[preg].requerido ==="t"),
                                         mascara: pregunta[preg].mascara,
-                                        options: pregunta[preg].options
 
+                                        options: pregunta[preg].options
+                                        
                                     };
                                 }
                                 else{
@@ -89,7 +98,8 @@ angular.module('AppPrueba')
                                         hel: pregunta[preg].tipo,
                                         fijo: pregunta[preg].fijo,
                                         requerido: (pregunta[preg].requerido ==="t"),
-                                        mascara: pregunta[preg].mascara
+                                        mascara: pregunta[preg].mascara,
+                                        valor:$scope.valor
                                     };
                                 }
                                 item.preguntas.push(itemP);

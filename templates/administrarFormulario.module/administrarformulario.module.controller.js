@@ -2,14 +2,14 @@
 angular.module('AppPrueba')
 
     .controller('AdministrarFormulario',function ($scope, Pagination,AdministrarFormService,$uibModal, $log, $document, InsertarFormularioFincaxForm) {
-        $scope.accion = {action:"Crear", icon:"floppy-saved" };//editar
+        $scope.accion = {action:"Creando", icon:"floppy-saved" };//editar
         $scope.tiposPregunta = [];
         $scope.preguntas = [];
         $scope.categorias = [];
         $scope.opciones = [];
         $scope.opcionesRespaldo = [];
         $scope.idpregEditar="";
-        $scope.heightListaPreg = screen.height - (screen.height/3) - 12;
+        $scope.heightListaPreg = screen.height - ((screen.height/3)+ (screen.height/30));
         //Nombre de categoría en caso de ser una nueva
         $scope.nombreCategoriaPregunta ="";
         $scope.closeAlert = function(index) {
@@ -84,11 +84,13 @@ angular.module('AppPrueba')
         }
 
 
-        $scope.eliminarPregForm = function (id) {
+        $scope.eliminarPregForm = function (opcion) {
             if($scope.opciones == null){
                 $scope.opciones =[];
             }
-            var index = $scope.opciones.map(function(d) { return d["idopc"]; }).indexOf(id);
+            var index = $scope.opciones.map(function(d) { return d["opcion"]; }).indexOf(opcion);
+
+            console.log(index);
             $scope.opciones.splice(index,1);
 
         };
@@ -174,7 +176,7 @@ angular.module('AppPrueba')
 
 
         var agregarEditarBD = function (mascara) {
-            if ($scope.accion.action == "Crear")
+            if ($scope.accion.action == "Creando")
             {
                 agregarBD(mascara);
             }
@@ -223,9 +225,9 @@ angular.module('AppPrueba')
             $scope.tipoPregunta =undefined;
             $scope.nombreCategoriaPregunta = undefined;
 
-            if ($scope.accion.action == "Editar")
+            if ($scope.accion.action == "Editando")
             {
-                $scope.accion = {action:"Crear", icon:"floppy-saved" }
+                $scope.accion = {action:"Creando", icon:"floppy-saved" }
             }
         }
 
@@ -242,7 +244,7 @@ angular.module('AppPrueba')
 
         $scope.cargarPregunta = function(idpreg)
         {   $scope.idpregEditar = idpreg;
-            $scope.actraduccionBooleancion = {action:"Editar", icon:"pencil"}
+            $scope.accion = {action:"Editando", icon:"pencil"}
             pregActual = {};
             AdministrarFormService.getPreguntaById(idpreg).then(function (data) {
                 pregActual = data[0];

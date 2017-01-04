@@ -52,7 +52,7 @@ angular
                 url:'/login',
                 templateUrl:'templates/login.module/login.view.html',
                 controller:'LoginController',
-                authenticate: false
+                authenticate: true
             })
 
             //dashboard de administrador
@@ -205,6 +205,7 @@ angular
                 templateUrl:'templates/user.module/dashboard.module/dashboard.view.html',
                 controller:'DashboardUserController',
                 authenticate: true
+
             })
 
 
@@ -234,6 +235,7 @@ angular
                 url:'/formularioAparto',
                 views: {
                     'dusTabsUser': {
+                        
                         templateUrl: 'templates/user.module/mostrar.module/mostrar.view.html',
                         controller: 'MostrarUserController'
                     }

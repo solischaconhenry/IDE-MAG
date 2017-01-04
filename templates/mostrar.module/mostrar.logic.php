@@ -11,6 +11,16 @@ class Mostrar
         $row =  pg_fetch_all($result);
         return $row;
     }
+    function getFincasTodo($idUsuario){
+            include '../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "select * from fincas where iduser = $idUsuario";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+            return $row;
+        }
+
 
     function getPreview($gidFinca){
         include '../main.module/acceso.php';
@@ -296,7 +306,7 @@ class Mostrar
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select provincia, canton, distrito, direccionexacta, latitud, longitud, codigofinca, nombreproductor from fincas where iduser = $idUsuario and gid = $fincaID;";
+        $query = "select * from fincas where iduser = $idUsuario and gid = $fincaID;";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;
@@ -333,6 +343,9 @@ $mostrar = new Mostrar();
 
 if($_REQUEST['action']=='getFincas') {
     print_r(json_encode($mostrar->getFincas($_REQUEST['idUser'])));
+}
+else if($_REQUEST['action']=='getFincasTodo') {
+    print_r(json_encode($mostrar->getFincasTodo($_REQUEST['idUser'])));
 }
 else if($_REQUEST['action']=='preview') {
     print_r(json_encode($mostrar->getPreview($_REQUEST['gidFinca'])));
