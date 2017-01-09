@@ -1,12 +1,23 @@
 <?php
 
-class Dividir
+class CrudFinca
 {
     function getFincas($idUsuario){
         include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select gid from fincas where iduser = $idUsuario";
+        $query = "select canton,
+                      codigofinca,
+                      direccionexacta,
+                      distrito,
+                      fecha,
+                      gid,
+                      nombrefinca,
+                      provincia,
+                      telefono,
+                      ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(geom),4326))) as geom
+                  from fincas where iduser = $idUsuario";
+
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;
@@ -165,15 +176,15 @@ class Dividir
         
 }
 
-$dividir = new Dividir();
+$crudFinca = new CrudFinca();
 
 if($_REQUEST['action']=='getFincas') {
-    print_r(json_encode($dividir->getFincas($_REQUEST['idUser'])));
+    print_r(json_encode($crudFinca->getFincas($_REQUEST['idUser'])));
 }
 else if($_REQUEST['action']=='preview') {
-    print_r(json_encode($dividir->getPreview($_REQUEST['gidFinca'])));
+    print_r(json_encode($crudFinca->getPreview($_REQUEST['gidFinca'])));
 }
 else if($_REQUEST['action']=='divide') {
-    print_r(json_encode($dividir->separar($_REQUEST['gidAparto'], $_REQUEST['gidFinca'])));
+    print_r(json_encode($crudFinca->separar($_REQUEST['gidAparto'], $_REQUEST['gidFinca'])));
 }
 

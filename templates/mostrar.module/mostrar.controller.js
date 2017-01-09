@@ -14,6 +14,7 @@ angular.module('AppPrueba')
     $scope.idUser=1;
     MostrarService.getFincas($scope.idUser).then(function (data) {
         $scope.fincas = data;
+        console.log($scope.fincas);
     });
 
     $scope.change2 = function() {
@@ -30,6 +31,7 @@ angular.module('AppPrueba')
         //obtener idUsuario
         MostrarService.getFincasByID("1", $scope.gidFinca).then(function(data){
                      $scope.dataFinca = data[0];
+            
 
             $scope.codigofinca = $scope.dataFinca.codigofinca;
 
@@ -71,6 +73,17 @@ angular.module('AppPrueba')
             // console.log($scope.formularios);
         });
     }
+
+
+    $scope.mostrarRespuestasForm = function () {
+        if ($scope.respActual!= "" )
+        {
+            
+        }
+
+    }
+
+
 
     $scope.json = [];
     function reconvertJsonPolygon(puntos,aparto) {

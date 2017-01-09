@@ -17,6 +17,8 @@ angular.module('AppPrueba')
         $scope.seccionActiva = 0;
         $scope.preguntas = [];
         $scope.categorias = [];
+        $scope.heightListaPreg = screen.height - ((screen.height/3)+ (screen.height/30));
+        $scope.heightFormCrear =   $scope.heightListaPreg - (screen.height/12);
 
        /* FormulariosService.insertarForm("nombre","blabla","2013-07-01")
             .then(function (data) {

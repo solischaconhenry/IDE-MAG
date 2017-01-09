@@ -155,7 +155,7 @@ Class CargarDatos {
        while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
        {
            //Se recorren las respuestas
-            $queryResp = "select resp.idrespuesta,resp.fecha,resp.hora from respuesta as resp where codigofinca = $codigoFinca and idform = $reg[idform]";
+            $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp where codigofinca = $codigoFinca and idform = $reg[idform]";
 
             $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
 
