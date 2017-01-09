@@ -109,7 +109,7 @@ angular.module('AppPrueba')
     $scope.chooseForm = function(idform){
         console.info(idform);
         FormularioResolver.idFormularioResolver = idform;
-        $state.go("dashboardUser.responderForm")
+        $state.go("dashboardUser.crudFincas.responderForm")
     }
 
 });
