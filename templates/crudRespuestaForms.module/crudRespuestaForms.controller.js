@@ -1,14 +1,10 @@
-
-
 /**
- * Created by usuario on 17/12/2016.
+ * Created by usuario on 9/1/2017.
  */
+
 angular.module('AppPrueba')
-
-    .controller('ResponderController', function ($scope, Pagination, ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver) {
-
-        console.log("IDForm: " + FormularioResolver.idFormularioResolver + "IDFinca: " + FormularioResolver.idFincaAResponder);
-
+//CRUDResponderFormServic
+    .controller('CRUDResponderFormController', function ($scope, Pagination, CRUDResponderFormService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver) {
 
         //ALERTAS DE EXITO Y FRACASO
         $scope.alertRespuesta = [
@@ -34,7 +30,7 @@ angular.module('AppPrueba')
         $scope.list2.respuestas = [];
 
         //trae los sigueintes datos: nombreform,idform,descripcion,fecha
-        ResponderService.obtenerFormulario(FormularioResolver.idFormularioResolver).then(function (data) {
+        CRUDResponderFormService.obtenerFormulario(FormularioResolver.idFormularioResolver).then(function (data) {
             console.log(data);
             var item = {
                 nombre: data[0]["nombreform"],
@@ -52,9 +48,9 @@ angular.module('AppPrueba')
         $scope.edicion = function (callback) {
             var idForm = FormularioResolver.idFormularioResolver;
             console.log("form: " + idForm);
-            ResponderService.obtenerPaginasByID(idForm).then(function (pagina) {
+            CRUDResponderFormService.obtenerPaginasByID(idForm).then(function (pagina) {
                 console.log(pagina);
-                ResponderService.obtenerAllPreguntas(idForm).then(function (pregunta) {
+                CRUDResponderFormService.obtenerAllPreguntas(idForm).then(function (pregunta) {
                     console.log(pregunta);
                     for (var pag = 0; pag < pagina.length; pag++) {
                         var item = {
@@ -245,15 +241,15 @@ angular.module('AppPrueba')
             //calcula la fecha y hora actual en milisegundos
             var currentdate = new Date().getTime();
             //inserta la respuesta del form
-            ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (NA) {
+            CRUDResponderFormService.insertarRespuesta(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (NA) {
                 //recupera la respuesta del form para insertar las preguntas ahora
 
-                ResponderService.getRespuestaform(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (idresp) {
+                CRUDResponderFormService.getRespuestaform(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (idresp) {
                     console.info("idResp: "+ idresp[0]["idrespuesta"]);
 
                     for(var pag = 0; pag < data.length; pag++) {
                         for (var preg = 0; preg < data[pag]["preguntas"].length; preg++) {
-                            ResponderService.insertResp_Preg(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, data[pag]["preguntas"][preg].answer);
+                            CRUDResponderFormService.insertResp_Preg(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, data[pag]["preguntas"][preg].answer);
                         }
 
                     }
@@ -317,6 +313,4 @@ angular.module('AppPrueba').controller('ModalInstanceCtrl', function ($scope, $u
         $uibModalInstance.close(undefined);
     };
 });
-
-
 

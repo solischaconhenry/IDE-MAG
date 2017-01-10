@@ -1,43 +1,63 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-4 col-lg-4">
-        <div class="btn-group btn-group-vertical col-xs-12" aria-label="..." >
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary " ng-click="isCollapsed = !isCollapsed">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filtrar
-                </button>
-                <div uib-collapse="!isCollapsed">
-                    <div class="panel panel-info">
-                        <div class="panel-body">
-                            <div class="input-group input-group col-xs-12">
-                                <input type="text" class="form-control" placeholder="Nombre de la finca" aria-describedby="sizing-addon3">
-                            </div>
-                            <hr>
-                            <div>
-                                <select  ng-change="change()" ng-options="finca.gid as finca.gid for finca in fincas" ng-model="gidFinca" class="form-control selectsTabs">
-                                    <option style="display:none" value="">Seleccione una Finca</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+        <div class="col-xs-12" >
+            <select ng-init="getFincas()"  ng-change="fincaIsSelectedFromCombo()" ng-options='finca as (finca.nombrefinca +" codigo: ("+ finca.codigofinca+") " ) for finca in fincas' ng-model="selectedFinca" class="form-control selectsTabs">
+                <option value="" disabled selected>Seleccione una finca</option>
+            </select>
+            <div class="panel panel-info" >
+                <div class="panel-heading">
+                    <button type="button" class="glyphicon glyphicon-triangle-bottom pull-right" ng-click="showInfoFinca = !showInfoFinca "></button>
+                    <h5 class="panel-title">Información de la finca</h5>
+                </div>
+                <div class="panel-body" ng-show="showInfoFinca">
+                    <table class="table table-hover">
+
+                        <tbody>
+                        <tr>
+                            <td>Nombre</td>
+                            <td>{{selectedFinca.nombrefinca}}</td>
+                        </tr>
+                        <tr>
+                            <td>Codigo</td>
+                            <td>{{selectedFinca.codigofinca}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ubicación</td>
+                            <td>{{selectedFinca.provincia + ", " + selectedFinca.canton + ", " + selectedFinca.distrito}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dirección exacta</td>
+                            <td>{{selectedFinca.direccionexacta}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha Creación</td>
+                            <td>{{selectedFinca.fecha}}</td>
+                        </tr>
+                        <tr>
+                            <td>Teléfono</td>
+                            <td>{{selectedFinca.telefono}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div>
+                <ul class="nav nav-tabs nav-justified " role="tablist">
+                    <li class="active"><a ui-sref=".crudApartos"><span class="glyphicon glyphicon-menu-hamburger"></span> <strong>Apartos</strong></a></li>
+                    <li><a ui-sref=".mostrarFormUser"><span class="glyphicon glyphicon-link"></span> <strong>Formularios</strong></a></li>
+                    <li><a ui-sref=".subirUser"><span class="glyphicon glyphicon-arrow-up"></span> <strong>Historicos</strong></a></li>
+                    <div ui-view = "dusTabsUser"> </div>
+                </ul>
+            </div>
+            <button ng-click="clickme()">test</button>
         </div>
-        <hr>
-        <hr>
-        <hr>
-        <hr>
-        <ul class="nav nav-tabs nav-justified" role="tablist">
-            <li class="active"><a ui-sref=".crudApartos"><span class="glyphicon glyphicon-menu-hamburger"></span> <strong>Apartos</strong></a></li>
-            <li><a ui-sref=".mostrarFormUser"><span class="glyphicon glyphicon-link"></span> <strong>Formularios</strong></a></li>
-            <li><a ui-sref=".subirUser"><span class="glyphicon glyphicon-arrow-up"></span> <strong>Historicos</strong></a></li>
-            <div ui-view = "dusTabsUser"> </div>
-        </ul>
-
 
     </div>
-
     <div class="col-xs-12 col-md-8 col-lg-8"><!--SECCION DE SELECCIONAR EL APARTO A DIVIDIR-->
-        <div id="ScribbleMap" style="width: 100%;height: 90vh" ng-init="loadViewver()"></div>
+        <div id="ScribbleMap" style="width: 100%;height: 90vh" ng-init="loadMap()"></div>
     </div>
 </div>
+
+
+

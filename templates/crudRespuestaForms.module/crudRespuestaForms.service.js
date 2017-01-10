@@ -1,16 +1,14 @@
 /**
- * Created by usuario on 17/12/2016.
+ * Created by usuario on 9/1/2017.
  */
-
 angular.module('AppPrueba')
 
-    .service('ResponderService', function($http,$q,EditarFormularioFincaxForm,$timeout) {
-
+    .service('CRUDResponderFormService', function($http,$q,EditarFormularioFincaxForm,$timeout) {
         this.getPreguntas = function () {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=loadPreguntas')
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=loadPreguntas')
                 .success(function (response) {
                     defered.resolve(response);
                 });
@@ -22,7 +20,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=loadOpciones&idPreg='+idPreg)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=loadOpciones&idPreg='+idPreg)
                 .success(function (response) {
                     defered.resolve(response);
                 });
@@ -35,7 +33,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=loadCategorias')
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=loadCategorias')
                 .success(function(response) {
                     defered.resolve(response);
                 });
@@ -47,7 +45,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPaginas&idform='+idform)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=getPaginas&idform='+idform)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -60,7 +58,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntas&idform='+idform)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=getPreguntas&idform='+idform)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -73,7 +71,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getFormulario&idformulario='+idform)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=getFormulario&idformulario='+idform)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -86,7 +84,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -106,7 +104,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -127,7 +125,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getRespuestaForm&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=getRespuestaForm&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
                 .success(function(response) {
                     console.log(response);
 
@@ -149,7 +147,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertResp_Preg&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
+            $http.get('templates/user.module/crudRespuestaForms.module/crudRespuestaForms.logic.php?action=insertResp_Preg&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
                 .success(function(response) {
                     console.log(response);
                     defered.resolve(response);
@@ -157,5 +155,4 @@ angular.module('AppPrueba')
 
             return promise;
         };
-
     });

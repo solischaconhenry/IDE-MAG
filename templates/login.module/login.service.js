@@ -6,6 +6,12 @@ angular.module('AppPrueba')
         th.username = '';
         th.auth = false;
         th.tipo = '';
+        th.apellidos = '';
+        th.ciudad = '';
+        th.nombre = '';
+        th.direccion = '';
+        th.email = '';
+        th.telefono = '';
     })
 
     .service('LoginService', function ($http, $q) {

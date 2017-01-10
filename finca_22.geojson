@@ -1,0 +1,45 @@
+/**
+ * Created by Proyecto Movil on 02/01/2017.
+ */
+
+
+{
+    "type": "FeatureCollection",
+    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4326" } },
+    "features": [
+    {
+        "type": "Feature",
+        "id": "83c2e7f6d6",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        -84.50736165046692,
+                        10.360526039441432
+                    ],
+                    [
+                        -84.5061707496643,
+                        10.361127611670826
+                    ],
+                    [
+                        -84.50570940971375,
+                        10.359787264948325
+                    ],
+                    [
+                        -84.50692176818848,
+                        10.359291229668669
+                    ],
+                    [
+                        -84.50736165046692,
+                        10.360526039441432
+                    ]
+                ]
+            ]
+        },
+        "properties": {
+            "metaData": null
+        }
+    }
+]
+}
