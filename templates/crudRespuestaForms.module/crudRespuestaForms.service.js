@@ -67,6 +67,12 @@ angular.module('AppPrueba')
             return promise;
         };
 
+
+      
+
+
+
+
         this.obtenerFormulario = function (idform) {
             var defered = $q.defer();
             var promise = defered.promise;

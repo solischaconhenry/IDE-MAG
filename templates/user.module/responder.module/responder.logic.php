@@ -168,6 +168,44 @@ class editarformulario{
            }
            return (json_encode($resulFin));
          }
+      function getAllPreguntasWRespuestas($idformulario2,$idrespuesta){
+
+             include '../../main.module/acceso.php';
+             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+             $query = "select * from pregunta as pr inner join(select pg.descripcion, pg.orden, fp.idpreg from form_preg as fp
+             inner join pagina as pg on (pg.idpag = fp.pagina and fp.idform = $idformulario2))as pag
+             on (pr.idpreg = pag.idpreg)";
+
+             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+             $resulFin = [];
+
+            //Recorrer las preguntas
+            while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+
+                $queryOp = "SELECT opcion FROM opciones where idPreg = $reg[idpreg]";
+                $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
+                $rowsOp = pg_fetch_all($resultOp);
+
+                $queryAnswer = "select valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
+                $resultAnswer = pg_query($conn, $queryAnswer) or die("Error al ejecutar la consulta");
+                $rowAnswer = pg_fetch_all($resultAnswer);
+
+                 if( pg_num_rows($resultOp)> 0)
+                 {
+                    //Agrega las opciones a las que sean de tipo checkbox
+                    $reg["options"] = $rowsOp;
+
+                  }
+                  $reg["answer"] =  $rowAnswer;
+                //Va agregando las preguntas a un arreglo
+                $resulFin[] =  $reg;
+
+            }
+            return (json_encode($resulFin));
+          }
+
 }
 
 Class Respuestas{
@@ -237,6 +275,13 @@ if($_REQUEST['action']=='getPaginas') {
 if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
+
+
+
+if($_REQUEST['action']=='getPreguntasWRespuestas') {
+   print_r($editarFormC->getAllPreguntasWRespuestas($_REQUEST['idform'],$_REQUEST['idrespuesta']));
+}
+
 
 if($_REQUEST['action']=='insertRespuesta') {
     print_r($respuestaC->guardarRespuesta($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha']));

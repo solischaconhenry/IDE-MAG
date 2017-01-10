@@ -168,6 +168,10 @@ class editarformulario{
            }
            return (json_encode($resulFin));
          }
+
+
+
+
 }
 
 Class Respuestas{
