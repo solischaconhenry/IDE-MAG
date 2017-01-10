@@ -1,17 +1,33 @@
 angular.module('AppPrueba')
-.controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser) {
+.controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile) {
     $scope.fincas = [];
     $scope.selectedFinca = undefined;
     $scope.showInfoFinca = false;
+
+    $scope.hitme = function () {
+        alert("hi :v");
+    }
+    $scope.clickme = function () {
+        var div = document.createElement("div");
+        div.style.width = "250px";
+        div.style.height = "250px";
+        var input  = document.createElement("button");
+        input.setAttribute("type","button");
+        input.setAttribute("value","hitme");
+        input.setAttribute("ng-click", "hitme()");
+        input.innerHTML = 'test value';
+        div.appendChild(input);
+        $compile(div)($scope);
+
+
+        $scope.sm.ui.showCustomPanel(div,true);
+    }
 
     $scope.loadMap = function () {
         var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
         $scope.sm = mapService.loadMapWithEditTools(startCenter);
     };
 
-    $scope.hitme = function () {
-        alert("hola que hace :v");
-    }
 
     $scope.printCoords = function () {
         console.log(JSON.stringify($scope.sm.data.getGeoJSON(), null, 2));
@@ -34,7 +50,7 @@ angular.module('AppPrueba')
         var type = JSON.parse($scope.selectedFinca.geom).type;
         var geom = JSON.parse($scope.selectedFinca.geom)
         if(type == "Polygon"){
-            mapService.dibujarFinca(geom.coordinates[0]);
+            mapService.dibujarFinca($scope.selectedFinca,geom.coordinates[0]);
         }else if(type == "MultiPolygon"){
             for (g in geom.coordinates[0]) {
                 mapService.dibujarFinca(geom.coordinates[0][g]);
