@@ -27,9 +27,10 @@ angular.module('AppPrueba')
                     idform: data[x].idform,
                     nombre: data[x].nombreform,
                     descripcion: data[x].descripcion,
-                    fecha: data[x].fecha
+                    fecha: data[x].fecha,
+                    editable: (data[x].editable ==="f")
                 };
-
+                console.info(newJson);
                 values.push(newJson);
             }
             $scope.formularios = values;
@@ -43,7 +44,6 @@ angular.module('AppPrueba')
         };
 
         $scope.deleteForm = function (id) {
-            console.log(id);
             FormCrudService.deleteFormbyID(id).then(function () {
                 $scope.alertsForm.push({type: 'success', msg: 'Formulario eliminado con éxito!'});
             });

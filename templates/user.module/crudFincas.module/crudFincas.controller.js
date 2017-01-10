@@ -4,28 +4,26 @@ angular.module('AppPrueba')
     $scope.selectedFinca = undefined;
     $scope.showInfoFinca = false;
 
-    $scope.hitme = function () {
-        alert("hi :v");
-    }
-    $scope.clickme = function () {
-        var div = document.createElement("div");
-        div.style.width = "250px";
-        div.style.height = "250px";
-        var input  = document.createElement("button");
-        input.setAttribute("type","button");
-        input.setAttribute("value","hitme");
-        input.setAttribute("ng-click", "hitme()");
-        input.innerHTML = 'test value';
-        div.appendChild(input);
-        $compile(div)($scope);
 
-
-        $scope.sm.ui.showCustomPanel(div,true);
-    }
+    // $scope.clickme = function () {
+    //     var div = document.createElement("div");
+    //     div.style.width = "250px";
+    //     div.style.height = "250px";
+    //     var input  = document.createElement("button");
+    //     input.setAttribute("type","button");
+    //     input.setAttribute("value","hitme");
+    //     input.setAttribute("ng-click", "hitme()");
+    //     input.innerHTML = 'test value';
+    //     div.appendChild(input);
+    //     //$compile(div)($scope);
+    //
+    //
+    //     $scope.sm.ui.showCustomPanel(div,true);
+    // }
 
     $scope.loadMap = function () {
         var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
-        $scope.sm = mapService.loadMapWithEditTools(startCenter);
+        mapService.loadMapWithEditTools(startCenter);
     };
 
 

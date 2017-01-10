@@ -77,7 +77,7 @@ angular
 
             .state('dashboard.dusTabs',{
                 url:'/tabs',
-                
+
                 views:{
                     'dashboard':{
                         templateUrl:'templates/dusTab.module/dusTab.view.html',
@@ -207,9 +207,6 @@ angular
                 authenticate: true
             })
 
-
-
-
             //***********************USER SECTION******************************/
             //dashboard de usuario
             .state('dashboardUser',{
@@ -226,8 +223,9 @@ angular
                 views: {
                     'dashboardUser': {
                         templateUrl: 'templates/user.module/crudFincas.module/crudFincas.view.html',
-                        controller: 'CRUDFincasController'
+                        controller: 'CRUDFincasController',
                     }
+
                 },
                 authenticate: true
             })
@@ -247,7 +245,7 @@ angular
                 url:'/formularioAparto',
                 views: {
                     'dusTabsUser': {
-                        
+
                         templateUrl: 'templates/user.module/mostrar.module/mostrar.view.html',
                         controller: 'MostrarUserController'
                     }

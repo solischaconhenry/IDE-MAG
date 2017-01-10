@@ -195,7 +195,7 @@ Class Insertar {
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-          $query = "insert into formulario (nombreform,descripcion,fecha) values ('$nombre','$descripcionl','$fechal')";
+          $query = "insert into formulario (nombreform,descripcion,fecha,editable) values ('$nombre','$descripcionl','$fechal',true)";
           $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
     }
