@@ -20,7 +20,7 @@ angular.module('AppPrueba')
                 zoomControl: true,
                 tools: ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
                     "polygon"],
-                defaultTool: "drag",
+                defaultTool: "edit",
                 startCenter: startCenterCoords/*[10.360414404, -84.5096459246]*/,
                 startZoom: 17,
                 startMapType: "hybrid",
@@ -51,28 +51,28 @@ angular.module('AppPrueba')
             sm.map.addListener(scribblemaps.MapEvent.OVERLAY_ADDED, function (event) {
                 if(triggerFunction(event)){
                     
-                    function hitme() {
-                        alert(":v");
-                    }
-                    
-                    var div = document.createElement("div");
-                    div.style.width = "250px";
-                    div.style.height = "250px";
-                    div.setAttribute("class","row");
-                    var otherdiv = document.createElement("div");
-                    div.setAttribute("class","col-xs-12");
-                    div.appendChild(otherdiv);
-    
-                    var input  = document.createElement("button");
-                    input.setAttribute("class","col-xs-12 btn btn-danger");
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","hitme");
-                    input.addEventListener("click", hitme, false);
-                    input.innerHTML = 'test value';
-                    otherdiv.appendChild(input)
-
-
-                    sm.ui.showCustomPanel(div,true);
+                    // function hitme() {
+                    //     alert(":v");
+                    // }
+                    //
+                    // var div = document.createElement("div");
+                    // div.style.width = "250px";
+                    // div.style.height = "250px";
+                    // div.setAttribute("class","row");
+                    // var otherdiv = document.createElement("div");
+                    // div.setAttribute("class","col-xs-12");
+                    // div.appendChild(otherdiv);
+                    //
+                    // var input  = document.createElement("button");
+                    // input.setAttribute("class","col-xs-12 btn btn-danger");
+                    // input.setAttribute("type","button");
+                    // input.setAttribute("value","hitme");
+                    // input.addEventListener("click", hitme, false);
+                    // input.innerHTML = 'test value';
+                    // otherdiv.appendChild(input)
+                    //
+                    //
+                    // sm.ui.showCustomPanel(div,true);
                 }
             });
         };

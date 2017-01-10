@@ -213,8 +213,9 @@ angular
                 views: {
                     'dashboardUser': {
                         templateUrl: 'templates/user.module/crudFincas.module/crudFincas.view.html',
-                        controller: 'CRUDFincasController'
+                        controller: 'CRUDFincasController',
                     }
+
                 },
                 authenticate: true
             })
