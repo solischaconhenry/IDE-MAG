@@ -5,7 +5,7 @@ angular.module('AppPrueba')
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/historicos.module/historicos.logic.php?action=getFincas&idUser='+idUser)
+        $http.get('templates/historicos.module/historicos.logic.php?action=getFincasTodo&idUser='+idUser)
             .success(function(response) {
             defered.resolve(response);
         });

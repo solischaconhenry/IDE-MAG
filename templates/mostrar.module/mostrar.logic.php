@@ -221,11 +221,11 @@ class Mostrar
          $consulta="";
          if($anterior==1)
          {
-             $consulta="select gid,geom from aparto_aparto inner join apartos on apartos.gid=aparto_aparto.gidAnterior where gidActual=$gidAparto";
+             $consulta="select gid,geom from aparto_aparto inner join apartos on apartos.gid=aparto_aparto.gidAnterior where gidActual=$gidAparto and gidfinca = $gidFinca";
          }
          else
          {
-             $consulta="select gid,geom from aparto_aparto inner join apartos on apartos.gid=aparto_aparto.gidactual where gidanterior=$gidAparto";
+             $consulta="select gid,geom from aparto_aparto inner join apartos on apartos.gid=aparto_aparto.gidactual where gidanterior=$gidAparto and gidfinca = $gidFinca";
          }
 
 
@@ -312,25 +312,20 @@ class Mostrar
         return $row;
     }
 
-    function getApartoByID($idAparto){
+    function getApartoByID($gidAparto,$gidFinca){
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select idaparto, distribuciontrabajo, nombre from actividades inner join tipoactividad on idactividad = idtipoactividad where idaparto = $idAparto;";
+        $query = "select  a.idaparto, a.distribuciontrabajo, a.nombre from (select idaparto, distribuciontrabajo, nombre from actividades inner join
+        tipoactividad on idactividad = idtipoactividad where idaparto = $gidAparto)
+        as a inner join apartos as b on a.idaparto = b.gid where b.gidfinca = $gidFinca";
+
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;
     }
 
-      function getCodigoFincaById($gid){
-            include '../main.module/acceso.php';
-            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "select codigofinca from fincas where gid = $gid";
-            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
-            $row =  pg_fetch_all($result);
-            return $row;
-        }
 
 
 
@@ -368,11 +363,9 @@ else if($_REQUEST['action']=='getFincasByID') {
     print_r(json_encode($mostrar->getFincaByID($_REQUEST['idUser'], $_REQUEST['gidFinca'])));
 }
 else if($_REQUEST['action']=='getApartoByID') {
-    print_r(json_encode($mostrar->getApartoByID($_REQUEST['gidAparto'])));
+    print_r(json_encode($mostrar->getApartoByID($_REQUEST['gidAparto'],$_REQUEST['gidFinca'])));
 }
 
-else if($_REQUEST['action']=='getCodigoFincaById') {
-    print_r(json_encode($mostrar->getCodigoFincaById($_REQUEST['gid'])));
-}
+
 
 ?>

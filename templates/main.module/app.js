@@ -52,7 +52,7 @@ angular
                 url:'/login',
                 templateUrl:'templates/login.module/login.view.html',
                 controller:'LoginController',
-                authenticate: true
+                authenticate: false
             })
 
             //dashboard de administrador
@@ -196,9 +196,21 @@ angular
                 authenticate: true
             })
 
+            .state('dashboard.verRespForm',{
+                url:'/verRespForm',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/verRespForm.module/verRespForm.view.html',
+                        controller: 'VerRespFormController'
+                    }
+                },
+                authenticate: true
+            })
 
 
-        //***********************USER SECTION******************************/
+
+
+            //***********************USER SECTION******************************/
             //dashboard de usuario
             .state('dashboardUser',{
                 url:'/dashboardUser',

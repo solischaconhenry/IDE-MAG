@@ -6,7 +6,8 @@ angular.module('AppPrueba')
     // Se debe de obtener el id del usuario
     $scope.idUser=1;
     HistoricosService.getFincas($scope.idUser).then(function (data) {
-        $scope.fincas = data;        
+        $scope.fincas = data;
+        console.log($scope.fincas)
     });
 
     $scope.change = function(){
