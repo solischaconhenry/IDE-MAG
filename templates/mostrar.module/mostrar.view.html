@@ -1,6 +1,9 @@
 
 <div class="row" style="overflow-x: hidden;">
-  <h3 style="margin-top: 0%">Mostrar Información de Finca</h3>
+  <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Mostrar Información de Finca</h4>
+  <hr>
+</div>
+<div class="row" style="overflow-x: hidden;" >
   <div class="col-md-5">
 
     <select   ng-change="change();"style="padding-left:0%" ng-model="gidFinca" class="form-control selectsTabs">
@@ -20,9 +23,9 @@
               style="fill:#26C281;stroke:black;stroke-width:1" />
 
     </svg>
+  </div>
 
 
-  </div> <!--div seleccion finca-->
 
   <div class="col-md-7">
 
@@ -39,7 +42,19 @@
               <div class="panel-heading clearfix" >
                 <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de finca</h3>
               </div>
-              <div class="panel-body">
+              <div class="panel-body" >
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Codigo Finca:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.codigofinca}}
+                  </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                  <label  class="col-md-6" >Nombre Finca:</label>
+                  <div class="col-md-6">
+                    {{dataFinca.nombrefinca}}
+                  </div>
+                </div>
                 <div class=" row"  style="margin-bottom: 1%">
                   <label  class="col-md-6" >Provincia:</label>
                   <div class="col-md-6">
@@ -76,18 +91,7 @@
                     {{dataFinca.longitud}}
                   </div>
                 </div>
-                <div class=" row"  style="margin-bottom: 1%">
-                  <label  class="col-md-6" >Codigo Finca:</label>
-                  <div class="col-md-6">
-                    {{dataFinca.codigofinca}}
-                  </div>
-                </div>
-                <div class=" row"  style="margin-bottom: 1%">
-                  <label  class="col-md-6" >Nombre Finca:</label>
-                  <div class="col-md-6">
-                    {{dataFinca.nombrefinca}}
-                  </div>
-                </div>
+
 
               </div>
             </div>
@@ -128,7 +132,7 @@
               <div class="panel-heading clearfix" >
                 <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de la fica</h3>
               </div>
-              <div class="panel-body" style="max-height: 440px;">
+              <div class="panel-body"  style="max-height: {{heightpanel}}px;">
                 <div class="row">
                   <div class="col-md-9" >
                     <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
@@ -145,7 +149,7 @@
                   <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
                     -- No hay formularios --
                   </div>
-                  <div ng-if="formulariosFincaAcual.length > 0" style="overflow-y:auto; max-height: 370px; ">
+                  <div ng-if="formulariosFincaAcual.length > 0" style="overflow-y:auto; max-height: {{heightListaPreg}}px; ">
                     <table class="table table-condensed" >
                       <tr >
                         <!--<th>Id</th>-->
@@ -163,16 +167,17 @@
                         <!--<td>{{form.descripcion}}</td>-->
                         <!--<td>{{form.fecha}}</td>-->
                         <td style="width: 40%">
-                          <select style="padding-left:0%;" ng-model="$parent.respActual" class="form-control selectsTabs">
+                          <select style="padding-left:0%;" ng-model="$parent.respActual" ng-change="formActualFunc($parent.respActual)" class="form-control selectsTabs">
                             <!--<option value="" >Seleccione un Formulario</option>-->
-                            <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha}}</option>
+                            <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha_hora| date:"dd/MM//yyyy  h:mma"}}</option>
                           </select>
 
                         </td>
+                        {{respActual}}
                         <td style="width:1%">
-                          <button type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasForm()">
+                          <a type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasForm()">
                             <span class="glyphicon glyphicon-eye-open "></span>
-                          </button>
+                          </a>
                         </td>
                         <td style="width:1%">
                           <button type="button" class="btn-eiminarOpcion">

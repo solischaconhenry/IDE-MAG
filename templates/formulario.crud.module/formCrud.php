@@ -5,7 +5,7 @@ class formCrud{
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select nombreForm, descripcion, fecha, idform from formulario";
+        $query = "select nombreForm, descripcion, fecha, editable, idform from formulario";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;

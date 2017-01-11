@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -28,7 +29,7 @@
         </blockquote>
         <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alertRespuesta" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlertRespuesta($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 
-        <div ng-repeat="list in list2" ng-controller="ResponderController">
+        <div ng-repeat="list in list2" ng-controller="VerRespFormController">
             <div class="panel panel-info" >
                 <div class="panel-heading clearfix" >
                     <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{DataForm.nombre}}   (Página:{{nombrePag}})</h3>
@@ -42,7 +43,7 @@
                     </button>
                 </div>
 
-                <div class="panel-body" ng-include="'./templates/user.module/responder.module/responderTypes.html'"></div>
+                <div class="panel-body" ng-include="'./templates/verRespForm.module/verRespFormTypes.html'"></div>
             </div>
         </div>
 

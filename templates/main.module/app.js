@@ -77,7 +77,7 @@ angular
 
             .state('dashboard.dusTabs',{
                 url:'/tabs',
-                
+
                 views:{
                     'dashboard':{
                         templateUrl:'templates/dusTab.module/dusTab.view.html',
@@ -196,9 +196,18 @@ angular
                 authenticate: true
             })
 
+            .state('dashboard.verRespForm',{
+                url:'/verRespForm',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/verRespForm.module/verRespForm.view.html',
+                        controller: 'VerRespFormController'
+                    }
+                },
+                authenticate: true
+            })
 
-
-        //***********************USER SECTION******************************/
+            //***********************USER SECTION******************************/
             //dashboard de usuario
             .state('dashboardUser',{
                 url:'/dashboardUser',
@@ -236,7 +245,7 @@ angular
                 url:'/formularioAparto',
                 views: {
                     'dusTabsUser': {
-                        
+
                         templateUrl: 'templates/user.module/mostrar.module/mostrar.view.html',
                         controller: 'MostrarUserController'
                     }

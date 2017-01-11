@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('MostrarController', function ($scope,MostrarService,$state,InsertarFormularioFincaxForm) {
+.controller('MostrarController', function ($scope,MostrarService,$state,InsertarFormularioFincaxForm,VerEditarFormService) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.formActual = 0;
@@ -10,6 +10,8 @@ angular.module('AppPrueba')
     $scope.respuestasFormActual = [];
     $scope.codigofinca = 0;
     $scope.dataFinca = {};
+    $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
+    $scope.heightListaPreg = $scope.heightpanel -(screen.height/9);
     // Se debe de obtener el id del usuario
     $scope.idUser=1;
     MostrarService.getFincas($scope.idUser).then(function (data) {
@@ -31,7 +33,7 @@ angular.module('AppPrueba')
         //obtener idUsuario
         MostrarService.getFincasByID("1", $scope.gidFinca).then(function(data){
                      $scope.dataFinca = data[0];
-            
+
 
             $scope.codigofinca = $scope.dataFinca.codigofinca;
 
@@ -74,12 +76,17 @@ angular.module('AppPrueba')
         });
     }
 
+    $scope.formActualFunc = function (id) {
+        $scope.respActual = id;
+    }
 
     $scope.mostrarRespuestasForm = function () {
         if ($scope.respActual!= "" )
         {
-            
+            $state.go('dashboard.verRespForm');
+            VerEditarFormService.idRespuesta = $scope.respActual;
         }
+
 
     }
 
@@ -114,7 +121,7 @@ angular.module('AppPrueba')
 
         console.log($scope.jsonSeleccionado);
         //obtener idUsuario
-        MostrarService.getApartoByID($scope.apartoGid).then(function(data){
+        MostrarService.getApartoByID($scope.apartoGid,$scope.gidFinca).then(function(data){
           $scope.dataAparto = data[0];
           console.log(data);
         });

@@ -55,12 +55,29 @@ angular.module('AppPrueba')
 
             return promise;
         };
+        
+        
+        
+        
 
         this.obtenerAllPreguntas = function (idform) {
             var defered = $q.defer();
             var promise = defered.promise;
 
             $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntas&idform='+idform)
+                .success(function(response) {
+
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+        this.obtenerAllPreguntasWRespuestas = function (idform,idrespuesta) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntasWRespuestas&idform='+idform+'&idrespuesta='+idrespuesta)
                 .success(function(response) {
 
                     defered.resolve(response);

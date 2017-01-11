@@ -51,11 +51,11 @@ angular.module('AppPrueba')
         return promise;
     };
 
-    this.getApartoByID = function (idAparto) {
+    this.getApartoByID = function (idAparto,idFinca) {
         var defered = $q.defer();
         var promise = defered.promise;
         console.log("asdad"+idAparto);
-        $http.get('templates/mostrar.module/mostrar.logic.php?action=getApartoByID&gidAparto=' + idAparto)
+        $http.get('templates/mostrar.module/mostrar.logic.php?action=getApartoByID&gidAparto=' + idAparto+'&gidFinca=' + idFinca)
             .success(function(response) {
             defered.resolve(response);
         });

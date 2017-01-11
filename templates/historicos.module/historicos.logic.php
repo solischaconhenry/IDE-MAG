@@ -12,6 +12,15 @@ class historico
         return $row;
     }
 
+    function getFincasTodo($idUsuario){
+            include '../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "select * from fincas where iduser = $idUsuario";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+            return $row;
+        }
     function getPreview($gidFinca){
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
@@ -205,7 +214,7 @@ class historico
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "SELECT max(st_xmax(geom))-min(st_xmin(geom)) xinicial, max(st_ymax(geom))-min(st_ymin(geom)) yinicial FROM apartos where gid = $gidAparto";
+        $query = "SELECT max(st_xmax(geom))-min(st_xmin(geom)) xinicial, max(st_ymax(geom))-min(st_ymin(geom)) yinicial FROM apartos where gid = $gidAparto and gidfinca = $gidFinca";
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_row($result);
          $consulta="";
@@ -301,6 +310,9 @@ $historicoI = new historico();
 
 if($_REQUEST['action']=='getFincas') {
     print_r(json_encode($historicoI->getFincas($_REQUEST['idUser'])));
+    }
+else if($_REQUEST['action']=='getFincasTodo') {
+    print_r(json_encode($historicoI->getFincasTodo($_REQUEST['idUser'])));
 }
 else if($_REQUEST['action']=='preview') {
     print_r(json_encode($historicoI->getPreview($_REQUEST['gidFinca'])));
