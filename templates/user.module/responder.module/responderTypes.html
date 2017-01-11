@@ -24,23 +24,18 @@
              class="background-{{person.type}}"
              ng-show="person.hel == 'checkbox'"
         >
-
-
-                <div class="name">
-                    <label>{{person.enunciadopreg}}</label>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <div class="radio">
-                                <div ng-repeat="chk1 in person.options">
-                                    <input type="{{person.hel}}" class="form-control" name="{{person.idpreg}}" ng-model="person.answer" value="{{rad.opcion}}" ng-required="{{person.requerido}}">{{chk1.opcion}}
-                                </div>
+            <div class="name">
+                <label>{{person.enunciadopreg}}</label>
+                <div class="row">
+                    <div class="name col-md-10">
+                        <div class="checkbox">
+                            <div ng-repeat="chk1 in person.options">
+                                <input type="{{person.hel}}" ng-click = "toggle(chk1,person.answer)" ng-required="{{person.requerido}}">{{chk1.opcion}}
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
+            </div>
         </div>
 
         <!--For Radio Inputs-->
@@ -48,20 +43,18 @@
              class="background-{{person.type}}"
              ng-show="person.hel == 'radio'"
         >
-
-                <div class="name">
-                    <label>{{person.enunciadopreg}}</label>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <div class="radio">
-                                <div ng-repeat="rad in person.options">
-                                    <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}
-                                </div>
+            <div class="name">
+                <label>{{person.enunciadopreg}}</label>
+                <div class="row">
+                    <div class="name col-md-10">
+                        <div class="radio">
+                            <div ng-repeat="rad in person.options">
+                                <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}
                             </div>
                         </div>
                     </div>
                 </div>
-
+            </div>
         </div>
 
 
