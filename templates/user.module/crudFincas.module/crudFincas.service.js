@@ -11,6 +11,17 @@ angular.module('AppPrueba')
         });
         return promise;
     };
+
+    this.getTipoActividad = function () {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=getTipoActividad')
+            .success(function(response) {
+                defered.resolve(response);
+            });
+        return promise;
+    };
     
     
     this.preview = function (gidFinca) {

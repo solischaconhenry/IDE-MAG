@@ -125,12 +125,13 @@ Class CargarDatos {
               $dbname = "MAG";
               $port = "5432";
               $host = "localhost";
+              $tipo = "finca";
 
               $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
               $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
               $query = "select f.nombreform,f.idform,f.descripcion,f.fecha from formulario as f EXCEPT
-                         (select  f.nombreform,f.idform,f.descripcion,f.fecha from formulario as f inner join finca_formulario as p on (f.idform = p.idform) where p.codigofinca = $codigoFinca);";
+                         (select  f.nombreform,f.idform,f.descripcion,f.fecha from formulario as f inner join finca_aparto_formulario as p on (f.idform = p.idform) where p.codigofincaaparto = $codigoFinca and p.tipo = '$tipo');";
               $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
 
               $row = pg_fetch_all($result);
@@ -143,19 +144,20 @@ Class CargarDatos {
         $dbname = "MAG";
         $port = "5432";
         $host = "localhost";
+        $tipo = "finca";
 
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
-                  (select * from finca_formulario where codigofinca = $codigoFinca )as o on form.idform = o.idform ";
+                  (select * from finca_aparto_formulario where codigofincaaparto = $codigoFinca and tipo = '$tipo')as o on form.idform = o.idform ";
         $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
         $resulFin = [];
 
        while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
        {
            //Se recorren las respuestas
-            $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp where codigofinca = $codigoFinca and idform = $reg[idform]";
+            $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp where codigofincaaparto = $codigoFinca and idform = $reg[idform]";
 
             $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
 
@@ -247,11 +249,12 @@ Class Insertar {
         $dbname = "MAG";
         $port = "5432";
         $host = "localhost";
+        $tipo = "finca";
 
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "insert into finca_formulario values ($idform,$codigofinca)";
+        $query = "insert into finca_aparto_formulario values ($idform,$codigofinca,'$tipo')";
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
     }
   }

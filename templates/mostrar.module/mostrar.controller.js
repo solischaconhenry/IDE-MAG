@@ -1,4 +1,5 @@
 angular.module('AppPrueba')
+angular.module('AppPrueba')
 .controller('MostrarController', function ($scope,MostrarService,$state,InsertarFormularioFincaxForm,VerEditarFormService) {
     $scope.fincas = [];
     $scope.gidFinca = "";
