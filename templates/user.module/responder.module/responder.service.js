@@ -55,29 +55,12 @@ angular.module('AppPrueba')
 
             return promise;
         };
-        
-        
-        
-        
 
         this.obtenerAllPreguntas = function (idform) {
             var defered = $q.defer();
             var promise = defered.promise;
 
             $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntas&idform='+idform)
-                .success(function(response) {
-
-                    defered.resolve(response);
-                });
-
-            return promise;
-        };
-
-        this.obtenerAllPreguntasWRespuestas = function (idform,idrespuesta) {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntasWRespuestas&idform='+idform+'&idrespuesta='+idrespuesta)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -167,6 +150,21 @@ angular.module('AppPrueba')
             var promise = defered.promise;
 
             $http.get('templates/user.module/responder.module/responder.logic.php?action=insertResp_Preg&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
+                .success(function(response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+        this.insertRespOpcionesMulti = function (idresp,idpreg,valor) {
+            console.log("asd: " + idresp +", " + idpreg + "," + valor);
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespMultipleOpc&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
                 .success(function(response) {
                     console.log(response);
                     defered.resolve(response);
