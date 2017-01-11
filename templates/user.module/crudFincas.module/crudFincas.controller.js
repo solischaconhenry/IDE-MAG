@@ -1,29 +1,22 @@
 angular.module('AppPrueba')
-.controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile) {
+    .directive('newaparto', function() {
+    return {
+        templateUrl: './templates/user.module/crudFincas.module/addApartoInMap.html'
+    };
+})
+    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile) {
     $scope.fincas = [];
     $scope.selectedFinca = undefined;
     $scope.showInfoFinca = false;
+    $scope.actividades = [];
+    $scope.selectedActividad = undefined;
+    $scope.descripcionAparto = undefined;
+    $scope.actualOverlay = undefined;
 
-
-    // $scope.clickme = function () {
-    //     var div = document.createElement("div");
-    //     div.style.width = "250px";
-    //     div.style.height = "250px";
-    //     var input  = document.createElement("button");
-    //     input.setAttribute("type","button");
-    //     input.setAttribute("value","hitme");
-    //     input.setAttribute("ng-click", "hitme()");
-    //     input.innerHTML = 'test value';
-    //     div.appendChild(input);
-    //     //$compile(div)($scope);
-    //
-    //
-    //     $scope.sm.ui.showCustomPanel(div,true);
-    // }
 
     $scope.loadMap = function () {
         var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
-        mapService.loadMapWithEditTools(startCenter);
+        $scope.sm = mapService.loadMapWithEditTools(startCenter);
     };
 
 
@@ -41,17 +34,64 @@ angular.module('AppPrueba')
                 $scope.fincas = data;
             }
         });
+    };
+
+    $scope.getActividades = function () {
+        crudFincasUserService.getTipoActividad().then(function (data) {
+            if(data != 'false'){
+                $scope.actividades = data;
+            }
+        });
+    };
+    
+    $scope.agregarSolicitudAparto = function () {
+        $scope.actualOverlay.setMetaData(
+            {
+                tipoActividad:$scope.selectedActividad,
+                idtipoActividad:$scope.selectedActividad.idtipoactividad,
+                actividad:$scope.selectedActividad.nombre,
+                descripcion:$scope.descripcionAparto
+            });
+        $scope.sm.ui.hidePanel();
+        $scope.descripcionAparto = undefined;
+    }
+
+    $scope.createDivElementWithDirective = function () {
+        var div = document.createElement("div");
+        div.style.width = "250px";
+        div.style.height = "250px";
+        div.setAttribute("newAparto","");
+        $scope.sm.ui.showCustomPanel(div,false);
+        $compile(div)($scope);
     }
 
     $scope.fincaIsSelectedFromCombo = function(){
         $scope.showInfoFinca = !$scope.showInfoFinca;
         var type = JSON.parse($scope.selectedFinca.geom).type;
-        var geom = JSON.parse($scope.selectedFinca.geom)
+        var geom = JSON.parse($scope.selectedFinca.geom);
         if(type == "Polygon"){
-            mapService.dibujarFinca($scope.selectedFinca,geom.coordinates[0]);
+            mapService.clearListenersAndWipeMap();
+            mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0]);
+            mapService.addListenerGeometryDraw(mapService.validAddedOverlay,function (overlay,response) {
+                // if(isEmpty(overlay.getMetaData())){
+                // }
+                $scope.actualOverlay = overlay;
+                if(response == true){
+                    if(isEmpty(overlay.getMetaData())){
+                        $scope.selectedActividad = undefined;
+                        $scope.descripcionAparto = undefined;
+                    }else{
+                        console.log(overlay.getMetaData());
+                        $scope.selectedActividad = overlay.getMetaData().tipoActividad;
+                        $scope.descripcionAparto = overlay.getMetaData().descripcion;
+                    }
+                    $scope.createDivElementWithDirective();
+                }
+                //overlay.disableEdit();
+            });
         }else if(type == "MultiPolygon"){
             for (g in geom.coordinates[0]) {
-                mapService.dibujarFinca(geom.coordinates[0][g]);
+                mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0][g]);
             }
         }
     }
@@ -137,6 +177,31 @@ angular.module('AppPrueba')
         .then(function (data) {
             console.log(data)
         });
+    }
+
+    function isEmpty(obj) {
+
+        // null and undefined are "empty"
+        if (obj == null) return true;
+
+        // Assume if it has a length property with a non-zero value
+        // that that property is correct.
+        if (obj.length > 0)    return false;
+        if (obj.length === 0)  return true;
+
+        // If it isn't an object at this point
+        // it is empty, but it can't be anything *but* empty
+        // Is it empty?  Depends on your application.
+        if (typeof obj !== "object") return true;
+
+        // Otherwise, does it have any properties of its own?
+        // Note that this doesn't handle
+        // toString and valueOf enumeration bugs in IE < 9
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
+        }
+
+        return true;
     }
 
 
