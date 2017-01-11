@@ -175,4 +175,20 @@ angular.module('AppPrueba')
             return promise;
         };
 
+
+        this.editarResp_Preg = function (idresp_preg,valor) {
+            console.log("asd: " +idresp_preg + "," + valor);
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=editarResp_Preg&idresp_preg='+idresp_preg+'&valor='+valor)
+                .success(function(response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
     });

@@ -232,11 +232,7 @@ angular.module('AppPrueba')
 
 
         //*************************** GUARDAR FORMULARIO *******************************************************
-
-
-        $scope.print = function(algo){
-            console.log(algo);
-        };
+        
 
 
         //Guarda la respuestas del usuario

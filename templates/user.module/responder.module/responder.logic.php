@@ -188,7 +188,7 @@ class editarformulario{
                 $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
                 $rowsOp = pg_fetch_all($resultOp);
 
-                $queryAnswer = "select valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
+                $queryAnswer = "select idresp_preg,valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
                 $resultAnswer = pg_query($conn, $queryAnswer) or die("Error al ejecutar la consulta");
                 $rowAnswer = pg_fetch_all($resultAnswer);
 
@@ -235,12 +235,23 @@ Class Respuestas{
         }
 
         //busca el id de la respuesta insertada a partir de los dato insertados y de la fecha y hora que estan en milisegundos
+
         function insertResp_Preg($idResp, $idPreg, $valor){
 
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
             $query = "insert into resp_preg (idrespuesta, idpreg, valor) values ($idResp, $idPreg, '$valor');";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+        }
+
+        function editarResp_Preg($idresp_preg, $valor){
+
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "UPDATE resp_preg SET valor = '$valor' where idresp_preg = $idresp_preg;";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
         }
@@ -293,4 +304,8 @@ if($_REQUEST['action']=='getRespuestaForm') {
 
 if($_REQUEST['action']=='insertResp_Preg') {
     print_r($respuestaC->insertResp_Preg($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
+}
+
+if($_REQUEST['action']=='editarResp_Preg') {
+    print_r($respuestaC->editarResp_Preg($_REQUEST['idresp_preg'], $_REQUEST['valor']));
 }
