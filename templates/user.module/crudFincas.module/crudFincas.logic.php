@@ -18,9 +18,14 @@ class CrudFinca
                       ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(geom),4326))) as geom
                   from fincas where iduser = $idUsuario";
 
-        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
-        $row =  pg_fetch_all($result);
-        return $row;
+        $result = pg_query($conn, $query);
+        if(!$result){
+            return "error bitch";
+        }else{
+            $row =  pg_fetch_all($result);
+            return $row;
+        }
+
     }
 
     function getTipoActividad(){
