@@ -4,7 +4,7 @@ angular.module('AppPrueba')
         templateUrl: './templates/user.module/crudFincas.module/addApartoInMap.html'
     };
 })
-    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile) {
+    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile,$filter) {
     $scope.fincas = [];
     $scope.selectedFinca = undefined;
     $scope.showInfoFinca = false;
@@ -12,25 +12,55 @@ angular.module('AppPrueba')
     $scope.selectedActividad = undefined;
     $scope.descripcionAparto = undefined;
     $scope.actualOverlay = undefined;
+    $scope.currentDate = $filter("date")(Date.now(), 'dd-MM-yyyy');
+    $scope.apartosFinca = [];
 
 
     $scope.loadMap = function () {
         var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
         $scope.sm = mapService.loadMapWithEditTools(startCenter);
+        $scope.sm.ui.createTool({
+            baseTool: "edit",
+            id: "info",
+            select: function () {
+                $scope.sm.map.openInfoWindow(
+                    $scope.sm.view.getCenter(), "Seleccione un aparto", {lineColor: '#000000',
+                    lineOpacity: 1,
+                    fillColor: '#FFFFFF',
+                    fillOpacity: 1,
+                    weight: 2}, true
+                );
+                $scope.sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,function (event) {
+                    $scope.selectedActividad = event.data.getMetaData().actividad;
+                    $scope.descripcionAparto = event.data.getMetaData().descripcion;
+                    $scope.currentDate = event.data.getMetaData().fechaCreacion;
+                })
+            },
+            deselect: function (event) { },
+            mousedown: function (event) { },
+            mouseup: function (event) { },
+            mousemove: function (event) { }
+        });
+        mapService.avaibleTools.push("info");
+        $scope.sm.ui.setAvailableTools(mapService.avaibleTools);
     };
 
 
     $scope.printCoords = function () {
         console.log(JSON.stringify($scope.sm.data.getGeoJSON(), null, 2));
-        console.log($scope.sm.map.getOverlays());
+        //console.log($scope.sm.map.getOverlays());
         //console.log(JSON.stringify($scope.sm.data.getSmJSON(), null, 2));
         //sm.ui.showLoader("Loading Data");
+    }
+
+    $scope.getApartosValidosFinca = function (idFinca,callback) {
+        crudFincasUserService.getApartosValidosFinca(idFinca).then(callback)
     }
     
     
     $scope.getFincas = function () {
         crudFincasUserService.getFincas(UserService.username).then(function (data) {
-            if(data != 'false'){
+            if(data != 'false'){ // validar que no pasen datos nulos
                 $scope.fincas = data;
             }
         });
@@ -44,13 +74,20 @@ angular.module('AppPrueba')
         });
     };
     
+    $scope.getIdActividad = function (nombreActividad) {
+        for(i in $scope.actividades){
+            if($scope.actividades[i].nombre == nombreActividad)
+                return $scope.actividades[i].idtipoactividad;
+        }
+    }
+    
     $scope.agregarSolicitudAparto = function () {
         $scope.actualOverlay.setMetaData(
             {
-                tipoActividad:$scope.selectedActividad,
-                idtipoActividad:$scope.selectedActividad.idtipoactividad,
-                actividad:$scope.selectedActividad.nombre,
-                descripcion:$scope.descripcionAparto
+                actividad:$scope.selectedActividad,
+                idtipoActividad:$scope.getIdActividad($scope.selectedActividad),
+                descripcion:$scope.descripcionAparto,
+                fechaCreacion:$scope.currentDate
             });
         $scope.sm.ui.hidePanel();
         $scope.descripcionAparto = undefined;
@@ -65,35 +102,47 @@ angular.module('AppPrueba')
         $compile(div)($scope);
     }
 
-    $scope.fincaIsSelectedFromCombo = function(){
-        $scope.showInfoFinca = !$scope.showInfoFinca;
+    $scope.nuevoApartoCreadoListener = function (overlay,response) {
+        $scope.actualOverlay = overlay;
+        if(response == true){
+            if(isEmpty(overlay.getMetaData())){ // validar que solo contenga el gid en el metadata
+                $scope.selectedActividad = undefined;
+                $scope.descripcionAparto = undefined;
+                $scope.createDivElementWithDirective();
+            }
+            // else{
+            //     console.log(overlay.getMetaData());
+            //     $scope.selectedActividad = overlay.getMetaData().actividad;
+            //     $scope.descripcionAparto = overlay.getMetaData().descripcion;
+            //     $scope.currentDate = overlay.getMetaData().fechaCreacion;
+            // }
+
+        }
+    }
+    
+    $scope.manageDrawFincaAndApartoInMap = function () {
         var type = JSON.parse($scope.selectedFinca.geom).type;
         var geom = JSON.parse($scope.selectedFinca.geom);
-        if(type == "Polygon"){
-            mapService.clearListenersAndWipeMap();
+        mapService.clearListenersAndWipeMap();
+        if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){
             mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0]);
-            mapService.addListenerGeometryDraw(mapService.validAddedOverlay,function (overlay,response) {
-                // if(isEmpty(overlay.getMetaData())){
-                // }
-                $scope.actualOverlay = overlay;
-                if(response == true){
-                    if(isEmpty(overlay.getMetaData())){
-                        $scope.selectedActividad = undefined;
-                        $scope.descripcionAparto = undefined;
-                    }else{
-                        console.log(overlay.getMetaData());
-                        $scope.selectedActividad = overlay.getMetaData().tipoActividad;
-                        $scope.descripcionAparto = overlay.getMetaData().descripcion;
-                    }
-                    $scope.createDivElementWithDirective();
-                }
-                //overlay.disableEdit();
-            });
-        }else if(type == "MultiPolygon"){
+        }else if(JSON.parse($scope.selectedFinca.geom).type == "MultiPolygon"){
             for (g in geom.coordinates[0]) {
                 mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0][g]);
             }
         }
+        $scope.getApartosValidosFinca($scope.selectedFinca.gid,function (response) {
+            mapService.dibujarApartosValidosFinca(response);
+            mapService.addListenerGeometryDraw(mapService.validAddedOverlay,$scope.nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
+        });
+
+
+
+    }
+
+    $scope.fincaIsSelectedFromCombo = function(){
+        $scope.showInfoFinca = !$scope.showInfoFinca;
+        $scope.manageDrawFincaAndApartoInMap();
     }
     
     function reconvertJsonPolygon(puntos) {
