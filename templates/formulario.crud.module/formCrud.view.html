@@ -18,8 +18,8 @@
                             <li ng-repeat="data in formularios | filter: searchBox" class="list-group-item">
                                 {{data.nombre}}
                                 <span class="pull-right">
-                                    <button class="btn btn-primary clear btn-xs" ng-disabled="data.editable" href="#/formCrud/crud" ng-click = 'change(data.idform)'><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button class="btn btn-danger clear btn-xs"ng-disabled="data.editable" ng-click="deleteForm(data.idform)" class="trash"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a class="btn btn-primary clear btn-xs" ng-disabled="data.editable" href="#/formCrud/crud" ng-click = 'change(data.idform)'><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <a class="btn btn-danger clear btn-xs"ng-disabled="data.editable" ng-click="deleteForm(data.idform)" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                 </span>
 
                             </li>

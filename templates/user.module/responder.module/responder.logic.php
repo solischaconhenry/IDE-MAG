@@ -151,7 +151,7 @@ class editarformulario{
            //Recorrer las preguntas
            while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC)) {
 
-              $queryOp = "SELECT opcion FROM opciones where idPreg = $reg[idpreg]";
+              $queryOp = "SELECT idopc, opcion FROM opciones where idPreg = $reg[idpreg]";
 
                 $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
                 $rowsOp = pg_fetch_all($resultOp);
@@ -168,6 +168,7 @@ class editarformulario{
            }
            return (json_encode($resulFin));
          }
+
       function getAllPreguntasWRespuestas($idformulario2,$idrespuesta){
 
              include '../../main.module/acceso.php';
@@ -188,7 +189,7 @@ class editarformulario{
                 $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
                 $rowsOp = pg_fetch_all($resultOp);
 
-                $queryAnswer = "select valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
+                $queryAnswer = "select idresp_preg,valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
                 $resultAnswer = pg_query($conn, $queryAnswer) or die("Error al ejecutar la consulta");
                 $rowAnswer = pg_fetch_all($resultAnswer);
 
@@ -206,6 +207,7 @@ class editarformulario{
             return (json_encode($resulFin));
           }
 
+
 }
 
 Class Respuestas{
@@ -215,7 +217,7 @@ Class Respuestas{
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "insert into respuesta (idform, codigofinca, fecha_hora) values ($idform, $codigofinca, $fecha_hora);";
+            $query = "insert into respuesta (idform, codigofincaaparto, fecha_hora) values ($idform, $codigofinca, $fecha_hora);";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
             $query2 = "update formulario set editable = false where idform = $idform";
@@ -228,13 +230,14 @@ Class Respuestas{
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "select idrespuesta from respuesta where codigofinca = $codigofinca and idform = $idform and fecha_hora =$fecha_hora;";
+            $query = "select idrespuesta from respuesta where codigofincaaparto = $codigofinca and idform = $idform and fecha_hora =$fecha_hora;";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
             $rows = pg_fetch_all($result);
             return ($rows);
         }
 
         //busca el id de la respuesta insertada a partir de los dato insertados y de la fecha y hora que estan en milisegundos
+
         function insertResp_Preg($idResp, $idPreg, $valor){
 
             include '../../main.module/acceso.php';
@@ -244,6 +247,36 @@ Class Respuestas{
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
         }
+
+
+        function editarResp_Preg($idresp_preg, $valor){
+
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "UPDATE resp_preg SET valor = '$valor' where idresp_preg = $idresp_preg;";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+        }
+
+        //inserta las opciones escogidas por un usuario en un multiple select
+        function insertRespuestasMultiplesOpciones($idResp, $idPreg, $valor){
+
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query1 = "select idresp_preg from resp_preg where idrespuesta = $idResp and idpreg = $idPreg;";
+            $result1 =pg_query($conn, $query1) or die("Error al ejecutar la consulta");
+            $row = pg_fetch_all($result1);
+
+            $idresp_preg = $row[0]['idresp_preg'];
+            print_r($idresp_preg);
+
+            $query = "insert into opcion_multiple (idresp_preg,valor) values ($idresp_preg, '$valor');";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+        }
+
 }
 
 
@@ -275,8 +308,9 @@ if($_REQUEST['action']=='getPaginas') {
 if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
-
-
+if($_REQUEST['action']=='getPreguntas') {
+   print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
+}
 
 if($_REQUEST['action']=='getPreguntasWRespuestas') {
    print_r($editarFormC->getAllPreguntasWRespuestas($_REQUEST['idform'],$_REQUEST['idrespuesta']));
@@ -294,3 +328,14 @@ if($_REQUEST['action']=='getRespuestaForm') {
 if($_REQUEST['action']=='insertResp_Preg') {
     print_r($respuestaC->insertResp_Preg($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
 }
+
+
+if($_REQUEST['action']=='editarResp_Preg') {
+    print_r($respuestaC->editarResp_Preg($_REQUEST['idresp_preg'], $_REQUEST['valor']));
+    }
+
+if($_REQUEST['action']=='insertRespMultipleOpc') {
+    print_r($respuestaC->insertRespuestasMultiplesOpciones($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
+
+}
+?>

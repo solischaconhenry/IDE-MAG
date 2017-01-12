@@ -55,10 +55,6 @@ angular.module('AppPrueba')
 
             return promise;
         };
-        
-        
-        
-        
 
         this.obtenerAllPreguntas = function (idform) {
             var defered = $q.defer();
@@ -77,7 +73,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntasWRespuestas&idform='+idform+'&idrespuesta='+idrespuesta)
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntasWRespuestas&idform='+idform+"&idrespuesta="+idrespuesta)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -85,6 +81,8 @@ angular.module('AppPrueba')
 
             return promise;
         };
+
+
 
         this.obtenerFormulario = function (idform) {
             var defered = $q.defer();
@@ -168,6 +166,36 @@ angular.module('AppPrueba')
 
             $http.get('templates/user.module/responder.module/responder.logic.php?action=insertResp_Preg&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
                 .success(function(response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+        this.editarResp_Preg = function (idresp_preg,valor) {
+            console.log("asd: " +idresp_preg + "," + valor);
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=editarResp_Preg&idresp_preg='+idresp_preg+'&valor='+valor)
+                .success(function(response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+        this.insertRespOpcionesMulti = function (idresp,idpreg,valor) {
+            console.log("asd: " + idresp + ", " + idpreg + "," + valor);
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespMultipleOpc&idresp=' + idresp + '&idpreg=' + idpreg + '&valor=' + valor)
+                .success(function (response) {
                     console.log(response);
                     defered.resolve(response);
                 });

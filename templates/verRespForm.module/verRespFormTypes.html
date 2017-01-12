@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="name col-md-10 form-group">
                         <label>{{ person.enunciadopreg}}</label>
-                        <input type="person.hel" class="form-control" name="{{person.idpreg}}" ng-model="person.answer" ng-required="{{person.requerido}}">
+                        <input type="person.hel" class="form-control" name="{{person.idpreg}}" ng-model="person.answer.valor" ng-required="{{person.requerido}}">
                     </div>
                 </div>
 
@@ -32,7 +32,7 @@
                         <div class="name col-md-10">
                             <div class="radio">
                                 <div ng-repeat="chk1 in person.options">
-                                    <input type="{{person.hel}}" class="form-control" name="{{person.idpreg}}" ng-model="person.answer" value="{{rad.opcion}}" ng-required="{{person.requerido}}">{{chk1.opcion}}
+                                    <input type="{{person.hel}}" class="form-control" name="{{person.idpreg}}" ng-model="person.answer.valor" value="{{rad.opcion}}" ng-required="{{person.requerido}}">{{chk1.opcion}}
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="name col-md-10">
                             <div class="radio">
                                 <div ng-repeat="rad in person.options">
-                                    <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}
+                                    <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer.valor" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                         <label>{{person.enunciadopreg}}</label>
                         <div>
 
-                            <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="person.answer" name="{{person.idpreg}}" ng-required="{{person.requerido}}" class="form-control">
+                            <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="person.answer.valor" name="{{person.idpreg}}" ng-required="{{person.requerido}}" class="form-control">
                                 <option style="display:none" value="">Seleccione</option>
                             </select>
                         </div>
@@ -93,7 +93,7 @@
 
                 <div class="name">
                     <label>{{ person.enunciadopreg}}</label>
-                    <textarea ng-model="person.answer" name="{{person.idpreg}}" ng-required="{{person.requerido}}" rows="4" cols="50" class="form-control input-sm">
+                    <textarea ng-model="person.answer.valor" name="{{person.idpreg}}" ng-required="{{person.requerido}}" rows="4" cols="50" class="form-control input-sm">
                                     Texto...
                 </textarea>
                 </div>
