@@ -69,6 +69,21 @@ angular.module('AppPrueba')
             return promise;
         };
 
+        this.obtenerAllPreguntasWRespuestas = function (idform,idrespuesta) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=getPreguntasWRespuestas&idform='+idform+"&idrespuesta="+idrespuesta)
+                .success(function(response) {
+
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+
         this.obtenerFormulario = function (idform) {
             var defered = $q.defer();
             var promise = defered.promise;
@@ -159,13 +174,28 @@ angular.module('AppPrueba')
         };
 
 
-        this.insertRespOpcionesMulti = function (idresp,idpreg,valor) {
-            console.log("asd: " + idresp +", " + idpreg + "," + valor);
+        this.editarResp_Preg = function (idresp_preg,valor) {
+            console.log("asd: " +idresp_preg + "," + valor);
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespMultipleOpc&idresp='+idresp+'&idpreg='+idpreg+'&valor='+valor)
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=editarResp_Preg&idresp_preg='+idresp_preg+'&valor='+valor)
                 .success(function(response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+        this.insertRespOpcionesMulti = function (idresp,idpreg,valor) {
+            console.log("asd: " + idresp + ", " + idpreg + "," + valor);
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespMultipleOpc&idresp=' + idresp + '&idpreg=' + idpreg + '&valor=' + valor)
+                .success(function (response) {
                     console.log(response);
                     defered.resolve(response);
                 });

@@ -18,9 +18,14 @@ class CrudFinca
                       ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(geom),4326))) as geom
                   from fincas where iduser = $idUsuario";
 
-        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
-        $row =  pg_fetch_all($result);
-        return $row;
+        $result = pg_query($conn, $query);
+        if(!$result){
+            return "error bitch";
+        }else{
+            $row =  pg_fetch_all($result);
+            return $row;
+        }
+
     }
 
     function getTipoActividad(){
@@ -28,6 +33,21 @@ class CrudFinca
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         $query = "select idtipoactividad, nombre from tipoactividad";
+
+        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        $row =  pg_fetch_all($result);
+        return $row;
+    }
+
+    function getApartosValidosFinca($idFinca){
+        include '../../main.module/acceso.php';
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+        $query = "select
+                    gid,gidfinca,estado,
+                    ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(geom),4326))) as geom,
+                    fecha,idactividad
+                  from apartos where gidfinca = $idFinca and estado = 0";
 
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
@@ -200,5 +220,8 @@ else if($_REQUEST['action']=='divide') {
 }
 else if($_REQUEST['action']=='getTipoActividad') {
     print_r(json_encode($crudFinca->getTipoActividad()));
+}
+else if($_REQUEST['action']=='getApartosValidosFinca') {
+    print_r(json_encode($crudFinca->getApartosValidosFinca($_REQUEST['idFinca'])));
 }
 
