@@ -5,13 +5,14 @@ angular.module('AppPrueba')
         var property = [];
         var apartsAdded = [];
         var isValidApart = [];
-        var propertyStyle = {fillOpacity: 0.5, fillColor: "#2E9AFE", lineColor: "#FFFF00", weight: 5};
+        var propertyStyle = {fillOpacity: 0.3, fillColor: "#2E9AFE", lineColor: "#FFFF00", weight: 5};
         var apartoValidoStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3};
-        var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.5};
+        var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3};
         var legendStyle = [{name: "Área de Finca", style: propertyStyle},
             {name: "Aparto Válido", style: apartoValidoStyle},
             {name: "Aparto Pendiente", style: apartoPendienteStyle},
         ];
+        var defaultStyle = apartoPendienteStyle
 
         this.avaibleTools = ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
             "polygon"];
@@ -32,6 +33,7 @@ angular.module('AppPrueba')
                 startMapType: "hybrid",
                 disableZoom: false
             });
+            sm.draw.setStyle(apartoPendienteStyle);
 
             return sm;
         };
@@ -42,10 +44,10 @@ angular.module('AppPrueba')
                 trig(event.data,true);
             }else {
                 if(checkInsideProperty(event.data) == false){
-                    //event.data.remove();
+                    event.data.remove();
                     showAlert("Los apartos solo pueden ubicarse en el area de la finca","Aceptar",null);
                 }else if(checkInsideOtherOverlay(event.data) == true){
-                    //event.data.remove();
+                    event.data.remove();
                     showAlert("Las fincas solo pueden tener una capa de apartos","Aceptar",null);
                 }
 
@@ -90,14 +92,21 @@ angular.module('AppPrueba')
             sm.map.wipe();
         };
 
-        this.dibujarApartosValidosFinca = function(apartosInfo){
-            for(i in apartosInfo){
-                sm.draw.poly(JSON.parse(apartosInfo[i].geom).coordinates[0],apartoValidoStyle)
+        this.dibujarApartosFinca = function(apartosInfo){
+            for(var i in apartosInfo){
+                if(apartosInfo[i].estado == 2){
+                    defaultStyle = apartoPendienteStyle
+                }else {
+                    defaultStyle = apartoValidoStyle
+                }
+                sm.draw.poly(JSON.parse(apartosInfo[i].geom).coordinates[0],defaultStyle)
                     .setMetaData({
-                        actividad:null,
+                        actividad:apartosInfo[i].nombreactividad,
                         idtipoActividad:apartosInfo[i].idactividad,
-                        descripcion:null,
-                        fechaCreacion:apartosInfo[i].fecha
+                        descripcion:apartosInfo[i].descripcion,
+                        fechaCreacion:apartosInfo[i].fecha,
+                        estado:apartosInfo[i].estado,
+                        gidAparto:apartosInfo[i].gid
                     });
             }
         };
@@ -108,29 +117,6 @@ angular.module('AppPrueba')
             sm.view.setCenter(geom[0]);
             sm.view.setZoom(17);
             sm.ui.createLegend(legendStyle);
-
-
-
-
-
-            // function hitme() {
-            //     alert("hola que hace");
-            // }
-            //
-            // var div = document.createElement("div");
-            // div.style.width = "250px";
-            // div.style.height = "250px";
-            // var input  = document.createElement("button");
-            // input.setAttribute("type","button");
-            // input.setAttribute("value","hitme");
-            // input.addEventListener("click", hitme, false);
-            // input.innerHTML = 'test value';
-            // div.appendChild(input)
-            //
-            //
-            // sm.ui.showCustomPanel(div,true);
-
-
         }
 
     });
