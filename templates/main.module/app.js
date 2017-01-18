@@ -68,7 +68,8 @@ angular
                 url:'/home',
                 views:{
                     'dashboard':{
-                        templateUrl:'templates/home.module/home.module.view.html'
+                        templateUrl:'templates/home.module/home.module.view.html',
+                        controller:'HomeController'
                     }
                 },
                 authenticate: true

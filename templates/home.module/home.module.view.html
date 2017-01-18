@@ -1,3 +1,31 @@
 <div class="container">
-    <h1>Agromag</h1>
+    <div style="margin-top: 3%"></div>
+    <div class="col-xs-12 col-sm-6 col-md-7">
+        <div class="jumbotron">
+            <h1><img src="./res/logo2_opt.png"></h1>
+            <p>Software para el manejo y diseño de formularios de fincas y productores, además de un control
+            geográfico de las fincas. Con esto mantener bases de datos actualizadas y datos más consistentes.</p>
+
+
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-5">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i>Notificaciones  <span class="badge">{{num_notificaciones}}</span></a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="list-group">
+
+                    <a ng-repeat="notf in notificaciones" class="list-group-item" ng-click="deleteNotificacion(notf.idnotificacion)">
+                        <i class="fa fa-comment fa-fw"></i> {{notf.descripcion}}
+                        <span class="pull-right text-muted small"><em>{{notf.fecha_hora | date:'shortTime'}}</em></span>
+                    </a>
+                </div>
+                <!-- /.list-group -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
 </div>

@@ -22,6 +22,30 @@ angular.module('AppPrueba')
             });
         return promise;
     };
+
+    this.getApartosValidosFinca = function (idFinca) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=getApartosValidosFinca&idFinca='+idFinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+        return promise;
+    };
+
+    this.insertarApartosPendientes = function (infoAparto) {
+        var asd = infoAparto.geom.replace(/'/g, '"');
+        console.log(infoAparto.geom)
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=insertarApartoPendiente&gidFinca='+infoAparto.gidFinca+'&geom='+asd+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad)
+        .success(function(response) {
+                defered.resolve(response);
+            });
+        return promise;
+    };
     
     
     this.preview = function (gidFinca) {
