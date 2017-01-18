@@ -9,6 +9,12 @@ angular.module('AppPrueba')
 
         console.log("IDForm: " + FormularioResolver.idFormularioResolver + "IDFinca: " + FormularioResolver.idFincaAResponder);
 
+        $scope.ID_Aparto_Finca_Form = "";
+        ResponderService.getID_Aparto_Finca_Form(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder).then(function (data) {
+           console.log(data);
+            $scope.ID_Aparto_Finca_Form =  data[0].id_finca_aparto_form;
+            console.info($scope.ID_Aparto_Finca_Form);
+        });
 
         //ALERTAS DE EXITO Y FRACASO
         $scope.alertRespuesta = [
@@ -243,11 +249,11 @@ angular.module('AppPrueba')
             var currentdate = new Date().getTime();
             //inserta la respuesta del form
                 var descripcion = "Respuesta al formulario " + $scope.DataForm.nombre +" en la finca: "+FormularioResolver.idFincaAResponder;
-            ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate, descripcion).then(function (NA) {
+            ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, $scope.ID_Aparto_Finca_Form,currentdate, descripcion).then(function (NA) {
                 //recupera la respuesta del form para insertar las preguntas ahora
                 console.log(NA);
 
-                ResponderService.getRespuestaform(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (idresp) {
+                ResponderService.getRespuestaform(FormularioResolver.idFormularioResolver, $scope.ID_Aparto_Finca_Form,currentdate).then(function (idresp) {
 
                     for(var pag = 0; pag < data.length; pag++) {
                         for (var preg = 0; preg < data[pag]["preguntas"].length; preg++) {

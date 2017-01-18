@@ -219,5 +219,18 @@ angular.module('AppPrueba')
         };
 
 
+        this.getID_Aparto_Finca_Form = function (idform,codigo) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=getID_Aparto_Finca_Form&idform='+idform+'&codigo='+codigo)
+                .success(function(response) {
+                    console.log(response);
+
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
 
     });
