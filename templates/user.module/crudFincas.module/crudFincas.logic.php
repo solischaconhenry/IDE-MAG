@@ -44,10 +44,27 @@ class CrudFinca
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
         $query = "select
-                    gid,gidfinca,estado,
-                    ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(geom),4326))) as geom,
-                    fecha,idactividad
-                  from apartos where gidfinca = $idFinca and estado = 0";
+                  	ap.gid,ap.gidfinca,ap.estado,
+                  	ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(ap.geom),4326))) as geom,
+                  	ap.fecha,
+                  	(select nombre from tipoactividad where idtipoactividad = ap.idactividad) nombreactividad,ap.idactividad,
+                  	(select a.distribuciontrabajo from actividades a where a.idactividad = ap.idactividad and a.idaparto = ap.gid) descripcion
+                  from apartos ap where gidfinca = $idFinca and (estado = 0 or estado = 2)";
+
+        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        $row =  pg_fetch_all($result);
+        return $row;
+    }
+
+    function insertarApartoPendiente($gidFinca,$geom,$fecha,$idActividad){
+        include '../../main.module/acceso.php';
+        $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+        $query = "insert into apartos (gidfinca,estado,geom,fecha,idactividad) values
+                  (
+                  	$gidFinca,2,ST_Multi(
+                  	ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('$geom'),4326),5367)),$fecha,$idActividad
+                  )";
 
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
@@ -224,4 +241,8 @@ else if($_REQUEST['action']=='getTipoActividad') {
 else if($_REQUEST['action']=='getApartosValidosFinca') {
     print_r(json_encode($crudFinca->getApartosValidosFinca($_REQUEST['idFinca'])));
 }
+else if($_REQUEST['action']=='insertarApartoPendiente') {
+    print_r(json_encode($crudFinca->insertarApartoPendiente($_REQUEST['gidFinca'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'])));
+}
+
 
