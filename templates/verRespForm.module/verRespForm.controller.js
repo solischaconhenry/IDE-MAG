@@ -5,7 +5,7 @@
 angular.module('AppPrueba')
 
 
-    .controller('VerRespFormController', function ($scope, VerEditarFormService,VerRespFormService,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
+    .controller('VerRespFormController', function ($scope, VerEditarFormService,VerRespFormService,VerEditarFormServiceCodigoFincaAparto,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
         $scope.idrespuesta = VerEditarFormService.idRespuesta;
         // $scope.idform = "";
         /*****PRINCIPALES VARIABLES DE LOS FORMS - ACA ESTAN LOS DE CARGA-*/
@@ -15,7 +15,9 @@ angular.module('AppPrueba')
         $scope.peopleEdit = [];
         $scope.respaldoEdicion = [];
         $scope.respaldoPreguntas = [];
-        $scope.DataForm = []; //muestra el nombre del formulario
+        
+        $scope.DataFormResp = []; //datos del formulario
+
         $scope.list2 = [];
         $scope.list2.respuestas = [];
 
@@ -27,10 +29,19 @@ angular.module('AppPrueba')
                 var item = {
                     nombre: data2[0]["nombreform"],
                     descripcion: data2[0]["descripcion"],
-                    fecha: data2[0]["fecha"]
+                    fecha: data2[0]["fecha"],
+                    finca: VerEditarFormServiceCodigoFincaAparto.codigofincaaparto,
+                    nombreFinca:VerEditarFormServiceCodigoFincaAparto.nombrefinca,
+                    tipo:VerEditarFormServiceCodigoFincaAparto.tipo,
+                    nombreProp:VerEditarFormServiceCodigoFincaAparto.nombrepropietario,
+                    apellidos:VerEditarFormServiceCodigoFincaAparto.apellidosPropietario,
+                    fechaRes:VerEditarFormServiceCodigoFincaAparto.fechaRes
                 };
-                $scope.DataForm = item;
+                $scope.DataFormResp = item;
+                console.log($scope.DataFormResp);
             });
+            
+
 
             var tempArray = [];
             var pregUsadas = [];
@@ -52,21 +63,23 @@ angular.module('AppPrueba')
                                 if (pregunta[preg].descripcion === pagina[pag].descripcion) {
 
                                     if (pregunta[preg].options != undefined && pregunta[preg].options != null && pregunta[preg].options != "") {
+                                            console.log(pregunta[preg].answer);
                                         console.log(pregunta[preg].options);
+                                            var itemP = {
+                                                idpreg: pregunta[preg].idpreg,
+                                                name: pregunta[preg].titulo,
+                                                enunciadopreg: pregunta[preg].enunciadopreg,
+                                                categoria: pregunta[preg].categoria,
+                                                hel: pregunta[preg].tipo,
+                                                fijo: pregunta[preg].fijo,
+                                                requerido: (pregunta[preg].requerido === "t"),
+                                                mascara: pregunta[preg].mascara,
+                                                options: pregunta[preg].options,
+                                                answer: pregunta[preg].answer,
+                                                answerCopy:angular.copy(pregunta[preg].answer.items)
 
-                                        var itemP = {
-                                            idpreg: pregunta[preg].idpreg,
-                                            name: pregunta[preg].titulo,
-                                            enunciadopreg: pregunta[preg].enunciadopreg,
-                                            categoria: pregunta[preg].categoria,
-                                            hel: pregunta[preg].tipo,
-                                            fijo: pregunta[preg].fijo,
-                                            requerido: (pregunta[preg].requerido === "t"),
-                                            mascara: pregunta[preg].mascara,
-                                            options: pregunta[preg].options,
-                                            answer: pregunta[preg].answer[0]
+                                            };
 
-                                        };
                                     }
                                     else {
                                         var itemP = {
@@ -78,7 +91,7 @@ angular.module('AppPrueba')
                                             fijo: pregunta[preg].fijo,
                                             requerido: (pregunta[preg].requerido === "t"),
                                             mascara: pregunta[preg].mascara,
-                                            answer: pregunta[preg].answer[0]
+                                            answer: pregunta[preg].answer
                                         };
                                     }
                                     item.preguntas.push(itemP);
@@ -215,13 +228,44 @@ angular.module('AppPrueba')
 
             //*************************** GUARDAR FORMULARIO *******************************************************
 
+            function array_diff(array1, array2){
+                var difference = $.grep(array1, function(el) { return $.inArray(el,array2) < 0});
+                return difference;//.concat($.grep(array2, function(el) { return $.inArray(el,array1) < 0}));;
+            }
 
             //Guarda la respuestas del usuario
             $scope.guardarRespuestas = function (data) {
 
                 for (var pag = 0; pag < data.length; pag++) {
                     for (var preg = 0; preg < data[pag]["preguntas"].length; preg++) {
-                        ResponderService.editarResp_Preg(data[pag]["preguntas"][preg].answer.idresp_preg, data[pag]["preguntas"][preg].answer.valor);
+                        if(data[pag]["preguntas"][preg].hel == "checkbox")
+                        {
+                            //Elementos por agregar
+                            var listaAgre =array_diff(data[pag]["preguntas"][preg].answer.items,data[pag]["preguntas"][preg].answerCopy);
+                            //Elementos por eliminar
+                            var listaElim = array_diff(data[pag]["preguntas"][preg].answerCopy,data[pag]["preguntas"][preg].answer.items);
+
+                            console.log(listaAgre);
+                            console.log(listaElim);
+                            //var listaElim
+
+                            //Agregar
+                            for(opc = 0; opc <listaAgre.length; opc++)
+                            {
+                               ResponderService.insertWIdRespOpcionesMulti(data[pag]["preguntas"][preg].answer.id,listaAgre[opc]);//HACER LOS PROCEDIMINETOS
+                            }
+                            //Eliminar
+                            for(opc = 0; opc <listaElim.length; opc++)
+                            {
+                                ResponderService.eliminarRespOpcionesMulti(data[pag]["preguntas"][preg].answer.id,listaElim[opc]);
+                            }
+
+                        }
+                        else
+                        {
+                            ResponderService.editarResp_Preg(data[pag]["preguntas"][preg].answer.idresp_preg, data[pag]["preguntas"][preg].answer.valor);
+                        }
+
                     }
                 }
 
@@ -257,6 +301,19 @@ angular.module('AppPrueba')
                 }
 
             };
+
+
+            $scope.toggle = function (item, list) {
+                console.log(item);
+                var idx = list.map(function(d) { return d["opcion"]; }).indexOf(item.opcion);
+                if (idx > -1) {
+                    list.splice(idx, 1);
+                }
+                else {
+                    list.push(item);
+                }
+            };
+
 
         })
     });

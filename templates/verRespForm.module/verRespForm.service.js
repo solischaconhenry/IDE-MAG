@@ -18,9 +18,32 @@ angular.module('AppPrueba')
         };
 
 
+
+        this.obtenerDatosResp = function (idrespuesta) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/verRespForm.module/verRespForm.logic.php?action=obtenerDatosResp&idrespuesta='+idrespuesta)
+                .success(function (response) {
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
     })
 
     .service('VerEditarFormService', function() {
         this.idRespuesta = "";
+    })
+
+    .service('VerEditarFormServiceCodigoFincaAparto', function() {
+        this.codigofincaaparto = "";
+        this.nombrefinca = "";
+        this.tipo = "";
+        this.nombrepropietario = "";
+        this.apellidosPropietario = "";
+        this.fechaRes = 0;
     });
 

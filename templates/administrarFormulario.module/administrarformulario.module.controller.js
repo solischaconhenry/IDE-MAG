@@ -56,10 +56,12 @@ angular.module('AppPrueba')
         }
 
         $scope.agregarOpcion = function(){
+            console.log($scope.opciones);
             if($scope.opcionNueva == undefined || $scope.opcionNueva == ""  )
             {
                 $scope.alerts.push({type: 'warning',msg: 'Añada una opción valida!'});
             }
+
             else if($scope.buscarElemArr($scope.opcionNueva) == true)
             {
                 $scope.alerts.push({type: 'warning',msg: 'Opción repetida!'});
@@ -72,7 +74,7 @@ angular.module('AppPrueba')
 
         $scope.buscarElemArr = function (elem) {
             for (var i = 0; i < $scope.opciones.length; i++) {
-                if($scope.opciones[i] == elem)
+                if($scope.opciones[i].opcion == elem)
                 {
                     return true;
                 }

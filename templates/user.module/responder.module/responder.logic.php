@@ -187,19 +187,32 @@ class editarformulario{
 
                 $queryOp = "SELECT opcion FROM opciones where idPreg = $reg[idpreg]";
                 $resultOp = pg_query($conn, $queryOp) or die("Error al ejecutar la consulta");
-                $rowsOp = pg_fetch_all($resultOp);
+                $rowsOp = pg_fetch_all_columns($resultOp);
 
                 $queryAnswer = "select idresp_preg,valor from resp_preg where idrespuesta = $idrespuesta and idpreg = $reg[idpreg]";
                 $resultAnswer = pg_query($conn, $queryAnswer) or die("Error al ejecutar la consulta");
-                $rowAnswer = pg_fetch_all($resultAnswer);
+                $rowAnswer = pg_fetch_object($resultAnswer);
 
                  if( pg_num_rows($resultOp)> 0)
                  {
-                    //Agrega las opciones a las que sean de tipo checkbox
                     $reg["options"] = $rowsOp;
 
                   }
-                  $reg["answer"] =  $rowAnswer;
+                  //Si es es tipo checlbox se cargar las respuestas en un arreglo
+                  if($reg['tipo'] == "checkbox"){
+                        //print_r($rowAnswer->idresp_preg);
+                        $queryAnswerMul = "select valor from opcion_multiple where idresp_preg = $rowAnswer->idresp_preg";
+                        $resultAnswerMul = pg_query($conn, $queryAnswerMul) or die("Error al ejecutar la consulta");
+                        $rowAnswerMul = pg_fetch_all_columns($resultAnswerMul);
+                        $reg["answer"] =  array( "id" => $rowAnswer->idresp_preg,"items" => $rowAnswerMul);
+
+                  }
+                  //Si no se cargar normal
+                  else
+                  {
+                    $reg["answer"]   = $rowAnswer;
+                  }
+
                 //Va agregando las preguntas a un arreglo
                 $resulFin[] =  $reg;
 
@@ -265,7 +278,7 @@ Class Respuestas{
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query1 = "select idresp_preg from resp_preg where idrespuesta = $idResp and idpreg = $idPreg;";
+            $query1 = "select idresp_preg from resp_preg where idrespuesta = $idResp and idpreg = $idPreg;"; //*********************** HENRY
             $result1 =pg_query($conn, $query1) or die("Error al ejecutar la consulta");
             $row = pg_fetch_all($result1);
 
@@ -276,6 +289,30 @@ Class Respuestas{
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
         }
+
+
+        //inserta las opciones escogidas por un usuario en un multiple select(EDITAR DE ADMINISTRADOR)
+        function insertWIdRespOpcionesMulti($idresp_preg, $valor){
+            print_r($idresp_preg);
+            print_r($valor);
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+            $query = "insert into opcion_multiple (idresp_preg,valor) values ($idresp_preg, '$valor');";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+        }
+
+         function eliminarRespOpcionesMulti($idresp_preg, $valor){
+            print_r($idresp_preg);
+             print_r($idresp_preg);
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+            $query = "DELETE FROM opcion_multiple
+                        WHERE valor = '$valor' AND idresp_preg = $idresp_preg";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+        }
+
 
 }
 
@@ -293,49 +330,59 @@ if($_REQUEST['action']=='loadPreguntas') {
     print_r($nuevoCargarC->loadPreguntas());
 }
 
-if($_REQUEST['action']=='getFormulario') {
+else if($_REQUEST['action']=='getFormulario') {
     print_r($nuevoCargarC->getFormularios($_REQUEST['idformulario']));
 }
 
-if($_REQUEST['action']=='loadOpciones') {
+else if($_REQUEST['action']=='loadOpciones') {
     print_r($nuevoCargarC->loadOpciones($_REQUEST['idPreg']));
 }
 
-if($_REQUEST['action']=='getPaginas') {
+else if($_REQUEST['action']=='getPaginas') {
    print_r(json_encode($editarFormC->getPaginasByID($_REQUEST['idform'])));
 }
 
-if($_REQUEST['action']=='getPreguntas') {
+else if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
-if($_REQUEST['action']=='getPreguntas') {
+else if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
 
-if($_REQUEST['action']=='getPreguntasWRespuestas') {
+else if($_REQUEST['action']=='getPreguntasWRespuestas') {
    print_r($editarFormC->getAllPreguntasWRespuestas($_REQUEST['idform'],$_REQUEST['idrespuesta']));
 }
 
 
-if($_REQUEST['action']=='insertRespuesta') {
+else if($_REQUEST['action']=='insertRespuesta') {
     print_r($respuestaC->guardarRespuesta($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha']));
 }
 
-if($_REQUEST['action']=='getRespuestaForm') {
+else if($_REQUEST['action']=='getRespuestaForm') {
     print_r(json_encode($respuestaC->getRespuestaForm($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha'])));
 }
 
-if($_REQUEST['action']=='insertResp_Preg') {
+else if($_REQUEST['action']=='insertResp_Preg') {
     print_r($respuestaC->insertResp_Preg($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
 }
 
 
-if($_REQUEST['action']=='editarResp_Preg') {
+else if($_REQUEST['action']=='editarResp_Preg') {
     print_r($respuestaC->editarResp_Preg($_REQUEST['idresp_preg'], $_REQUEST['valor']));
     }
 
-if($_REQUEST['action']=='insertRespMultipleOpc') {
+else if($_REQUEST['action']=='insertRespMultipleOpc') {
     print_r($respuestaC->insertRespuestasMultiplesOpciones($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
+
+}
+
+else if($_REQUEST['action']=='insertWIdRespOpcionesMulti') {
+
+    print_r($respuestaC->insertWIdRespOpcionesMulti($_REQUEST['idresp_preg'],$_REQUEST['valor']));
+
+}
+else if($_REQUEST['action']=='eliminarRespOpcionesMulti') {
+    print_r($respuestaC->eliminarRespOpcionesMulti($_REQUEST['idresp_preg'],$_REQUEST['valor']));
 
 }
 ?>

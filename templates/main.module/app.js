@@ -7,7 +7,7 @@ angular
         'ui.router',
         'dndLists',
         'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'simplePagination',
-        'ngSanitize'
+        'ngSanitize','checklist-model'
     ])
 
     .directive('fileModel', ['$parse', function ($parse) {

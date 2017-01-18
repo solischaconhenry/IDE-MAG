@@ -203,4 +203,34 @@ angular.module('AppPrueba')
             return promise;
         };
 
+        //Servicio para el editar del administrador
+        this.insertWIdRespOpcionesMulti = function (idresp_preg,valor) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertWIdRespOpcionesMulti&idresp_preg=' + idresp_preg +  '&valor=' + valor)
+                .success(function (response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+        //Servicio para el editar del administrador
+        this.eliminarRespOpcionesMulti = function (idresp_preg,valor) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=eliminarRespOpcionesMulti&idresp_preg=' + idresp_preg +  '&valor=' + valor)
+                .success(function (response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+
     });

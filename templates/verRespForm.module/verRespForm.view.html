@@ -18,34 +18,97 @@
 </div>
 
 
+<div class="row" style="overflow-x: hidden;">
+    <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Respuestas de formularios</h4>
+    <hr>
+</div>
+<div class="typesDemo row" style="overflow-x: hidden">
+    <div class="col-md-4 " >
 
-<div class="typesDemo row">
-    <div class="col-xs-12 col-sm-6 col-md-10" >
-        <h1>{{DataForm.nombre}}</h1>
+        <div class="panel panel-info" >
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title" style="padding-top: 7.5px;">Información general</h3>
+            </div>
 
-        <blockquote class="blockquote">
-            <p class="mb-0">{{DataForm.descripcion}}</p>
-            <footer class="blockquote-footer">{{DataForm.fecha}}</footer>
-        </blockquote>
+            <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto">
+                <div class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Nombre de formulario:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.nombre}}
+                    </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Fecha de creación:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.fecha}}
+                    </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Fecha de respuesta:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.fechaRes| date:"yyyy-MM-dd  h:mma"}}
+                    </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Finca:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.nombreFinca}}
+                    </div>
+                </div>
+                <div class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Propietario:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.nombreProp}} {{DataFormResp.apellidos}}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="panel panel-info" >
+            <div class="panel-heading clearfix" >
+                <h3 class="panel-title" style="padding-top: 7.5px;">Descripción</h3>
+            </div>
+
+            <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto">
+                <div class="col-md-12">
+                    {{DataFormResp.descripcion}}
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="col-md-6" >
+
         <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alertRespuesta" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlertRespuesta($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 
         <div ng-repeat="list in list2" ng-controller="VerRespFormController">
             <div class="panel panel-info" >
                 <div class="panel-heading clearfix" >
-                    <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{DataForm.nombre}}   (Página:{{nombrePag}})</h3>
+                    <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{DataFormResp.nombre}}   (Página:{{nombrePag}})</h3>
                     <button type="button" class="btn btn-default btn-sm" ng-click="validar($parent.list2)">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Finalizar
                     </button>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="back()">
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Regresar
-                    </button>
                 </div>
 
-                <div class="panel-body" ng-include="'./templates/verRespForm.module/verRespFormTypes.html'"></div>
+                <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto"ng-include="'./templates/verRespForm.module/verRespFormTypes.html'"></div>
+                <div class="panel-footer" style="margin-bottom: 0%">
+                    <ul class="pagination">
+                        <li><a href="" ng-click="pagination.prevPage(); change(n+1);">&laquo;</a></li>
+                        <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
+                            <a href="" ng-click="pagination.toPageId(n); change(n+1);">{{n + 1}}</a>
+                        </li>
+                        <li><a href="" ng-click="pagination.nextPage(); change(n+1);">&raquo;</a></li>
+
+                    </ul>
+                </div>
             </div>
         </div>
 
     </div>
+
 </div>

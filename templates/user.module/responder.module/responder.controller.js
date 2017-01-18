@@ -80,6 +80,7 @@ angular.module('AppPrueba')
                                         mascara: pregunta[preg].mascara,
                                         options: pregunta[preg].options,
                                         answer:[]
+                                        
 
                                     };
                                 }
@@ -260,7 +261,7 @@ angular.module('AppPrueba')
                                 for(opc = 0; opc < data[pag]["preguntas"][preg]["answer"].length; opc++){
                                     console.log(data[pag]["preguntas"][preg]["answer"][opc].opcion);
                                     ResponderService.insertRespOpcionesMulti(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, data[pag]["preguntas"][preg]["answer"][opc].opcion);
-                                }
+                            }
                             }
                         }
                     }

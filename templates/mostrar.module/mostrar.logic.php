@@ -306,7 +306,7 @@ class Mostrar
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select * from fincas where iduser = $idUsuario and gid = $fincaID;";
+        $query = "select * from fincas as f inner join  (select usuario,nombre as nombreprop,apellidos from usuarios)as d on f.iduser = d.usuario where f.iduser = $idUsuario and f.gid = $fincaID;";
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
         return $row;

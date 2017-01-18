@@ -20,28 +20,25 @@
         </div>
 
         <!--For Checkbox Inputs-->
+        <!--For Checkbox Inputs-->
         <div ng-repeat="person in  data.preguntas"
              class="background-{{person.type}}"
              ng-show="person.hel == 'checkbox'"
         >
-
-
-                <div class="name">
-                    <label>{{person.enunciadopreg}}</label>
-                    <div class="row">
-                        <div class="name col-md-10">
-                            <div class="radio">
-                                <div ng-repeat="chk1 in person.options">
-                                    <input type="{{person.hel}}" class="form-control" name="{{person.idpreg}}" ng-model="person.answer.valor" value="{{rad.opcion}}" ng-required="{{person.requerido}}">{{chk1.opcion}}
-                                </div>
+            <div class="name">
+                <label>{{person.enunciadopreg}}</label>
+                <div class="row">
+                    <div class="name col-md-10">
+                        <div class="checkbox">
+                            <div ng-repeat="chk1 in person.options" >
+                                <input type="{{person.hel}}" checklist-model="person.answer.items" checklist-value="chk1" ng-required="{{person.requerido}}" > {{chk1}}
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
+            </div>
         </div>
+
 
         <!--For Radio Inputs-->
         <div ng-repeat="person in  data.preguntas"
@@ -103,12 +100,3 @@
     </div>
 </div>
 
-<ul class="pagination">
-    <li><a href="" ng-click="pagination.prevPage(); change(n+1);">&laquo;</a></li>
-    <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
-        <a href="" ng-click="pagination.toPageId(n); change(n+1);">{{n + 1}}</a>
-    </li>
-    <li><a href="" ng-click="pagination.nextPage(); change(n+1);">&raquo;</a></li>
-
-
-</ul>
