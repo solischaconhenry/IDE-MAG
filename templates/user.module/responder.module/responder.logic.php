@@ -212,7 +212,7 @@ class editarformulario{
 
 Class Respuestas{
         //guarda la respuesta a un form en la tabla respuesta, pero no las preguntas por ahora
-        function guardarRespuesta($idform, $codigofinca, $fecha_hora){
+        function guardarRespuesta($idform, $codigofinca, $fecha_hora, $msg){
 
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
@@ -222,6 +222,13 @@ Class Respuestas{
 
             $query2 = "update formulario set editable = false where idform = $idform";
             $result2 =pg_query($conn, $query2) or die("Error al ejecutar la consulta");
+
+
+            $query3 = "insert into notificaciones (descripcion, fecha_hora, tipo) values ('$msg', $fecha_hora, 'formulario')";
+            $result3 =pg_query($conn, $query3) or die("Error al ejecutar la consulta");
+
+             $row = pg_fetch_all($result3);
+             return ($row);
         }
 
         //busca el id de la respuesta insertada a partir de los dato insertados y de la fecha y hora que estan en milisegundos
@@ -308,9 +315,6 @@ if($_REQUEST['action']=='getPaginas') {
 if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
-if($_REQUEST['action']=='getPreguntas') {
-   print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
-}
 
 if($_REQUEST['action']=='getPreguntasWRespuestas') {
    print_r($editarFormC->getAllPreguntasWRespuestas($_REQUEST['idform'],$_REQUEST['idrespuesta']));
@@ -318,7 +322,7 @@ if($_REQUEST['action']=='getPreguntasWRespuestas') {
 
 
 if($_REQUEST['action']=='insertRespuesta') {
-    print_r($respuestaC->guardarRespuesta($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha']));
+    print_r($respuestaC->guardarRespuesta($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha'], $_REQUEST['name']));
 }
 
 if($_REQUEST['action']=='getRespuestaForm') {
@@ -336,6 +340,5 @@ if($_REQUEST['action']=='editarResp_Preg') {
 
 if($_REQUEST['action']=='insertRespMultipleOpc') {
     print_r($respuestaC->insertRespuestasMultiplesOpciones($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
-
 }
 ?>
