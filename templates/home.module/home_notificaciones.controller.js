@@ -35,6 +35,7 @@ angular.module('AppPrueba')
 
             //console.log(index);
             $scope.notificaciones.splice(index,1);
+            $scope.num_notificaciones -=1;
 
         };
 
