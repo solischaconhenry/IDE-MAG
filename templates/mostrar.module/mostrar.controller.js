@@ -48,6 +48,7 @@ angular.module('AppPrueba')
             InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
             // Aqui se actializa la lista de formularios disponibles para la finca seleccionada
             $scope.actualizarlistaForm();
+            $scope.apartoAtual = false;
 
         });
     };

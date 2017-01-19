@@ -44,10 +44,14 @@ angular.module('AppPrueba')
             }else {
                 if(checkInsideProperty(event.data) == false){
                     event.data.remove();
-                    this.showAlert("Los apartos solo pueden ubicarse en el area de la finca","Aceptar",null);
+                    sm.ui.showAlert("Los apartos solo pueden ubicarse en el area de la finca",
+                        ["Aceptar"],
+                        [null]);
                 }else if(checkInsideOtherOverlay(event.data) == true){
                     event.data.remove();
-                    this.showAlert("Las fincas solo pueden tener una capa de apartos","Aceptar",null);
+                    sm.ui.showAlert("Las fincas solo pueden tener una capa de apartos",
+                        ["Aceptar"],
+                        [null]);
                 }
 
                 trig(event.data,false);
@@ -62,25 +66,18 @@ angular.module('AppPrueba')
             });
 
         };
-
-        this.showAlert = function(message,buttonText,triggerAction){
-            sm.ui.showAlert(message,
-                [buttonText],
-                [triggerAction]);
-        };
         
         function checkInsideProperty(overlay) {
             return property.containsOverlay(overlay);
         };
         
         function checkInsideOtherOverlay(overlay) {
-            if(apartsAdded == null){
-                return false;
-            }else {
-                for(x in apartsAdded){
-                    if(apartsAdded[x].containsOverlay(overlay)){
-                        return true;
-                    }
+            var overlays = sm.map.getOverlays()
+            overlays.shift();
+            for(var x in overlays){
+                console.log(overlays[x].containsOverlay(overlay))
+                if(overlays[x].containsOverlay(overlay)){
+                    return true;
                 }
             }
             return false;

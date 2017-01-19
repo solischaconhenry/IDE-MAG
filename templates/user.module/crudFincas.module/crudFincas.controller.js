@@ -140,7 +140,10 @@ angular.module('AppPrueba')
             for(var i in geojson.features){
                 console.log(geojson.features[i].properties.metaData);
                 if(geojson.features[i].properties.metaData==null){
-                    mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
+                    //mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
+                    $scope.sm.ui.showAlert("Complete la informacion solicitada en los apartos",
+                        ["Aceptar"],
+                        [null]);
                     return false
                 }
             }
@@ -237,8 +240,9 @@ angular.module('AppPrueba')
                 if(response != "false"){
                     LS.setApartosFinca(response);
                     mapService.dibujarApartosFinca(response);
+                    mapService.addListenerGeometryDraw(mapService.validAddedOverlay,$scope.nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
                 }
-                mapService.addListenerGeometryDraw(mapService.validAddedOverlay,$scope.nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
+
             });
 
 
