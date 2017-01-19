@@ -1,6 +1,6 @@
 angular.module('AppPrueba')
 angular.module('AppPrueba')
-.controller('MostrarController', function ($scope,MostrarService,$state,InsertarFormularioFincaxForm,VerEditarFormService) {
+.controller('MostrarController', function ($scope,MostrarService,$state,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm,VerEditarFormService) {
     $scope.fincas = [];
     $scope.gidFinca = "";
     $scope.formActual = 0;
@@ -17,14 +17,17 @@ angular.module('AppPrueba')
     $scope.idUser=1;
     MostrarService.getFincas($scope.idUser).then(function (data) {
         $scope.fincas = data;
-        console.log($scope.fincas);
     });
+
 
     $scope.change2 = function() {
         console.log($scope.formActual);
     }
 
     $scope.change = function(){
+
+
+
         MostrarService.preview($scope.gidFinca).then(function (data) {
             $scope.numHistoricoActual = data.max;
             $scope.Max = data.max;
@@ -34,10 +37,15 @@ angular.module('AppPrueba')
         //obtener idUsuario
         MostrarService.getFincasByID("1", $scope.gidFinca).then(function(data){
                      $scope.dataFinca = data[0];
-
+            console.log($scope.dataFinca);
 
             $scope.codigofinca = $scope.dataFinca.codigofinca;
 
+            //Para enviar al mostrarRespuesta el tipo
+            VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = $scope.codigofinca;
+            VerEditarFormServiceCodigoFincaAparto.tipo = "finca";
+            
+            //Para enviar  a la vista de mostrar
             InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
             // Aqui se actializa la lista de formularios disponibles para la finca seleccionada
             $scope.actualizarlistaForm();
@@ -51,6 +59,7 @@ angular.module('AppPrueba')
         }
         else {
             MostrarService.insertarFormFinca($scope.formActual, $scope.codigofinca).then(function (data) {
+                console.log(data)
             });
 
             $scope.actualizarlistaForm();
@@ -77,15 +86,20 @@ angular.module('AppPrueba')
         });
     }
 
-    $scope.formActualFunc = function (id) {
-        $scope.respActual = id;
+    $scope.formActualFunc = function (elem) {
+        $scope.respActual = JSON.parse(elem);
     }
 
     $scope.mostrarRespuestasForm = function () {
-        if ($scope.respActual!= "" )
+        if ($scope.respActual.idrespuesta!= "" )
         {
+
             $state.go('dashboard.verRespForm');
-            VerEditarFormService.idRespuesta = $scope.respActual;
+            VerEditarFormService.idRespuesta = $scope.respActual.idrespuesta;
+            VerEditarFormServiceCodigoFincaAparto.nombrefinca = $scope.dataFinca.nombrefinca;
+            VerEditarFormServiceCodigoFincaAparto.nombrepropietario = $scope.dataFinca.nombreprop;
+            VerEditarFormServiceCodigoFincaAparto.apellidosPropietario = $scope.dataFinca.apellidos;
+            VerEditarFormServiceCodigoFincaAparto.fechaRes = $scope.respActual.fecha_hora;
         }
 
 
@@ -115,6 +129,9 @@ angular.module('AppPrueba')
     $scope.gidAparto = "";
     $scope.jsonSeleccionado=[];
     $scope.unir = function(gid, coordenadas){
+
+        VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = gid;
+        VerEditarFormServiceCodigoFincaAparto.tipo = "aparto";
         console.log(gid);
         $scope.apartoGid = gid;
         $scope.jsonSeleccionado =[];

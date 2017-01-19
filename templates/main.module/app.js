@@ -7,7 +7,7 @@ angular
         'ui.router',
         'dndLists',
         'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'simplePagination',
-        'ngSanitize'
+        'ngSanitize','checklist-model'
     ])
 
     .directive('fileModel', ['$parse', function ($parse) {
@@ -68,7 +68,8 @@ angular
                 url:'/home',
                 views:{
                     'dashboard':{
-                        templateUrl:'templates/home.module/home.module.view.html'
+                        templateUrl:'templates/home.module/home.module.view.html',
+                        controller:'HomeController'
                     }
                 },
                 authenticate: true

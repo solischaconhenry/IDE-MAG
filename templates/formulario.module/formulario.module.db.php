@@ -157,7 +157,7 @@ Class CargarDatos {
        while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
        {
            //Se recorren las respuestas
-            $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp where codigofincaaparto = $codigoFinca and idform = $reg[idform]";
+            $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp inner join finca_aparto_formulario as faf on faf.id_finca_aparto_form = resp.id_finca_aparto_form where faf.codigofincaaparto = $codigoFinca and resp.idform = $reg[idform]";
 
             $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
 
@@ -248,7 +248,7 @@ Class Insertar {
 
           $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
           $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
-
+          
           $query = "insert into pagina (descripcion,orden) values ('$descripcion',$orden)";
           $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
@@ -290,7 +290,7 @@ Class Insertar {
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "insert into finca_aparto_formulario values ($idform,$codigofinca,'$tipo')";
+        $query = "insert into finca_aparto_formulario (idform,codigofincaaparto,tipo) values ($idform,$codigofinca,'$tipo')";
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
     }
   }

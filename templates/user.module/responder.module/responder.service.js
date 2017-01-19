@@ -97,31 +97,19 @@ angular.module('AppPrueba')
             return promise;
         };
 
-        this.insertarRespuesta = function (idform,codigo,fecha) {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
-                .success(function(response) {
-
-                    defered.resolve(response);
-                });
-
-            return promise;
-        };
-
         /**
          * Busca obtener el ID de la respuesta insertada,  para poder insertar
          * @param idform
          * @param codigo
          * @param fecha
+         * @param nombre //describe el nombre de form para la respuesta
          * @return {*|d}
          */
-        this.insertarRespuesta = function (idform,codigo,fecha) {
+        this.insertarRespuesta = function (idform,codigo,fecha,nombre) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha)
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespuesta&idform='+idform+'&codigo='+codigo+'&fecha='+fecha+'&name='+nombre)
                 .success(function(response) {
 
                     defered.resolve(response);
@@ -196,7 +184,49 @@ angular.module('AppPrueba')
 
             $http.get('templates/user.module/responder.module/responder.logic.php?action=insertRespMultipleOpc&idresp=' + idresp + '&idpreg=' + idpreg + '&valor=' + valor)
                 .success(function (response) {
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+        //Servicio para el editar del administrador
+        this.insertWIdRespOpcionesMulti = function (idresp_preg,valor) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=insertWIdRespOpcionesMulti&idresp_preg=' + idresp_preg +  '&valor=' + valor)
+                .success(function (response) {
                     console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+        //Servicio para el editar del administrador
+        this.eliminarRespOpcionesMulti = function (idresp_preg,valor) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=eliminarRespOpcionesMulti&idresp_preg=' + idresp_preg +  '&valor=' + valor)
+                .success(function (response) {
+                    console.log(response);
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+
+        this.getID_Aparto_Finca_Form = function (idform,codigo) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('templates/user.module/responder.module/responder.logic.php?action=getID_Aparto_Finca_Form&idform='+idform+'&codigo='+codigo)
+                .success(function(response) {
+                    console.log(response);
+
                     defered.resolve(response);
                 });
 

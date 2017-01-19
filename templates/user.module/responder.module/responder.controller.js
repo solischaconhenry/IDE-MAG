@@ -9,6 +9,12 @@ angular.module('AppPrueba')
 
         console.log("IDForm: " + FormularioResolver.idFormularioResolver + "IDFinca: " + FormularioResolver.idFincaAResponder);
 
+        $scope.ID_Aparto_Finca_Form = "";
+        ResponderService.getID_Aparto_Finca_Form(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder).then(function (data) {
+           console.log(data);
+            $scope.ID_Aparto_Finca_Form =  data[0].id_finca_aparto_form;
+            console.info($scope.ID_Aparto_Finca_Form);
+        });
 
         //ALERTAS DE EXITO Y FRACASO
         $scope.alertRespuesta = [
@@ -51,7 +57,7 @@ angular.module('AppPrueba')
         var pregUsadas = [];
         $scope.edicion = function (callback) {
             var idForm = FormularioResolver.idFormularioResolver;
-            console.log("form: " + idForm);
+            //console.log("form: " + idForm);
             ResponderService.obtenerPaginasByID(idForm).then(function (pagina) {
                 //console.log(pagina);
                 ResponderService.obtenerAllPreguntas(idForm).then(function (pregunta) {
@@ -80,6 +86,7 @@ angular.module('AppPrueba')
                                         mascara: pregunta[preg].mascara,
                                         options: pregunta[preg].options,
                                         answer:[]
+                                        
 
                                     };
                                 }
@@ -99,13 +106,13 @@ angular.module('AppPrueba')
                                 item.preguntas.push(itemP);
 
                                 pregUsadas.push(pregunta[preg].titulo);
-                                //              console.warn(item);
+                                            console.warn(item);
                             }
 
                         }
 
                         tempArray.push(item);
-                        //console.info(tempArray);
+                        console.info(tempArray);
                     }
                     // $scope.peopleEdit = tempArray;
                     $scope.respaldoEdicion = angular.copy(tempArray);
@@ -157,7 +164,7 @@ angular.module('AppPrueba')
         //for control of pagination
         $scope.pagination = Pagination.getNew();
         //$scope.pagination = Pagination.getNew(2);
-        console.log($scope.list2[0].people.length);
+        //console.log($scope.list2[0].people.length);
         //$scope.pagination.numPages = Math.ceil($scope.list2[0].people.length/$scope.pagination.perPage);
         $scope.pagination.numPages = 0;
 
@@ -232,19 +239,21 @@ angular.module('AppPrueba')
 
 
         //*************************** GUARDAR FORMULARIO *******************************************************
-        
+
 
 
         //Guarda la respuestas del usuario
-        $scope.guardarRespuestas = function (data) {
+            $scope.guardarRespuestas = function (data) {
             var idRespuesta = "";
             //calcula la fecha y hora actual en milisegundos
             var currentdate = new Date().getTime();
             //inserta la respuesta del form
-            ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (NA) {
+                var descripcion = "Respuesta al formulario " + $scope.DataForm.nombre +" en la finca: "+FormularioResolver.idFincaAResponder;
+            ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, $scope.ID_Aparto_Finca_Form,currentdate, descripcion).then(function (NA) {
                 //recupera la respuesta del form para insertar las preguntas ahora
+                console.log(NA);
 
-                ResponderService.getRespuestaform(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder,currentdate).then(function (idresp) {
+                ResponderService.getRespuestaform(FormularioResolver.idFormularioResolver, $scope.ID_Aparto_Finca_Form,currentdate).then(function (idresp) {
 
                     for(var pag = 0; pag < data.length; pag++) {
                         for (var preg = 0; preg < data[pag]["preguntas"].length; preg++) {
@@ -257,10 +266,15 @@ angular.module('AppPrueba')
                                 //luego la resp_preg
                                 ResponderService.insertResp_Preg(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, "");
 
-                                for(opc = 0; opc < data[pag]["preguntas"][preg]["answer"].length; opc++){
-                                    console.log(data[pag]["preguntas"][preg]["answer"][opc].opcion);
-                                    ResponderService.insertRespOpcionesMulti(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, data[pag]["preguntas"][preg]["answer"][opc].opcion);
+                                for(var opc = 0; opc < data[pag]["preguntas"][preg]["answer"].length; opc++){
+                                    //console.log(data[pag]["preguntas"][preg]["answer"][opc].opcion);
+                                    ResponderService.insertRespOpcionesMulti(idresp[0]["idrespuesta"], data[pag]["preguntas"][preg].idpreg, data[pag]["preguntas"][preg]["answer"][opc].opcion).then(function () {
+                                        console.info("guardado con éxito")
+                                    }).catch(function (err) {
+
+                                    });
                                 }
+
                             }
                         }
                     }
