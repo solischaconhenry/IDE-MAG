@@ -224,13 +224,29 @@ class editarformulario{
 }
 
 Class Respuestas{
-        //guarda la respuesta a un form en la tabla respuesta, pero no las preguntas por ahora
-        function guardarRespuesta($idform, $codigofinca, $fecha_hora, $msg){
+
+        //TODO: esto se debe corregir el modelo de BD esta mal planificado
+        //busca el id de la tabla apartos_finca_formularios. para poder insertarlo a respuesta para mantener el orden
+        function getIDfinca_aparto_form($idform, $codigofinca){
 
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "insert into respuesta (idform, codigofincaaparto, fecha_hora) values ($idform, $codigofinca, $fecha_hora);";
+            $query = "select id_finca_aparto_form from finca_aparto_formulario where codigofincaaparto = $codigofinca and idform = $idform";
+            $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $rows = pg_fetch_all($result);
+            return ($rows);
+        }
+
+
+
+        //guarda la respuesta a un form en la tabla respuesta, pero no las preguntas por ahora
+        function guardarRespuesta($idform, $codigo, $fecha_hora, $msg){
+
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "insert into respuesta (idform, id_finca_aparto_form, fecha_hora) values ($idform, $codigo, $fecha_hora);";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
 
             $query2 = "update formulario set editable = false where idform = $idform";
@@ -250,7 +266,7 @@ Class Respuestas{
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "select idrespuesta from respuesta where codigofincaaparto = $codigofinca and idform = $idform and fecha_hora =$fecha_hora;";
+            $query = "select idrespuesta from respuesta where id_finca_aparto_form = $codigofinca and idform = $idform and fecha_hora =$fecha_hora;";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
             $rows = pg_fetch_all($result);
             return ($rows);
@@ -336,58 +352,43 @@ $respuestaC = new Respuestas();
 if($_REQUEST['action']=='loadPreguntas') {
     print_r($nuevoCargarC->loadPreguntas());
 }
-
 else if($_REQUEST['action']=='getFormulario') {
     print_r($nuevoCargarC->getFormularios($_REQUEST['idformulario']));
 }
-
 else if($_REQUEST['action']=='loadOpciones') {
     print_r($nuevoCargarC->loadOpciones($_REQUEST['idPreg']));
 }
-
 else if($_REQUEST['action']=='getPaginas') {
    print_r(json_encode($editarFormC->getPaginasByID($_REQUEST['idform'])));
 }
-
 else if($_REQUEST['action']=='getPreguntas') {
    print_r($editarFormC->getAllPreguntas($_REQUEST['idform']));
 }
-
-
-
 else if($_REQUEST['action']=='getPreguntasWRespuestas') {
    print_r($editarFormC->getAllPreguntasWRespuestas($_REQUEST['idform'],$_REQUEST['idrespuesta']));
 }
-
-
 if($_REQUEST['action']=='insertRespuesta') {
     print_r($respuestaC->guardarRespuesta($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha'], $_REQUEST['name']));
 }
-
 else if($_REQUEST['action']=='getRespuestaForm') {
     print_r(json_encode($respuestaC->getRespuestaForm($_REQUEST['idform'], $_REQUEST['codigo'], $_REQUEST['fecha'])));
 }
-
 else if($_REQUEST['action']=='insertResp_Preg') {
     print_r($respuestaC->insertResp_Preg($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
 }
-
-
 else if($_REQUEST['action']=='editarResp_Preg') {
     print_r($respuestaC->editarResp_Preg($_REQUEST['idresp_preg'], $_REQUEST['valor']));
-    }
-
+}
 else if($_REQUEST['action']=='insertRespMultipleOpc') {
     print_r($respuestaC->insertRespuestasMultiplesOpciones($_REQUEST['idresp'], $_REQUEST['idpreg'], $_REQUEST['valor']));
 }
-
 else if($_REQUEST['action']=='insertWIdRespOpcionesMulti') {
-
     print_r($respuestaC->insertWIdRespOpcionesMulti($_REQUEST['idresp_preg'],$_REQUEST['valor']));
-
 }
 else if($_REQUEST['action']=='eliminarRespOpcionesMulti') {
     print_r($respuestaC->eliminarRespOpcionesMulti($_REQUEST['idresp_preg'],$_REQUEST['valor']));
-
+}
+else if($_REQUEST['action']=='getID_Aparto_Finca_Form') {
+    print_r(json_encode($respuestaC->getIDfinca_aparto_form($_REQUEST['idform'], $_REQUEST['codigo'])));
 }
 ?>
