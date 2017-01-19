@@ -5,7 +5,7 @@
 angular.module('AppPrueba')
 
 
-    .controller('VerRespFormController', function ($scope, VerEditarFormService,VerRespFormService,VerEditarFormServiceCodigoFincaAparto,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
+    .controller('VerRespFormController', function ($scope,VerRespFormService,VerEditarFormServiceCodigoFincaAparto,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
         $scope.idrespuesta = VerEditarFormServiceCodigoFincaAparto.respuesta.idrespuesta;
         console.log($scope.idrespuesta);
         // $scope.idform = "";

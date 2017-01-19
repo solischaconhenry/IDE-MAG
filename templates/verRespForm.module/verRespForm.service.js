@@ -34,6 +34,7 @@ angular.module('AppPrueba')
 
     })
     
+
     .service('VerEditarFormServiceCodigoFincaAparto', function() {
         this.respuesta = {};
         this.gidFinca = "";
