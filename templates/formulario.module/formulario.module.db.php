@@ -119,13 +119,12 @@ Class CargarDatos {
         }
 
 
-    public function getFormulariosNoFinca($codigoFinca){
+    public function getFormulariosNoFinca($codigoFinca,$tipo){
               $user = "postgres";
               $password = "12345";
               $dbname = "MAG";
               $port = "5432";
               $host = "localhost";
-              $tipo = "finca";
 
               $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
               $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
@@ -138,13 +137,14 @@ Class CargarDatos {
               return (json_encode($row));
             }
 
-   public function getFormulariosFinca($codigoFinca){
+
+
+   public function getFormulariosFinca($codigoFinca,$tipo){
         $user = "postgres";
         $password = "12345";
         $dbname = "MAG";
         $port = "5432";
         $host = "localhost";
-        $tipo = "finca";
 
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
@@ -172,51 +172,6 @@ Class CargarDatos {
         }
         return (json_encode($resulFin));
       }
-
-      public function getFormulariosAparto($codigoAparto){
-              $user = "postgres";
-              $password = "12345";
-              $dbname = "MAG";
-              $port = "5432";
-              $host = "localhost";
-              $tipo = "aparto";
-
-              $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
-              $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
-
-              $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
-                        (select * from finca_aparto_formulario where codigofincaaparto = $codigoAparto and tipo = '$tipo')as o on form.idform = o.idform ";
-              $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
-              $resulFin = [];
-
-             while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
-             {
-                 //Se recorren las respuestas
-                  $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp where codigofincaaparto = $codigoAparto and idform = $reg[idform]";
-
-                  $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
-
-                  $rowsResp  = pg_fetch_all($resultResp );
-                  if( pg_num_rows($resultResp) > 0)
-                   {
-                      $reg["respuestas"] = $rowsResp;
-                   }
-
-                   $resulFin[] =  $reg;
-
-              }
-              return (json_encode($resulFin));
-            }
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -293,6 +248,21 @@ Class Insertar {
         $query = "insert into finca_aparto_formulario (idform,codigofincaaparto,tipo) values ($idform,$codigofinca,'$tipo')";
         $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
     }
+
+     public function insertarFormAparto($idform,$gid){
+            $user = "postgres";
+            $password = "12345";
+            $dbname = "MAG";
+            $port = "5432";
+            $host = "localhost";
+            $tipo = "aparto";
+
+            $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "insert into finca_aparto_formulario (idform,codigofincaaparto,tipo) values ($idform,$gid,'$tipo')";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        }
   }
 
 
@@ -322,15 +292,12 @@ else if($_REQUEST['action']=='loadCategorias') {
 }
 
 else if($_REQUEST['action']=='getFormulariosNoFinca') {
-   print_r($nuevoCargar->getFormulariosNoFinca($_REQUEST['codigofinca']));
+   print_r($nuevoCargar->getFormulariosNoFinca($_REQUEST['codigofinca'],$_REQUEST['tipo']));
 }
+
 
 else if($_REQUEST['action']=='getFormulariosFinca') {
-   print_r($nuevoCargar->getFormulariosFinca($_REQUEST['codigofinca']));
-}
-
-else if($_REQUEST['action']=='getFormulariosAparto') {
-   print_r($nuevoCargar->getFormulariosAparto($_REQUEST['codigoaparto']));
+   print_r($nuevoCargar->getFormulariosFinca($_REQUEST['codigofinca'],$_REQUEST['tipo']));
 }
 
 else if($_REQUEST['action']=='getRespuestaForbyIdFom') {
@@ -353,6 +320,11 @@ else if($_REQUEST['action']=='insertarPreguntasForm') {
 
 else if($_REQUEST['action']=='insertarFormFinca') {
    $nuevoInsertar->insertarFormFinca($_REQUEST['idform'],$_REQUEST['codigofinca']);
+}
+
+
+else if($_REQUEST['action']=='insertarFormAparto') {
+   $nuevoInsertar->insertarFormAparto($_REQUEST['idform'],$_REQUEST['gid']);
 }
 
 ?>

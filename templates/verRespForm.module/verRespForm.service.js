@@ -33,12 +33,11 @@ angular.module('AppPrueba')
 
 
     })
-
-    .service('VerEditarFormService', function() {
-        this.idRespuesta = "";
-    })
-
+    
     .service('VerEditarFormServiceCodigoFincaAparto', function() {
+        this.respuesta = {};
+        this.gidFinca = "";
+        this.gidAparto = "";
         this.codigofincaaparto = "";
         this.nombrefinca = "";
         this.tipo = "";

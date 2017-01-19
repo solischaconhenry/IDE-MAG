@@ -48,7 +48,7 @@ class CrudFinca
                   	ST_AsGeoJSON(ST_FlipCoordinates(ST_Transform(ST_CollectionHomogenize(ap.geom),4326))) as geom,
                   	ap.fecha,
                   	(select nombre from tipoactividad where idtipoactividad = ap.idactividad) nombreactividad,ap.idactividad,
-                  	(select a.distribuciontrabajo from actividades a where a.idactividad = ap.idactividad and a.idaparto = ap.gid) descripcion
+                  	(select a.descripcion from actividades a where a.idactividad = ap.idactividad and a.idaparto = ap.gid order by ids desc limit 1) descripcion
                   from apartos ap where gidfinca = $idFinca and (estado = 0 or estado = 2)";
 
         $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
@@ -56,7 +56,7 @@ class CrudFinca
         return $row;
     }
 
-    function insertarApartoPendiente($gidFinca,$geom,$fecha,$idActividad){
+    function insertarApartoPendiente($gidFinca,$geom,$fecha,$idActividad,$descripcion){
         include '../../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
@@ -66,10 +66,63 @@ class CrudFinca
                   	ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('$geom'),4326),5367)),$fecha,$idActividad
                   )";
 
-        $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
+        $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
         $row =  pg_fetch_all($result);
-        return $row;
+        $query2 = "insert into actividades (idaparto,descripcion,idactividad,fecha) values ((select max(gid) from apartos),'$descripcion',$idActividad,$fecha);";
+        $result2 = pg_query($conn, $query2) or die("Error al ejecutar la consulta");
+        $row2 =  pg_fetch_all($result2);
+        return $row2;
     }
+
+    function actualizarApartosPendientes($gidAparto,$geom,$fecha,$idActividad,$descripcion){
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+            $query = "update apartos set (geom,fecha,idactividad) =
+                      	(ST_Multi(ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('$geom'),4326),5367)),$fecha,$idActividad)
+                      	where gid = '$gidAparto'";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+            $query2 = "insert into actividades (idaparto,descripcion,idactividad,fecha) values ($gidAparto,'$descripcion',$idActividad,$fecha);";
+            $result2 = pg_query($conn, $query2) or die("Error al ejecutar la consulta");
+            $row2 =  pg_fetch_all($result2);
+            return $row2;
+    }
+
+
+    function insertarHistoricoAparto($gidFinca,$geom,$fecha,$idActividad,$descripcion){
+            include '../../main.module/acceso.php';
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+            // inserta en apartos con estado pendiente
+            $query = "insert into apartos (gidfinca,estado,geom,fecha,idactividad) values
+                      (
+                      	$gidFinca,2,ST_Multi(
+                      	ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('$geom'),4326),5367)),$fecha,$idActividad
+                      )";
+
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+
+            // inserta en actividades para control de formularios
+            $query = "insert into actividades (idaparto,descripcion,idactividad,fecha) values ((select max(gid) from apartos),'$descripcion',$idActividad,$fecha);";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
+
+            // insertar en tabla historicos
+            $query = "insert into historicos (gidfinca,numerohistorico)values($gidFinca,(select
+                          case
+                              when (select (max(numerohistorico)) from historicos where gidfinca = $gidFinca limit 1) is null then 1
+                              else (select (max(numerohistorico))+1 from historicos where gidfinca = $gidFinca)
+                          end))"
+             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+             $row =  pg_fetch_all($result);
+
+
+
+
+
+            return $row2;
+    }
+
     
     
     function getPreview($gidFinca){
@@ -242,7 +295,10 @@ else if($_REQUEST['action']=='getApartosValidosFinca') {
     print_r(json_encode($crudFinca->getApartosValidosFinca($_REQUEST['idFinca'])));
 }
 else if($_REQUEST['action']=='insertarApartoPendiente') {
-    print_r(json_encode($crudFinca->insertarApartoPendiente($_REQUEST['gidFinca'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'])));
+    print_r(json_encode($crudFinca->insertarApartoPendiente($_REQUEST['gidFinca'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'],$_REQUEST['descripcion'])));
+}
+else if($_REQUEST['action']=='actualizarApartosPendientes') {
+    print_r(json_encode($crudFinca->actualizarApartosPendientes($_REQUEST['gidAparto'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'],$_REQUEST['descripcion'])));
 }
 
 
