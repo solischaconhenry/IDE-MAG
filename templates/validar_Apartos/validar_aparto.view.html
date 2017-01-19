@@ -1,6 +1,6 @@
 
 <div class="row" style="overflow-x: hidden;">
-    <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Mostrar Información de Finca</h4>
+    <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Validación de Apartos</h4>
     <hr>
 </div>
 <div class="row" style="overflow-x: hidden;" >
@@ -32,9 +32,9 @@
             <div class="panel-body">
                 <div class="panel-group" id="accordion">
 
-                    <div class="panel panel-default">
+                    <div ng-repeat="aparto in validarApartoInfo" class="panel panel-default">
                         <div class="panel-heading clearfix">
-                            <h5 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Formularios Finca</a></h5>
+                            <h5 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Aparto: {{aparto.gid}}</a></h5>
                             <div class="btn-group pull-right">
                                 <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
                                 <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
@@ -42,17 +42,14 @@
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
                             <div class="panel-body">
-
+                                <h5>Fecha Creación: {{aparto.fecha | date: "fullDate"}}</h5>
+                                <h5>Actividad: {{aparto.nombre}}</h5>
+                                <h5>Descripcion: {{aparto.descripcion}}</h5>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
-
 </div>
