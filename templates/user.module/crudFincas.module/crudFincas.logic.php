@@ -112,7 +112,7 @@ class CrudFinca
                           case
                               when (select (max(numerohistorico)) from historicos where gidfinca = $gidFinca limit 1) is null then 1
                               else (select (max(numerohistorico))+1 from historicos where gidfinca = $gidFinca)
-                          end))"
+                          end))";
              $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
              $row =  pg_fetch_all($result);
 

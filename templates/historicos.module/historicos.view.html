@@ -71,83 +71,86 @@
                  </div>
             </div>
             <div id="menu1" class="tab-pane fade">
-                <div class="col-md-10" ng-if="gidFinca">
-                    <div class="panel panel-info">
-                        <div class="panel-heading clearfix" >
-                            <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios de aparto</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-9" >
-                                    <select style="padding-left:0%" ng-model="$parent.formActual" class="form-control selectsTabs">
-                                        <!--<option value="" >Seleccione un Formulario</option>-->
-                                        <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
-                                    </select>
+            <div class="col-md-10" ng-if="apartoAtual" >
+                <div class="panel panel-info">
+                    <div class="panel-heading clearfix" >
+                        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios del aparto</h3>
+                    </div>
+                    <div class="panel-body" style="max-height: {{heightpanel}}px;">
+                        <div class="row">
+                            <div class="col-md-9" >
+                                <select style="padding-left:0%" ng-model="$parent.formActualAparto" class="form-control selectsTabs">
+                                    <!--<option value="" >Seleccione un Formulario</option>-->
+                                    <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
+                                </select>
 
-                                </div>
-                                <div class="col-md-2" style="padding-left:0" >
-                                    <button  class="btn btn-primary" ng-click="anadirFormFinca()">Añadir</button>
-                                </div>
                             </div>
-                            <div class="row" style="padding-left:3%">
-                                <div class="col-md-10" ng-if="formulariosFincaAcual.length == 0">
-                                    -- No hay formularios --
-                                </div>
-                                <div ng-if="formulariosFincaAcual.length > 0">
-                                    <table class="table table-condensed">
-                                        <tr >
-                                            <!--<th>Id</th>-->
-                                            <th>Nombre</th>
-                                            <th>Ver respuestas</th>
-                                            <th></th>
-                                            <th></th>
-                                            <!--<th>Descripción</th>-->
-                                            <!-- <th>Fecha</th>-->
-                                        </tr>
+                            <div class="col-md-2" style="padding-left:0">
 
-                                        <tr ng-repeat="form in formulariosFincaAcual">
-                                            <!--<td>{{form.idform}}</td>-->
-                                            <td style="width: 40%">{{form.nombreform}}</td>
-                                            <!--<td>{{form.descripcion}}</td>-->
-                                            <!--<td>{{form.fecha}}</td>-->
-                                            <td style="width: 40%">
-                                                <select style="padding-left:0%;" ng-model="$parent.formActual" class="form-control selectsTabs">
-                                                    <!--<option value="" >Seleccione un Formulario</option>-->
-                                                    <option ng-repeat="respuesta in form.respuestas" value="{{respuesta.idrespuesta}}">{{respuesta.fecha}}</option>
-                                                </select>
+                                <button  class="btn btn-primary" ng-click="anadirFormAparto()">Añadir</button>
+                            </div>
+                        </div>
 
-                                            </td>
-                                            <td style="width:1%">
-                                                <button type="button" class="btn-eiminarOpcion">
-                                                    <span class="glyphicon glyphicon-eye-open "></span>
-                                                </button>
-                                            </td>
-                                            <td style="width:1%">
-                                                <button type="button" class="btn-eiminarOpcion">
-                                                    <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
-                                                </button>
+                        <div class="row" style="padding-left:3%" >
+                            <div class="col-md-10" ng-if="formulariosApartoActual.length == 0">
+                                -- No hay formularios --
+                            </div>
 
-                                            </td>
+                            <div ng-if="formulariosApartoActual.length > 0" style="overflow-y:auto; max-height: {{heightListaPreg}}px; ">
+                                <table class="table table-condensed" >
+                                    <tr >
+                                        <!--<th>Id</th>-->
+                                        <th>Nombre</th>
+                                        <th>Ver respuestas</th>
+                                        <th></th>
+                                        <th></th>
+                                        <!--<th>Descripción</th>-->
+                                        <!-- <th>Fecha</th>-->
+                                    </tr>
 
-                                            <td>
-                                                <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
-                                                <span style="color: darkgray" title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
-                                                <!-- </button>-->
+                                    <tr ng-repeat="form in formulariosApartoActual">
+                                        <!--<td>{{form.idform}}</td>-->
+                                        <td style="width: 40%">{{form.nombreform}}</td>
+                                        <!--<td>{{form.descripcion}}</td>-->
+                                        <!--<td>{{form.fecha}}</td>-->
+                                        <td style="width: 40%">
+                                            <select style="padding-left:0%;" ng-model="$parent.respActualAparto" ng-change="formActualFuncAparto($parent.respActualAparto)" class="form-control selectsTabs">
+                                                <!--<option value="" >Seleccione un Formulario</option>-->
+                                                <option ng-repeat="respuesta in form.respuestas" value="{{respuesta}}">{{respuesta.fecha_hora| date:"dd/MM//yyyy  h:mma"}}</option>
+                                            </select>
 
-                                            </td>
-                                            <!-- After seven iterations a new `<tr>` should be aded -->
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                        </td>
+                                        <td style="width:1%">
+                                            <a type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasFormAparto()">
+                                                <span class="glyphicon glyphicon-eye-open "></span>
+                                            </a>
+                                        </td>
+                                        <td style="width:1%">
+                                            <button type="button" class="btn-eiminarOpcion">
+                                                <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
+                                            </button>
+
+                                        </td>
+
+                                        <td>
+                                            <!-- <button type="button" class="btn-eiminarOpcion" ng-click="eliminarPregForm(opcion)">-->
+                                            <span style="color: darkgray" title="ID:{{form.idform}}&#13; Descripción:{{form.descripcion}}&#13; Fecha:{{form.fecha}}  " class="glyphicon  glyphicon-info-sign icon-eiminarOpcion"></span>
+                                            <!-- </button>-->
+
+                                        </td>
+                                        <!-- After seven iterations a new `<tr>` should be aded -->
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
 
 
-                            </div> <!--div apartos-->
-                        </div><!--div seleccion finca-->
+                        </div>
                     </div>
                 </div>
             </div>
 
+        </div>
 
         </div>
 
