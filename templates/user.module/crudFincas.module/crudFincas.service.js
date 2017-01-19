@@ -35,17 +35,40 @@ angular.module('AppPrueba')
     };
 
     this.insertarApartosPendientes = function (infoAparto) {
-        var asd = infoAparto.geom.replace(/'/g, '"');
-        console.log(infoAparto.geom)
+        var geojson = infoAparto.geom.replace(/'/g, '"');
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=insertarApartoPendiente&gidFinca='+infoAparto.gidFinca+'&geom='+asd+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad)
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=insertarApartoPendiente&gidFinca='+infoAparto.gid+'&geom='+geojson+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad+'&descripcion='+infoAparto.descripcion)
         .success(function(response) {
                 defered.resolve(response);
             });
         return promise;
     };
+
+    this.actualizarApartosPendientes = function (infoAparto) {
+        var geojson = infoAparto.geom.replace(/'/g, '"');
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=actualizarApartosPendientes&gidAparto='+infoAparto.gid+'&geom='+geojson+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad+'&descripcion='+infoAparto.descripcion)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+        return promise;
+    }
+
+    this.insertarHistoricoAparto = function (infoAparto) {
+        var geojson = infoAparto.geom.replace(/'/g, '"');
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=actualizarApartosPendientes&gidAparto='+infoAparto.gid+'&geom='+geojson+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad+'&descripcion='+infoAparto.descripcion)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+        return promise;
+    }
     
     
     this.preview = function (gidFinca) {

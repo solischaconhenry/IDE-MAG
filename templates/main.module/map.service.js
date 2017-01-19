@@ -14,11 +14,10 @@ angular.module('AppPrueba')
         ];
         var defaultStyle = apartoPendienteStyle
 
-        this.avaibleTools = ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
-            "polygon"];
 
 
-        this.loadMapWithEditTools = function (startCenterCoords) {
+
+        this.loadMapWithEditTools = function (startCenterCoords,avaibleTools) {
             sm = new scribblemaps.ScribbleMap('ScribbleMap', {
                 searchControl: true,
                 lineSettingsControl: false,
@@ -26,7 +25,7 @@ angular.module('AppPrueba')
                 fillColorControl: false,
                 lineColorControl: false,
                 zoomControl: true,
-                tools: this.avaibleTools,
+                tools: avaibleTools,
                 defaultTool: "edit",
                 startCenter: startCenterCoords/*[10.360414404, -84.5096459246]*/,
                 startZoom: 17,
@@ -45,10 +44,10 @@ angular.module('AppPrueba')
             }else {
                 if(checkInsideProperty(event.data) == false){
                     event.data.remove();
-                    showAlert("Los apartos solo pueden ubicarse en el area de la finca","Aceptar",null);
+                    this.showAlert("Los apartos solo pueden ubicarse en el area de la finca","Aceptar",null);
                 }else if(checkInsideOtherOverlay(event.data) == true){
                     event.data.remove();
-                    showAlert("Las fincas solo pueden tener una capa de apartos","Aceptar",null);
+                    this.showAlert("Las fincas solo pueden tener una capa de apartos","Aceptar",null);
                 }
 
                 trig(event.data,false);
@@ -64,7 +63,7 @@ angular.module('AppPrueba')
 
         };
 
-        function showAlert(message,buttonText,triggerAction){
+        this.showAlert = function(message,buttonText,triggerAction){
             sm.ui.showAlert(message,
                 [buttonText],
                 [triggerAction]);
