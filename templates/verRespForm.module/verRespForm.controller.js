@@ -5,8 +5,9 @@
 angular.module('AppPrueba')
 
 
-    .controller('VerRespFormController', function ($scope, VerEditarFormService,VerRespFormService,VerEditarFormServiceCodigoFincaAparto,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
-        $scope.idrespuesta = VerEditarFormService.idRespuesta;
+    .controller('VerRespFormController', function ($scope,VerRespFormService,VerEditarFormServiceCodigoFincaAparto,ResponderService, $uibModal, $timeout,$log, $document, $http, $state, FormularioResolver,Pagination ) {
+        $scope.idrespuesta = VerEditarFormServiceCodigoFincaAparto.respuesta.idrespuesta;
+        console.log($scope.idrespuesta);
         // $scope.idform = "";
         /*****PRINCIPALES VARIABLES DE LOS FORMS - ACA ESTAN LOS DE CARGA-*/
         $scope.seccionActiva = 0;
@@ -31,11 +32,12 @@ angular.module('AppPrueba')
                     descripcion: data2[0]["descripcion"],
                     fecha: data2[0]["fecha"],
                     finca: VerEditarFormServiceCodigoFincaAparto.codigofincaaparto,
+                    aparto: VerEditarFormServiceCodigoFincaAparto.gidAparto,
                     nombreFinca:VerEditarFormServiceCodigoFincaAparto.nombrefinca,
                     tipo:VerEditarFormServiceCodigoFincaAparto.tipo,
                     nombreProp:VerEditarFormServiceCodigoFincaAparto.nombrepropietario,
                     apellidos:VerEditarFormServiceCodigoFincaAparto.apellidosPropietario,
-                    fechaRes:VerEditarFormServiceCodigoFincaAparto.fechaRes
+                    fechaRes:VerEditarFormServiceCodigoFincaAparto.respuesta.fecha_hora
                 };
                 $scope.DataFormResp = item;
                 console.log($scope.DataFormResp);

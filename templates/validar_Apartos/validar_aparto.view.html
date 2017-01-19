@@ -1,0 +1,58 @@
+
+<div class="row" style="overflow-x: hidden;">
+    <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Mostrar Información de Finca</h4>
+    <hr>
+</div>
+<div class="row" style="overflow-x: hidden;" >
+    <div class="col-md-5">
+
+        <select   ng-change="change();"style="padding-left:0%" ng-model="gidFinca" class="form-control selectsTabs">
+            <!--<option value="" >Seleccione un Formulario</option>-->
+            <option ng-repeat="finca in fincas" value="{{finca.gid}}">{{finca.nombrefinca}}(Código:{{finca.codigofinca}})</option>
+        </select>
+
+        <svg
+                width="500"
+                height="500"
+                style="border:2px groove #0455BF">
+
+            <polygon
+                    ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                    ng-repeat="coordenadas in json"
+                    ng-attr-points="{{coordenadas.puntos}}"
+                    style="fill:#26C281;stroke:black;stroke-width:1" />
+
+        </svg>
+    </div>
+
+
+    <div class="col-md-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Apartos a Validar</h4></div>
+            <div class="panel-body">
+                <div class="panel-group" id="accordion">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading clearfix">
+                            <h5 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Formularios Finca</a></h5>
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+                                <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
+                            </div>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>

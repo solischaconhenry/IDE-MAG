@@ -19,6 +19,7 @@
 
 
 <div class="row" style="overflow-x: hidden;">
+
     <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%}">Respuestas de formularios</h4>
     <hr>
 </div>
@@ -53,6 +54,12 @@
                     <label  class="col-md-6" >Finca:</label>
                     <div class="col-md-6">
                         {{DataFormResp.nombreFinca}}
+                    </div>
+                </div>
+                <div ng-if="DataFormResp.aparto != ''"  class=" row"  style="margin-bottom: 1%">
+                    <label  class="col-md-6" >Aparto:</label>
+                    <div class="col-md-6">
+                        {{DataFormResp.aparto}}
                     </div>
                 </div>
                 <div class=" row"  style="margin-bottom: 1%">

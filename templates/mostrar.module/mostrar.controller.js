@@ -1,15 +1,20 @@
 angular.module('AppPrueba')
 angular.module('AppPrueba')
-.controller('MostrarController', function ($scope,MostrarService,$state,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm,VerEditarFormService) {
+.controller('MostrarController', function ($scope,MostrarService,$state,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm) {
     $scope.fincas = [];
-    $scope.gidFinca = "";
+    //PARA PODER DEVOLVERNOS
+    $scope.gidFinca = VerEditarFormServiceCodigoFincaAparto.gidFinca;
+   // $scope.apartoGid = VerEditarFormServiceCodigoFincaAparto.gidAparto;
+    $scope.codigofinca = VerEditarFormServiceCodigoFincaAparto.codigofincaaparto;
+
     $scope.formActual = 0;
-    $scope.apartoGid ="";
     $scope.apartoAtual = "";
     $scope.formularios = [];
     $scope.formulariosFincaAcual = [];
     $scope.respuestasFormActual = [];
-    $scope.codigofinca = 0;
+
+
+
     $scope.dataFinca = {};
     $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
     $scope.heightListaPreg = $scope.heightpanel -(screen.height/9);
@@ -20,13 +25,7 @@ angular.module('AppPrueba')
     });
 
 
-    $scope.change2 = function() {
-        console.log($scope.formActual);
-    }
-
     $scope.change = function(){
-
-
 
         MostrarService.preview($scope.gidFinca).then(function (data) {
             $scope.numHistoricoActual = data.max;
@@ -44,15 +43,18 @@ angular.module('AppPrueba')
             //Para enviar al mostrarRespuesta el tipo
             VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = $scope.codigofinca;
             VerEditarFormServiceCodigoFincaAparto.tipo = "finca";
-            
+            VerEditarFormServiceCodigoFincaAparto.gidFinca = $scope.gidFinca;
+
             //Para enviar  a la vista de mostrar
             InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
             // Aqui se actializa la lista de formularios disponibles para la finca seleccionada
             $scope.actualizarlistaForm();
+            $scope.apartoAtual = false;
 
         });
     };
     $scope.anadirFormFinca = function () {
+
         if($scope.formActual == undefined || $scope.formActual == "")
         {
 
@@ -61,14 +63,29 @@ angular.module('AppPrueba')
             MostrarService.insertarFormFinca($scope.formActual, $scope.codigofinca).then(function (data) {
                 console.log(data)
             });
+            $scope.formActual = "";
 
             $scope.actualizarlistaForm();
         }
     }
 
+    $scope.anadirFormAparto = function () { //funciona bien
+
+        if($scope.formActualAparto == undefined || $scope.formActualAparto == "")
+        {
+
+        }
+        else {
+            MostrarService.insertarFormAparto($scope.formActualAparto,$scope.apartoGid).then(function (data) {
+            });
+            $scope.formActualAparto = "";
+            $scope.actualizarlistaFormAparto();
+        }
+    }
+
     $scope.actualizarlistaForm = function () {
 
-        MostrarService.getFormulariosFinca($scope.dataFinca.codigofinca).then(function (data) {
+        MostrarService.getFormulariosFinca($scope.dataFinca.codigofinca,"finca").then(function (data) {
             console.log(data);
             if(data != "false") {
                 $scope.formulariosFincaAcual = data;
@@ -80,30 +97,73 @@ angular.module('AppPrueba')
 
         });
         //Aqui se actializa la lista de formularios ya añadidos a la finca
-        MostrarService.getFormulariosNoFinca($scope.dataFinca.codigofinca).then(function (data) {
+        MostrarService.getFormulariosNoFinca($scope.dataFinca.codigofinca,"finca").then(function (data) {
             $scope.formularios = data;
             // console.log($scope.formularios);
         });
     }
 
+
+
+    $scope.actualizarlistaFormAparto = function () {
+
+        MostrarService.getFormulariosFinca($scope.apartoGid,"aparto").then(function (data) {
+            console.log(data);
+            if(data != "false") {
+                $scope.formulariosApartoActual = data;
+            }
+            else {
+                $scope.formulariosApartoActual = [];
+            }
+
+
+        });
+        //Aqui se actualiza la lista de formularios ya añadidos aL aparto
+        MostrarService.getFormulariosNoFinca($scope.apartoGid,"aparto").then(function (data) {
+            $scope.formularios = data;
+        });
+    }
+
+
+
     $scope.formActualFunc = function (elem) {
         $scope.respActual = JSON.parse(elem);
     }
+    $scope.formActualFuncAparto = function(elem){
+        $scope.respActualAparto =  JSON.parse(elem);
+    }
+
 
     $scope.mostrarRespuestasForm = function () {
         if ($scope.respActual.idrespuesta!= "" )
         {
 
-            $state.go('dashboard.verRespForm');
-            VerEditarFormService.idRespuesta = $scope.respActual.idrespuesta;
+            VerEditarFormServiceCodigoFincaAparto.gidAparto = "";
+            VerEditarFormServiceCodigoFincaAparto.respuesta = $scope.respActual;
             VerEditarFormServiceCodigoFincaAparto.nombrefinca = $scope.dataFinca.nombrefinca;
             VerEditarFormServiceCodigoFincaAparto.nombrepropietario = $scope.dataFinca.nombreprop;
             VerEditarFormServiceCodigoFincaAparto.apellidosPropietario = $scope.dataFinca.apellidos;
-            VerEditarFormServiceCodigoFincaAparto.fechaRes = $scope.respActual.fecha_hora;
+            $state.go('dashboard.verRespForm');
         }
 
 
     }
+
+    $scope.mostrarRespuestasFormAparto = function () {
+        if ($scope.respActualAparto!= "" )
+        {
+
+            VerEditarFormServiceCodigoFincaAparto.respuesta = $scope.respActualAparto;
+            VerEditarFormServiceCodigoFincaAparto.nombrefinca = $scope.dataFinca.nombrefinca;
+            VerEditarFormServiceCodigoFincaAparto.nombrepropietario = $scope.dataFinca.nombreprop;
+            VerEditarFormServiceCodigoFincaAparto.apellidosPropietario = $scope.dataFinca.apellidos;
+            $state.go('dashboard.verRespForm');
+        }
+
+
+    }
+
+
 
 
 
@@ -132,6 +192,7 @@ angular.module('AppPrueba')
 
         VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = gid;
         VerEditarFormServiceCodigoFincaAparto.tipo = "aparto";
+        VerEditarFormServiceCodigoFincaAparto.gidAparto = gid;
         console.log(gid);
         $scope.apartoGid = gid;
         $scope.jsonSeleccionado =[];
@@ -141,7 +202,7 @@ angular.module('AppPrueba')
         //obtener idUsuario
         MostrarService.getApartoByID($scope.apartoGid,$scope.gidFinca).then(function(data){
           $scope.dataAparto = data[0];
-          console.log(data);
+            $scope.actualizarlistaFormAparto();
         });
 
         $scope.apartoAtual = true;
@@ -151,5 +212,11 @@ angular.module('AppPrueba')
 
         $state.go("dashboard.formularioGanaderia");
     }
+
+    //********************************************** Llamadas necesarias****************************************************
+    $scope.change();
+
+
+
 
 });
