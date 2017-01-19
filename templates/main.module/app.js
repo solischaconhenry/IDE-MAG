@@ -208,6 +208,17 @@ angular
                 authenticate: true
             })
 
+            .state('dashboard.validar',{
+                url:'/validar',
+                views: {
+                    'dashboard': {
+                        templateUrl: 'templates/validar_Apartos/validar_aparto.view.html',
+                        controller: 'ValidarController'
+                    }
+                },
+                authenticate: true
+            })
+
             //***********************USER SECTION******************************/
             //dashboard de usuario
             .state('dashboardUser',{
