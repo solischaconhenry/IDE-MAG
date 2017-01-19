@@ -89,22 +89,36 @@ angular.module('AppPrueba')
 
 
 
-    this.getFormulariosNoFinca = function (codigofinca) {
+    this.getFormulariosNoFinca = function (codigofinca,tipo) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosNoFinca&codigofinca='+codigofinca)
+        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosNoFinca&codigofinca='+codigofinca+'&tipo='+tipo)
             .success(function(response) {
                 defered.resolve(response);
             });
 
         return promise;
     }
-    this.getFormulariosFinca = function (codigofinca) {
+
+
+    this.getFormulariosFinca = function (codigofinca,tipo) {
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosFinca&codigofinca='+codigofinca)
+        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosFinca&codigofinca='+codigofinca+'&tipo='+tipo)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+
+    this.getFormulariosAparto = function (gid) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosAparto&gid='+gid)
             .success(function(response) {
                 defered.resolve(response);
             });
@@ -117,6 +131,21 @@ angular.module('AppPrueba')
         var promise = defered.promise;
 
         $http.get('templates/formulario.module/formulario.module.db.php?action=insertarFormFinca&idform=' +idform +'&codigofinca='+codigofinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+
+    this.insertarFormAparto = function (idform,gid) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+        console.log("service");
+        console.log(idform);
+        console.log(gid);
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=insertarFormAparto&idform=' +idform +'&gid='+gid)
             .success(function(response) {
                 defered.resolve(response);
             });
