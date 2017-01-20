@@ -10,13 +10,69 @@ angular.module('AppPrueba')
         var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3};
         var legendStyle = [{name: "Área de Finca", style: propertyStyle},
             {name: "Aparto Válido", style: apartoValidoStyle},
-            {name: "Aparto Pendiente", style: apartoPendienteStyle},
+            {name: "Aparto Pendiente", style: apartoPendienteStyle}
         ];
-        var defaultStyle = apartoPendienteStyle
+        var defaultStyle = apartoPendienteStyle;
 
+        this.createInfoApartoTool = function (callback) {
+            sm.ui.createTool({
+                baseTool: "edit",
+                id: "info",
+                select: function () {
+                    sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback)
+                },
+                deselect: function (event) {
+                },
+                mousedown: function (event) {
+                    //console.log(event);
+                },
+                mouseup: function (event) {
+                    //console.log(event);
+                },
+                mousemove: function (event) {
+                    //console.log(event);
+                }
+            });
+        };
 
+        this.showInfoWindow = function (message) {
+            sm.map.openInfoWindow(
+                sm.view.getCenter(), message, {lineColor: '#000000',
+                    lineOpacity: 1,
+                    fillColor: '#FFFFFF',
+                    fillOpacity: 1,
+                    weight: 2}, true
+            );
+        };
 
+        this.showCustomPanel =function (htmlElement,enableMap) {
+            sm.ui.showCustomPanel(htmlElement,enableMap);
+        };
 
+        this.setTool = function (tool) {
+            sm.ui.setTool(tool);
+        };
+
+        this.closeInfoWindow =function () {
+            sm.map.closeInfoWindow();
+        };
+
+        this.removeMapOverlayClickListener = function(callback){
+            sm.map.removeListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback);
+        }
+        
+        this.setMapTools = function (avaiableTools) {
+            sm.ui.setAvailableTools(avaiableTools)
+        };
+        
+        this.getGeoJson = function () {
+            return sm.data.getGeoJSON()
+        };
+
+        this.getOverlays = function(){
+            return sm.map.getOverlays()
+        };
+        
         this.loadMapWithEditTools = function (startCenterCoords,avaibleTools) {
             sm = new scribblemaps.ScribbleMap('ScribbleMap', {
                 searchControl: true,
