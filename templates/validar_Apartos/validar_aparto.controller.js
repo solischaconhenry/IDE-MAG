@@ -2,14 +2,16 @@
  * Created by usuario on 18/1/2017.
  */
 angular.module('AppPrueba')
-    .controller('ValidarController', function ($scope,MostrarService,$state,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm,VerEditarFormService) {
+    .controller('ValidarController', function ($scope,MostrarService,$state,ValidarService) {
         $scope.fincas = [];
+        //PARA PODER DEVOLVERNOS
         $scope.gidFinca = "";
-        $scope.formActual = 0;
-        $scope.apartoGid ="";
+        // $scope.apartoGid = VerEditarFormServiceCodigoFincaAparto.gidAparto;
+        $scope.codigofinca = "";
         $scope.apartoAtual = "";
-        $scope.formularios = [];
-        $scope.codigofinca = 0;
+        $scope.validarApartoInfo =[];
+
+
         $scope.dataFinca = {};
         $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
         $scope.heightListaPreg = $scope.heightpanel -(screen.height/9);
@@ -20,15 +22,9 @@ angular.module('AppPrueba')
         });
 
 
-        $scope.change2 = function() {
-            console.log($scope.formActual);
-        }
-
         $scope.change = function(){
 
-
-
-            MostrarService.preview($scope.gidFinca).then(function (data) {
+            MostrarService.previewValidar($scope.gidFinca).then(function (data) {
                 $scope.numHistoricoActual = data.max;
                 $scope.Max = data.max;
                 reconvertJsonPolygon(data.finca,false);
@@ -39,13 +35,15 @@ angular.module('AppPrueba')
                 $scope.dataFinca = data[0];
                 console.log($scope.dataFinca);
 
-                $scope.codigofinca = $scope.dataFinca.codigofinca;
+                $scope.codigofinca = $scope.dataFinca["gid"];
 
-
+                console.log("finca:" + $scope.codigofinca);
+                ValidarService.getApartosAValidar($scope.codigofinca).then(function (apartoValidarInfo) {
+                    $scope.validarApartoInfo =apartoValidarInfo;
+                });
             });
+
         };
-
-
 
 
         $scope.json = [];
@@ -71,9 +69,7 @@ angular.module('AppPrueba')
         $scope.jsonSeleccionado=[];
         $scope.unir = function(gid, coordenadas){
 
-            VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = gid;
-            VerEditarFormServiceCodigoFincaAparto.tipo = "aparto";
-            console.log(gid);
+
             $scope.apartoGid = gid;
             $scope.jsonSeleccionado =[];
             $scope.jsonSeleccionado.push({id:gid,puntos:coordenadas});
@@ -82,7 +78,6 @@ angular.module('AppPrueba')
             //obtener idUsuario
             MostrarService.getApartoByID($scope.apartoGid,$scope.gidFinca).then(function(data){
                 $scope.dataAparto = data[0];
-                console.log(data);
             });
 
             $scope.apartoAtual = true;
@@ -91,7 +86,10 @@ angular.module('AppPrueba')
         $scope.gotoForm = function(){
 
             $state.go("dashboard.formularioGanaderia");
-        }
+        };
+        //********************************************** Llamadas necesarias****************************************************
+        $scope.change();
+
 
     });
 
