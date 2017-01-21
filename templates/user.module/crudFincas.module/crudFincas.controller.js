@@ -53,9 +53,9 @@ angular.module('AppPrueba')
             $scope.descripcionAparto = event.data.getMetaData().descripcion; // enlazado con la vista addApartoInMap
             $scope.currentDate = $filter("date")(event.data.getMetaData().fechaCreacion, 'MM/dd/yyyy'); // enlazado con la vista addApartoInMap.html
             createDivElementWithDirective(); // crea la ventana popup y carga la vista addApartoInMap.html por medio de una directiva
-            mapService.closeInfoWindow()
+            mapService.closeInfoWindow();
             mapService.removeMapOverlayClickListener(null);
-            mapService.setTool("edit")
+            mapService.setTool("edit");
         }
 
          function convertCoordsToArrayOfCoords (coords) {
@@ -103,7 +103,6 @@ angular.module('AppPrueba')
         function validIfGeomChanged() {
             if(LS.getApartosFinca() != "false"){
                 var apartosValidosFinca = LS.getApartosFinca();
-                //var mapOverlays = mapService.getOverlays();
                 for(var i in mapService.getOverlays()){
                     for(var j in apartosValidosFinca){
                         if(mapService.getOverlays()[i].getMetaData().gidAparto == apartosValidosFinca[j].gid){
@@ -122,14 +121,10 @@ angular.module('AppPrueba')
         };
         
         function validGeomsHadMetaData() {
-            var geojson = $scope.sm.data.getGeoJSON();
+            var geojson = mapService.getGeoJson();
             for(var i in geojson.features){
-                //console.log(geojson.features[i].properties.metaData);
                 if(geojson.features[i].properties.metaData==null){
-                    //mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
-                    $scope.sm.ui.showAlert("Complete la informacion solicitada en los apartos",
-                        ["Aceptar"],
-                        [null]);
+                    mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
                     return false
                 }
             }
@@ -144,14 +139,13 @@ angular.module('AppPrueba')
             }
         }
 
-        $scope.getApartosValidosFinca = function (idFinca,callback) {
+        function getApartosValidosFinca(idFinca,callback) {
             crudFincasUserService.getApartosValidosFinca(idFinca).then(callback)
         }
 
 
         $scope.getFincas = function () {
             crudFincasUserService.getFincas(UserService.username).then(function (data) {
-                console.log(data);
                 if(data != 'false'){ // validar que no pasen datos nulos
                     $scope.fincas = data;
                 }
@@ -166,7 +160,7 @@ angular.module('AppPrueba')
             });
         };
 
-        $scope.getIdActividad = function (nombreActividad) {
+        function getIdActividad (nombreActividad) {
             for(var i in $scope.actividades){
                 if($scope.actividades[i].nombre == nombreActividad)
                     return $scope.actividades[i].idtipoactividad;
@@ -176,7 +170,7 @@ angular.module('AppPrueba')
         $scope.agregarSolicitudAparto = function () {
             var actualMetaData = $scope.actualOverlay.getMetaData();
             actualMetaData.actividad = $scope.selectedActividad;
-            actualMetaData.idtipoActividad = $scope.getIdActividad($scope.selectedActividad);
+            actualMetaData.idtipoActividad = getIdActividad($scope.selectedActividad);
             actualMetaData.descripcion = $scope.descripcionAparto;
             actualMetaData.fechaCreacion =  new Date($scope.currentDate).getTime()
             if(actualMetaData.estado == 2 || actualMetaData.estado == 0){
@@ -185,8 +179,7 @@ angular.module('AppPrueba')
                 actualMetaData.isNew = true
                 $scope.actualOverlay.setMetaData(actualMetaData)
             }
-
-            $scope.sm.ui.hidePanel();
+            mapService.hidePanel();
             $scope.descripcionAparto = undefined;
         }
 
@@ -195,11 +188,12 @@ angular.module('AppPrueba')
             div.style.width = "250px";
             div.style.height = "250px";
             div.setAttribute("newAparto","");
-            mapService.showCustomPanel(div,false);
-            $compile(div)($scope);
-        }
+            mapService.showCustomPanel(div,false,function () {
+                $compile(div)($scope);
+            });
+        };
 
-        $scope.nuevoApartoCreadoListener = function (overlay,response) {
+        function nuevoApartoCreadoListener (overlay,response) {
             $scope.actualOverlay = overlay;
             if(response == true){
                 if(isEmpty(overlay.getMetaData())){ // validar que solo contenga el gid en el metadata
@@ -211,8 +205,7 @@ angular.module('AppPrueba')
             }
         }
 
-        $scope.manageDrawFincaAndApartoInMap = function () {
-            var type = JSON.parse($scope.selectedFinca.geom).type;
+         function manageDrawFincaAndApartoInMap() {
             var geom = JSON.parse($scope.selectedFinca.geom);
             mapService.clearListenersAndWipeMap();
             if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){
@@ -222,59 +215,30 @@ angular.module('AppPrueba')
                     mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0][g]);
                 }
             }
-            $scope.getApartosValidosFinca($scope.selectedFinca.gid,function (response) {
+            getApartosValidosFinca($scope.selectedFinca.gid,function (response) {
                 if(response != "false"){
                     LS.setApartosFinca(response);
                     mapService.dibujarApartosFinca(response);
-                    mapService.addListenerGeometryDraw(mapService.validAddedOverlay,$scope.nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
                 }
-
+                mapService.addListenerGeometryDraw(mapService.validAddedOverlay,nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
             });
-
-
-
-        }
+        };
 
         $scope.fincaIsSelectedFromCombo = function(){
             $scope.showInfoFinca = !$scope.showInfoFinca;
-            $scope.manageDrawFincaAndApartoInMap();
-        }
+            manageDrawFincaAndApartoInMap();
+        };
 
-        function reconvertJsonPolygon(puntos) {
-            var json = [];
-            var points = '';
-
-            for(var i = 0; i < puntos.length; i++) {
-                for (var j = 0; j < puntos[i].puntos.length; j++) {
-                    points += puntos[i].puntos[j].x + ',' + puntos[i].puntos[j].y + ' ';
-                }
-                json.push({gid:puntos[i].gid,puntos: points.slice(0, points.length-1)});
-                points = '';
-            }
-            return json;
-        }
-
-
-        $scope.gidAparto = "";
-        $scope.dividir = function(gid, coordenadas){
-            $scope.gidAparto = gid;
-            $scope.apartoToEdit = coordenadas;
-        }
-
-
-        $scope
-    
-    $scope.getJsonObjectFromFile = function(file) {
+    function getJsonObjectFromFile(file) {
         var reader = new FileReader();
         reader.onload = function(){
-
             // draw in the map
-            $scope.drawGeometyInScribbleMap(JSON.parse(reader.result));
+            drawGeometyInScribbleMap(JSON.parse(reader.result));
         };
         reader.readAsText(file);
     }
 
-    $scope.reverseLatitudeLong = function (coordsArray) {
+    function reverseLatitudeLong (coordsArray) {
 
         for (i in coordsArray){
             coordsArray[i] =  coordsArray[i].reverse();
@@ -283,9 +247,9 @@ angular.module('AppPrueba')
     }
 
     
-    $scope.drawGeometyInScribbleMap = function (geoJson) {
+    function drawGeometyInScribbleMap(geoJson) {
         if(geoJson.features[0].geometry.type == "Polygon"){
-            geoJson.features[0].geometry.coordinates[0] = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates[0]);
+            geoJson.features[0].geometry.coordinates[0] = reverseLatitudeLong( geoJson.features[0].geometry.coordinates[0]);
             $scope.sm.draw.poly(geoJson.features[0].geometry.coordinates[0],{
                 fillOpacity: 0.3,
                 fillColor: "#D8D8D8",
@@ -294,7 +258,7 @@ angular.module('AppPrueba')
             }).setMetaData({idFinca:"hola"});
             $scope.sm.view.setCenter([geoJson.features[0].geometry.coordinates[0][0][0],geoJson.features[0].geometry.coordinates[0][0][1]]);
         }else if (geoJson.features[0].geometry.type == "LineString"){
-            geoJson.features[0].geometry.coordinates = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates);
+            geoJson.features[0].geometry.coordinates = reverseLatitudeLong( geoJson.features[0].geometry.coordinates);
             $scope.sm.draw.line(geoJson.features[0].geometry.coordinates,{
                 lineColor: "#F3F781"
             });
@@ -304,7 +268,7 @@ angular.module('AppPrueba')
 
     $scope.uploadFile = function(){
         if($scope.myFile != undefined){
-            var os =  $scope.getJsonObjectFromFile($scope.myFile);
+            var os =  getJsonObjectFromFile($scope.myFile);
         }
     };
     

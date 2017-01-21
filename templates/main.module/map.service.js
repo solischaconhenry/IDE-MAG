@@ -1,10 +1,7 @@
-
 angular.module('AppPrueba')
     .service('mapService', function ($rootScope) {
         var sm = [];
         var property = [];
-        var apartsAdded = [];
-        var isValidApart = [];
         var propertyStyle = {fillOpacity: 0.3, fillColor: "#2E9AFE", lineColor: "#FFFF00", weight: 5};
         var apartoValidoStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3};
         var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3};
@@ -45,8 +42,13 @@ angular.module('AppPrueba')
             );
         };
 
-        this.showCustomPanel =function (htmlElement,enableMap) {
+        this.showAlert = function (message,buttonText,triggerFunction) {
+            sm.ui.showAlert(message,[buttonText],[triggerFunction])
+        }
+
+        this.showCustomPanel =function (htmlElement,enableMap,callback) {
             sm.ui.showCustomPanel(htmlElement,enableMap);
+            callback()
         };
 
         this.setTool = function (tool) {
@@ -59,6 +61,10 @@ angular.module('AppPrueba')
 
         this.removeMapOverlayClickListener = function(callback){
             sm.map.removeListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback);
+        };
+        
+        this.hidePanel = function () {
+            sm.ui.hidePanel()
         }
         
         this.setMapTools = function (avaiableTools) {
@@ -70,7 +76,7 @@ angular.module('AppPrueba')
         };
 
         this.getOverlays = function(){
-            return sm.map.getOverlays()
+            return sm.map.getOverlays();
         };
         
         this.loadMapWithEditTools = function (startCenterCoords,avaibleTools) {
@@ -95,7 +101,6 @@ angular.module('AppPrueba')
 
         this.validAddedOverlay = function (event,trig) {
             if (checkInsideProperty(event.data) == true && checkInsideOtherOverlay(event.data) == false){
-                apartsAdded.push(event.data);
                 trig(event.data,true);
             }else {
                 if(checkInsideProperty(event.data) == false){
@@ -128,10 +133,8 @@ angular.module('AppPrueba')
         };
         
         function checkInsideOtherOverlay(overlay) {
-            var overlays = sm.map.getOverlays()
-            overlays.shift();
-            for(var x in overlays){
-                console.log(overlays[x].containsOverlay(overlay))
+            var overlays = sm.map.getOverlays();
+            for(var x = 1; x<overlays.length;x++){
                 if(overlays[x].containsOverlay(overlay)){
                     return true;
                 }
