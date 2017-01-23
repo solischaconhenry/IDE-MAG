@@ -1,37 +1,51 @@
 <div class="row" style="overflow-x: hidden;" >
     <div class="col-md-5">
 
-        <select   ng-change="change();"style="padding-left:0%" ng-model="gidFinca" class="form-control selectsTabs">
-            <!--<option value="" >Seleccione un Formulario</option>-->
-            <option ng-repeat="finca in fincas" value="{{finca.gid}}">{{finca.nombrefinca}}(Código:{{finca.codigofinca}})</option>
-        </select>
+        <div class="row"  style="margin-top: 1%">
+            <div class="col-md-11">
+                <select   ng-change="change();"style="padding-left:0%" ng-model="gidFinca" class="form-control selectsTabs">
+                    <!--<option value="" >Seleccione un Formulario</option>-->
+                    <option ng-repeat="finca in fincas" value="{{finca.gid}}">{{finca.nombrefinca}}(Código:{{finca.codigofinca}})</option>
+                </select>
+            </div>
 
+        </div>
 
-        <svg
-             width="500"
-             height="500"
-             style="border:2px groove #0455BF">
+        <div class="row" style="margin-top: 2%">
+            <div class="col-md-11">
+                <svg
+                     width="450"
+                     height="450"
+                     style="border:2px groove #0455BF">
 
-            <polygon
-                     ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-                     ng-repeat="coordenadas in json"
-                     ng-attr-points="{{coordenadas.puntos}}"
-                     style="fill:#26C281;stroke:black;stroke-width:1" />
+                    <polygon
+                             ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                             ng-repeat="coordenadas in json"
+                             ng-attr-points="{{coordenadas.puntos}}"
+                             style="fill:#26C281;stroke:black;stroke-width:1" />
 
-        </svg>
-        <h4 ng-if="numHistoricoActual">Historico #{{numHistoricoActual}}</h4>
+                </svg>
+            </div>
 
-        <h4 ng-if="apartoGid">El id del Aparto a Mostrar: {{apartoGid}}</h4>
-        <br>
-        <button class="btn btn-default" ng-click="AnteriorFinca()">
-            <span class="glyphicon glyphicon-chevron-left"></span> Anterior Finca
-        </button>
-        <button class="btn btn-default" ng-click="siguienteFinca()">
-            <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Finca
-        </button>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <p ng-if="numHistoricoActual">Historico #{{numHistoricoActual}}</p>
+                <br>
+            </div>
+            <div class="col-md-7">
+                <button class="btn btn-default" ng-click="AnteriorFinca()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>Anterior
+                </button>
+                <button class="btn btn-default" ng-click="siguienteFinca()">
+                    <span class="glyphicon glyphicon-chevron-right"></span>Siguente
+                </button>
+            </div>
+
+        </div>
+
 
     </div> <!--div seleccion finca-->
-    <div class="col-md-1"></div>
 
 
     <div class="col-md-6">
@@ -41,29 +55,37 @@
             <li><a data-toggle="tab" href="#menu1">Formularios de apartos</a></li>
         </ul>
 
-        <div class="tab-content" style="margin-top: 4%">
+        <div class="tab-content" style="margin-top: 2%">
             <div id="home" class="tab-pane fade in active">
                 <div class="col-md-8" ng-if="gidFinca">
+                    <div class="row">
+                        <svg
+                                width="450"
+                                height="450"
+                                style="border:2px groove #0455BF">
 
-                    <svg
-                            width="500"
-                            height="500"
-                            style="border:2px groove #0455BF">
+                            <polygon
+                                    ng-click="unir(coordenadas.gid, coordenadas.puntos)"
+                                    ng-repeat="coordenadas in jsonSeleccionado"
+                                    ng-attr-points="{{coordenadas.puntos}}"
+                                    style="fill:#0455BF;stroke:black;stroke-width:1" />
 
-                        <polygon
-                                ng-click="unir(coordenadas.gid, coordenadas.puntos)"
-                                ng-repeat="coordenadas in jsonSeleccionado"
-                                ng-attr-points="{{coordenadas.puntos}}"
-                                style="fill:#0455BF;stroke:black;stroke-width:1" />
+                        </svg>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <p ng-if="apartoGid">Aparto: {{apartoGid}}</p>
+                        </div>
+                        <div class="col-md-7">
+                            <button class="btn btn-default" ng-click="AnteriorAparto()">
+                                <span class="glyphicon glyphicon-chevron-left"></span> Anterior
+                            </button>
+                            <button class="btn btn-default" ng-click="siguienteAparto()">
+                                <span class="glyphicon glyphicon-chevron-right"></span> Siguiente
+                            </button>
+                        </div>
 
-                    </svg>
-                    <br>
-                    <button class="btn btn-default" ng-click="AnteriorAparto()">
-                        <span class="glyphicon glyphicon-chevron-left"></span> Anterior Aparto
-                    </button>
-                    <button class="btn btn-default" ng-click="siguienteAparto()">
-                        <span class="glyphicon glyphicon-chevron-right"></span> Siguiente Aparto
-                    </button>
+                    </div>
                  </div>
             </div>
             <div id="menu1" class="tab-pane fade">
