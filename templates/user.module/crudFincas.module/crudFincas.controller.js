@@ -29,19 +29,24 @@ angular.module('AppPrueba')
         $scope.loadMap = function () {
             // visualizar la zona norte en un punto central
             var startCenter = [10.360414404, -84.5096459246];
-            var avaibleTools = ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
+            var avaibleTools = ["edit", "drag", "eraser", "rectangle", "circle",
                 "polygon"];
             // carga el mapa con las herramientas
             $scope.sm = mapService.loadMapWithEditTools(startCenter,avaibleTools);
             // crea la herramienta para seleccionar aparto y ver informacion
             if($state.current.name == "dashboardUser.crudFincas.crudApartos"){ // si esta en la pestaña apartos
                 mapService.createInfoApartoTool(showInfoApartoInPopup)
+                mapService.createUnionTool(function (event) {
+                    
+                })
             }else if($state.current.name == "dashboardUser/crudFincas/formularioAparto"){
                 // implementar tab formulario
             }else {
                 // implementar tab historico
             }
             avaibleTools.push("info");
+            avaibleTools.push("union");
+            avaibleTools.push("divide");
             mapService.setMapTools(avaibleTools)  // agrega la nueva herramienta al mapa
         };
 

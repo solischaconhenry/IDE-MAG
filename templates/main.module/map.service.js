@@ -32,6 +32,48 @@ angular.module('AppPrueba')
             });
         };
 
+        this.createUnionTool =function (callback) {
+            sm.ui.createTool({
+                baseTool: "edit",
+                id: "union",
+                select: function () {
+                    sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback)
+                },
+                deselect: function (event) {
+                },
+                mousedown: function (event) {
+                    //console.log(event);
+                },
+                mouseup: function (event) {
+                    //console.log(event);
+                },
+                mousemove: function (event) {
+                    //console.log(event);
+                }
+            });
+        };
+        
+        this.createDivideTool = function (callback) {
+            sm.ui.createTool({
+                baseTool: "splitLine",
+                id: "divide",
+                select: function () {
+                    sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback)
+                },
+                deselect: function (event) {
+                },
+                mousedown: function (event) {
+                    //console.log(event);
+                },
+                mouseup: function (event) {
+                    //console.log(event);
+                },
+                mousemove: function (event) {
+                    //console.log(event);
+                }
+            });
+        }
+
         this.showInfoWindow = function (message) {
             sm.map.openInfoWindow(
                 sm.view.getCenter(), message, {lineColor: '#000000',
