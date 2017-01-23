@@ -232,7 +232,7 @@ Class Respuestas{
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-            $query = "select id_finca_aparto_form from finca_aparto_formulario where codigofincaaparto = $codigofinca and idform = $idform";
+            $query = "select id_finca_aparto_form from finca_aparto_formulario where codigofincaaparto = $codigofinca and idform = $idform;";
             $result =pg_query($conn, $query) or die("Error al ejecutar la consulta");
             $rows = pg_fetch_all($result);
             return ($rows);

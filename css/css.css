@@ -442,3 +442,4 @@ body{
     overflow: hidden;
     outline:none;
 }
+#modalResponderAncho.modal-dialog{width:85%;}

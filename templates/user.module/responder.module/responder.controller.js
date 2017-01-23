@@ -11,7 +11,7 @@ angular.module('AppPrueba')
 
         $scope.ID_Aparto_Finca_Form = "";
         ResponderService.getID_Aparto_Finca_Form(FormularioResolver.idFormularioResolver, FormularioResolver.idFincaAResponder).then(function (data) {
-           console.log(data);
+            console.log(data);
             $scope.ID_Aparto_Finca_Form =  data[0].id_finca_aparto_form;
             console.info($scope.ID_Aparto_Finca_Form);
         });
@@ -86,7 +86,7 @@ angular.module('AppPrueba')
                                         mascara: pregunta[preg].mascara,
                                         options: pregunta[preg].options,
                                         answer:[]
-                                        
+
 
                                     };
                                 }
@@ -106,7 +106,7 @@ angular.module('AppPrueba')
                                 item.preguntas.push(itemP);
 
                                 pregUsadas.push(pregunta[preg].titulo);
-                                            console.warn(item);
+                                console.warn(item);
                             }
 
                         }
@@ -243,12 +243,12 @@ angular.module('AppPrueba')
 
 
         //Guarda la respuestas del usuario
-            $scope.guardarRespuestas = function (data) {
+        $scope.guardarRespuestas = function (data) {
             var idRespuesta = "";
             //calcula la fecha y hora actual en milisegundos
             var currentdate = new Date().getTime();
             //inserta la respuesta del form
-                var descripcion = "Respuesta al formulario " + $scope.DataForm.nombre +" en la finca: "+FormularioResolver.idFincaAResponder;
+            var descripcion = "Respuesta al formulario " + $scope.DataForm.nombre +" en la finca: "+FormularioResolver.idFincaAResponder;
             ResponderService.insertarRespuesta(FormularioResolver.idFormularioResolver, $scope.ID_Aparto_Finca_Form,currentdate, descripcion).then(function (NA) {
                 //recupera la respuesta del form para insertar las preguntas ahora
                 console.log(NA);

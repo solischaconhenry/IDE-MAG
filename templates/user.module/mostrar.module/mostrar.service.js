@@ -105,7 +105,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosFinca&codigofinca='+codigofinca)
+            $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosFinca&codigofinca='+codigofinca+"&tipo=finca")
                 .success(function(response) {
                     defered.resolve(response);
                 });
@@ -117,7 +117,7 @@ angular.module('AppPrueba')
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosAparto&codigoaparto='+codigoaparto)
+            $http.get('templates/formulario.module/formulario.module.db.php?action=getFormulariosAparto&codigoaparto='+codigoaparto+"&tipo=aparto")
                 .success(function(response) {
                     defered.resolve(response);
                 });
