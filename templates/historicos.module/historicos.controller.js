@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-.controller('HistoricosController', function ($scope,MostrarService,HistoricosService,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm) {
+.controller('HistoricosController', function ($scope,MostrarService,HistoricosService,VerEditarFormServiceCodigoFincaAparto,InsertarFormularioFincaxForm,$state) {
     $scope.fincas = [];
 
     $scope.gidFinca = VerEditarFormServiceCodigoFincaAparto.gidFinca;
