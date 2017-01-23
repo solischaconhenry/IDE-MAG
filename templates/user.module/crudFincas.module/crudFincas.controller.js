@@ -14,7 +14,7 @@ angular.module('AppPrueba')
             }
         }
     })
-    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile,$filter,LS) {
+    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile,$filter,LS,$state) {
         $scope.fincas = [];
         $scope.selectedFinca = undefined;
         $scope.showInfoFinca = false;
@@ -27,50 +27,41 @@ angular.module('AppPrueba')
 
 
         $scope.loadMap = function () {
-            var startCenter = [10.360414404, -84.5096459246]; // visualizar la zona norte en un punto central
-            var avaibleTools = ["edit", "drag", "eraser", "lineSnap", "rectangle", "circle",
+            // visualizar la zona norte en un punto central
+            var startCenter = [10.360414404, -84.5096459246];
+            var avaibleTools = ["edit", "drag", "eraser", "rectangle", "circle",
                 "polygon"];
+            // carga el mapa con las herramientas
             $scope.sm = mapService.loadMapWithEditTools(startCenter,avaibleTools);
-            //$scope.sm.ui.removeTool("info");
-            $scope.sm.ui.createTool({
-                baseTool: "edit",
-                id: "info",
-                select: function () {
-                    $scope.sm.map.openInfoWindow(
-                        $scope.sm.view.getCenter(), "Seleccione " +
-                        "un aparto", {lineColor: '#000000',
-                            lineOpacity: 1,
-                            fillColor: '#FFFFFF',
-                            fillOpacity: 1,
-                            weight: 2}, true
-                    );
-                    $scope.sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,function (event) {
-                        console.log(event.data.getMetaData());
-                        $scope.selectedActividad = event.data.getMetaData().actividad;
-                        $scope.descripcionAparto = event.data.getMetaData().descripcion;
-                        $scope.currentDate = $filter("date")(event.data.getMetaData().fechaCreacion, 'MM/dd/yyyy');
-                        $scope.createDivElementWithDirective();
-                        $scope.sm.map.closeInfoWindow();
-                        $scope.sm.map.removeListener(scribblemaps.MapEvent.OVERLAY_CLICK,null);
-                        $scope.sm.ui.setTool("edit");
-
-                    });
-                },
-                deselect: function (event) {
-                },
-                mousedown: function (event) {
-                    //console.log(event);
-                },
-                mouseup: function (event) {
-                    //console.log(event);
-                },
-                mousemove: function (event) {
-                    //console.log(event);
-                }
-            });
+            // crea la herramienta para seleccionar aparto y ver informacion
+            if($state.current.name == "dashboardUser.crudFincas.crudApartos"){ // si esta en la pestaña apartos
+                mapService.createInfoApartoTool(showInfoApartoInPopup)
+                mapService.createUnionTool(function (event) {
+                    
+                })
+            }else if($state.current.name == "dashboardUser/crudFincas/formularioAparto"){
+                // implementar tab formulario
+            }else {
+                // implementar tab historico
+            }
             avaibleTools.push("info");
-            $scope.sm.ui.setAvailableTools(avaibleTools);
+            avaibleTools.push("union");
+            avaibleTools.push("divide");
+            mapService.setMapTools(avaibleTools)  // agrega la nueva herramienta al mapa
         };
+
+        //funcion que se ejecuta al seleccionar la herramienta para ver informacion de aparto
+        function showInfoApartoInPopup(event) {
+            console.log(event.data.getMetaData());
+            mapService.showInfoWindow("Seleccione un aparto");
+            $scope.selectedActividad = event.data.getMetaData().actividad; // enlazado con la vista addApartoInMap
+            $scope.descripcionAparto = event.data.getMetaData().descripcion; // enlazado con la vista addApartoInMap
+            $scope.currentDate = $filter("date")(event.data.getMetaData().fechaCreacion, 'MM/dd/yyyy'); // enlazado con la vista addApartoInMap.html
+            createDivElementWithDirective(); // crea la ventana popup y carga la vista addApartoInMap.html por medio de una directiva
+            mapService.closeInfoWindow();
+            mapService.removeMapOverlayClickListener(null);
+            mapService.setTool("edit");
+        }
 
          function convertCoordsToArrayOfCoords (coords) {
             var coordsArray = [];
@@ -89,7 +80,7 @@ angular.module('AppPrueba')
         }
         
         function insertApartsChangedOrNew() {
-            var geojson = $scope.sm.data.getGeoJSON();
+            var geojson = mapService.getGeoJson();
              for(var i in geojson.features){
                  var metaDataInfo = {
                      gid:parseInt(geojson.features[0].properties.metaData.gid),
@@ -97,19 +88,18 @@ angular.module('AppPrueba')
                      fecha:parseInt(geojson.features[i].properties.metaData.fechaCreacion),
                      idActividad:parseInt(geojson.features[i].properties.metaData.idtipoActividad),
                      descripcion:geojson.features[i].properties.metaData.descripcion
-                 }
-
+                 };
                  if(geojson.features[i].properties.metaData.wasEdited == true && geojson.features[i].properties.metaData.estado == 0){
-                        // cree historicos de aparto
+                     // si la geometria de un aparto valido fue editada cree historico para ese aparto
                 }else if(geojson.features[i].properties.metaData.wasEdited == true && geojson.features[i].properties.metaData.estado == 2){
+                     // si la geometria de un aparto pendiente fue editada actualize la informacion geografica y la informacion adicional
                      metaDataInfo.gid = parseInt(geojson.features[i].properties.metaData.gidAparto)
                      crudFincasUserService.actualizarApartosPendientes(metaDataInfo).then(function (response) {
-                         console.log(response)
                      })
                  }
                 else if(geojson.features[i].properties.metaData.isNew == true){
-                     crudFincasUserService.insertarApartosPendientes(metaDataInfo).then(function (response) {
-                         console.log(response)
+                     // si es un aparto nuevo inserte en la base de datos la informacion geografica y la informacion adicional
+                    crudFincasUserService.insertarApartosPendientes(metaDataInfo).then(function (response) {
                      })
                 }
             }
@@ -118,32 +108,28 @@ angular.module('AppPrueba')
         function validIfGeomChanged() {
             if(LS.getApartosFinca() != "false"){
                 var apartosValidosFinca = LS.getApartosFinca();
-                for(var i in $scope.sm.map.getOverlays()){
+                for(var i in mapService.getOverlays()){
                     for(var j in apartosValidosFinca){
-                        if($scope.sm.map.getOverlays()[i].getMetaData().gidAparto == apartosValidosFinca[j].gid){
-                            var actualMetaData = $scope.sm.map.getOverlays()[i].getMetaData();
-                                if(isGeomEqual($scope.sm.map.getOverlays()[i].getCoords(),JSON.parse(apartosValidosFinca[j].geom).coordinates[0])){
+                        if(mapService.getOverlays()[i].getMetaData().gidAparto == apartosValidosFinca[j].gid){
+                            var actualMetaData = mapService.getOverlays()[i].getMetaData();
+                                if(isGeomEqual(mapService.getOverlays()[i].getCoords(),JSON.parse(apartosValidosFinca[j].geom).coordinates[0])){
                                     actualMetaData.wasEdited = false;
-                                    $scope.sm.map.getOverlays()[i].setMetaData(actualMetaData);
+                                    mapService.getOverlays()[i].setMetaData(actualMetaData);
                                 }else {
                                     actualMetaData.wasEdited = true;
-                                    $scope.sm.map.getOverlays()[i].setMetaData(actualMetaData);
+                                    mapService.getOverlays()[i].setMetaData(actualMetaData);
                                 }
                         }
                     }
                 }
             }
-        }
+        };
         
         function validGeomsHadMetaData() {
-            var geojson = $scope.sm.data.getGeoJSON();
+            var geojson = mapService.getGeoJson();
             for(var i in geojson.features){
-                console.log(geojson.features[i].properties.metaData);
                 if(geojson.features[i].properties.metaData==null){
-                    //mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
-                    $scope.sm.ui.showAlert("Complete la informacion solicitada en los apartos",
-                        ["Aceptar"],
-                        [null]);
+                    mapService.showAlert("Complete la informacion solicitada en los apartos","Aceptar",null);
                     return false
                 }
             }
@@ -158,14 +144,13 @@ angular.module('AppPrueba')
             }
         }
 
-        $scope.getApartosValidosFinca = function (idFinca,callback) {
+        function getApartosValidosFinca(idFinca,callback) {
             crudFincasUserService.getApartosValidosFinca(idFinca).then(callback)
         }
 
 
         $scope.getFincas = function () {
             crudFincasUserService.getFincas(UserService.username).then(function (data) {
-                console.log(data);
                 if(data != 'false'){ // validar que no pasen datos nulos
                     $scope.fincas = data;
                 }
@@ -180,7 +165,7 @@ angular.module('AppPrueba')
             });
         };
 
-        $scope.getIdActividad = function (nombreActividad) {
+        function getIdActividad (nombreActividad) {
             for(var i in $scope.actividades){
                 if($scope.actividades[i].nombre == nombreActividad)
                     return $scope.actividades[i].idtipoactividad;
@@ -190,7 +175,7 @@ angular.module('AppPrueba')
         $scope.agregarSolicitudAparto = function () {
             var actualMetaData = $scope.actualOverlay.getMetaData();
             actualMetaData.actividad = $scope.selectedActividad;
-            actualMetaData.idtipoActividad = $scope.getIdActividad($scope.selectedActividad);
+            actualMetaData.idtipoActividad = getIdActividad($scope.selectedActividad);
             actualMetaData.descripcion = $scope.descripcionAparto;
             actualMetaData.fechaCreacion =  new Date($scope.currentDate).getTime()
             if(actualMetaData.estado == 2 || actualMetaData.estado == 0){
@@ -199,34 +184,33 @@ angular.module('AppPrueba')
                 actualMetaData.isNew = true
                 $scope.actualOverlay.setMetaData(actualMetaData)
             }
-
-            $scope.sm.ui.hidePanel();
+            mapService.hidePanel();
             $scope.descripcionAparto = undefined;
         }
 
-        $scope.createDivElementWithDirective = function () {
+        function createDivElementWithDirective() {
             var div = document.createElement("div");
             div.style.width = "250px";
             div.style.height = "250px";
             div.setAttribute("newAparto","");
-            $scope.sm.ui.showCustomPanel(div,false);
-            $compile(div)($scope);
-        }
+            mapService.showCustomPanel(div,false,function () {
+                $compile(div)($scope);
+            });
+        };
 
-        $scope.nuevoApartoCreadoListener = function (overlay,response) {
+        function nuevoApartoCreadoListener (overlay,response) {
             $scope.actualOverlay = overlay;
             if(response == true){
                 if(isEmpty(overlay.getMetaData())){ // validar que solo contenga el gid en el metadata
                     $scope.selectedActividad = undefined;
                     $scope.descripcionAparto = undefined;
                     $scope.currentDate = undefined;
-                    $scope.createDivElementWithDirective();
+                    createDivElementWithDirective();
                 }
             }
         }
 
-        $scope.manageDrawFincaAndApartoInMap = function () {
-            var type = JSON.parse($scope.selectedFinca.geom).type;
+         function manageDrawFincaAndApartoInMap() {
             var geom = JSON.parse($scope.selectedFinca.geom);
             mapService.clearListenersAndWipeMap();
             if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){
@@ -236,59 +220,30 @@ angular.module('AppPrueba')
                     mapService.drawPropertyInUserView($scope.selectedFinca,geom.coordinates[0][g]);
                 }
             }
-            $scope.getApartosValidosFinca($scope.selectedFinca.gid,function (response) {
+            getApartosValidosFinca($scope.selectedFinca.gid,function (response) {
                 if(response != "false"){
                     LS.setApartosFinca(response);
                     mapService.dibujarApartosFinca(response);
-                    mapService.addListenerGeometryDraw(mapService.validAddedOverlay,$scope.nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
                 }
-
+                mapService.addListenerGeometryDraw(mapService.validAddedOverlay,nuevoApartoCreadoListener); // Agrega un listener al mapa cuando se dibujen nuevas geometrias;
             });
-
-
-
-        }
+        };
 
         $scope.fincaIsSelectedFromCombo = function(){
             $scope.showInfoFinca = !$scope.showInfoFinca;
-            $scope.manageDrawFincaAndApartoInMap();
-        }
+            manageDrawFincaAndApartoInMap();
+        };
 
-        function reconvertJsonPolygon(puntos) {
-            var json = [];
-            var points = '';
-
-            for(var i = 0; i < puntos.length; i++) {
-                for (var j = 0; j < puntos[i].puntos.length; j++) {
-                    points += puntos[i].puntos[j].x + ',' + puntos[i].puntos[j].y + ' ';
-                }
-                json.push({gid:puntos[i].gid,puntos: points.slice(0, points.length-1)});
-                points = '';
-            }
-            return json;
-        }
-
-
-        $scope.gidAparto = "";
-        $scope.dividir = function(gid, coordenadas){
-            $scope.gidAparto = gid;
-            $scope.apartoToEdit = coordenadas;
-        }
-
-
-        $scope
-    
-    $scope.getJsonObjectFromFile = function(file) {
+    function getJsonObjectFromFile(file) {
         var reader = new FileReader();
         reader.onload = function(){
-
             // draw in the map
-            $scope.drawGeometyInScribbleMap(JSON.parse(reader.result));
+            drawGeometyInScribbleMap(JSON.parse(reader.result));
         };
         reader.readAsText(file);
     }
 
-    $scope.reverseLatitudeLong = function (coordsArray) {
+    function reverseLatitudeLong (coordsArray) {
 
         for (i in coordsArray){
             coordsArray[i] =  coordsArray[i].reverse();
@@ -297,9 +252,9 @@ angular.module('AppPrueba')
     }
 
     
-    $scope.drawGeometyInScribbleMap = function (geoJson) {
+    function drawGeometyInScribbleMap(geoJson) {
         if(geoJson.features[0].geometry.type == "Polygon"){
-            geoJson.features[0].geometry.coordinates[0] = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates[0]);
+            geoJson.features[0].geometry.coordinates[0] = reverseLatitudeLong( geoJson.features[0].geometry.coordinates[0]);
             $scope.sm.draw.poly(geoJson.features[0].geometry.coordinates[0],{
                 fillOpacity: 0.3,
                 fillColor: "#D8D8D8",
@@ -308,7 +263,7 @@ angular.module('AppPrueba')
             }).setMetaData({idFinca:"hola"});
             $scope.sm.view.setCenter([geoJson.features[0].geometry.coordinates[0][0][0],geoJson.features[0].geometry.coordinates[0][0][1]]);
         }else if (geoJson.features[0].geometry.type == "LineString"){
-            geoJson.features[0].geometry.coordinates = $scope.reverseLatitudeLong( geoJson.features[0].geometry.coordinates);
+            geoJson.features[0].geometry.coordinates = reverseLatitudeLong( geoJson.features[0].geometry.coordinates);
             $scope.sm.draw.line(geoJson.features[0].geometry.coordinates,{
                 lineColor: "#F3F781"
             });
@@ -318,7 +273,7 @@ angular.module('AppPrueba')
 
     $scope.uploadFile = function(){
         if($scope.myFile != undefined){
-            var os =  $scope.getJsonObjectFromFile($scope.myFile);
+            var os =  getJsonObjectFromFile($scope.myFile);
         }
     };
     

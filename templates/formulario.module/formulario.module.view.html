@@ -46,17 +46,11 @@
          </form>
 </script>
 
-<div class="row" style="overflow-x: hidden;" >
-    <h4 style="margin-top: 1%;margin-left: 1%;margin-bottom: 0%">Formularios</h4>
-    <hr>
-    <div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
-         close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
-    <!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>-->
-</div>
-</div>
-
 
 <div class="typesDemo row" style="overflow-x: hidden">
+
+    <div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+         close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
 
     <div ng-repeat="list in lists" class="col-md-3">
         <div class="panel panel-info">
