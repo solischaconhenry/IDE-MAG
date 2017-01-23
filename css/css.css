@@ -3,7 +3,9 @@ body,html{
 }
 
 .sm_info > .sm_icon{
-    background-image:url("http://findicons.com/files/icons/748/delikate_lite/512/info.png");
+    background-image: url("info.png");
+    background-size: 1px 1px;
+    background-repeat: no-repeat;
 }
 
 
@@ -455,3 +457,4 @@ body{
     overflow: hidden;
     outline:none;
 }
+#modalResponderAncho.modal-dialog{width:85%;}
