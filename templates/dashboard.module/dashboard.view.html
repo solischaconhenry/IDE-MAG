@@ -1,15 +1,18 @@
 
-<nav class="navbar navbar-inverse sidebar" role="navigation">
-
+<nav class="navbar navbar-default" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header brand-ico">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+        <div class="navbar-header justified">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="res/logo2_opt.png">
+            </a>
+            <!--
             <div class="navbar-brand" style="margin: 11%">
                 <img src="res/logo2_opt.png" class="img-responsive">
             </div>
@@ -17,14 +20,17 @@
                 <h6 style="color: white">Usuario: {{userLogged}}</h6>
                 <a ng-click="logout()" >Salir <i class="glyphicon glyphicon-log-out"></i></a>
             </div>
+            -->
         </div>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a ui-sref=".home">Inicio<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="text-align: center">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="active"><a class="elem-menu"  ui-sref=".home"> <span style="font-size:16px;" class=" hidden-xs showopacity glyphicon glyphicon-home"></span>  Inicio</a></li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">Fincas <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-grain"></span></a>
-                    <ul class="dropdown-menu forAnimate" role="menu">
+                    <a class="dropdown-toggle elem-menu" data-toggle="dropdown"> <span style="font-size:16px;" class=" hidden-xsshowopacity glyphicon glyphicon-grain"></span> Fincas <span class="caret"></span></a>
+                        <ul class="dropdown-menu forAnimate" role="menu">
                         <!--<li><a href="#/subir">Subir Finca</a></li>
                         <li><a href="#/dividir">Dividir Finca</a></li>
                         <li><a href="#/unir">Unir Finca</a></li>-->
@@ -35,20 +41,25 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Formularios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a>
+                    <a href="#" class="dropdown-toggle elem-menu" data-toggle="dropdown"><span style="font-size:16px;" class=" hidden-xs showopacity glyphicon glyphicon-list-alt"></span> Formularios <span class="caret"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
                         <li><a ui-sref=".formularioGanaderia" >Crear</a></li>
                         <li><a ui-sref=".formCrud">Consultar</a></li>
                         <li><a ui-sref=".formularioAgricultura">CRUD Preguntas</a></li>
                     </ul>
                 </li>
+                <li><a href="#">{{userLogged}}</a></li>
+                <li><a href="#" ng-click="logout()">Salir <span class="glyphicon glyphicon-log-out"></span></a></li>
 
             </ul>
-        </div>
-    </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 
-<div ui-view="dashboard">
+
+
+
+<div class="container-fluid" ui-view="dashboard">
 
 </div>
 
