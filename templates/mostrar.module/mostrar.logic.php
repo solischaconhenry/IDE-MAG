@@ -116,6 +116,8 @@ class Mostrar
         ///return($geojson);
     }
 
+
+
     function historicos($gidFinca,$numHistorico)
     {
         include '../main.module/acceso.php';
@@ -345,6 +347,7 @@ else if($_REQUEST['action']=='getFincasTodo') {
 else if($_REQUEST['action']=='preview') {
     print_r(json_encode($mostrar->getPreview($_REQUEST['gidFinca'])));
 }
+
 else if($_REQUEST['action']=='history') {
     print_r(json_encode($mostrar->historicos($_REQUEST['gidFinca'],$_REQUEST['numHistorico'])));
 }

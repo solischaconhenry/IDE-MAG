@@ -39,6 +39,18 @@ angular.module('AppPrueba')
         return promise;
     }
 
+    this.previewValidar = function (gidFinca) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+
+        $http.get('templates/historicos.module/historicos.logic.php?action=previewValidar&gidFinca='+gidFinca)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
+
     this.getFincasByID = function (idUser, idFinca) {
         var defered = $q.defer();
         var promise = defered.promise;

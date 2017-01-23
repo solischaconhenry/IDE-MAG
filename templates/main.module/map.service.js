@@ -1,22 +1,84 @@
-
 angular.module('AppPrueba')
     .service('mapService', function ($rootScope) {
         var sm = [];
         var property = [];
-        var apartsAdded = [];
-        var isValidApart = [];
         var propertyStyle = {fillOpacity: 0.3, fillColor: "#2E9AFE", lineColor: "#FFFF00", weight: 5};
         var apartoValidoStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3};
         var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3};
         var legendStyle = [{name: "Área de Finca", style: propertyStyle},
             {name: "Aparto Válido", style: apartoValidoStyle},
-            {name: "Aparto Pendiente", style: apartoPendienteStyle},
+            {name: "Aparto Pendiente", style: apartoPendienteStyle}
         ];
-        var defaultStyle = apartoPendienteStyle
+        var defaultStyle = apartoPendienteStyle;
 
+        this.createInfoApartoTool = function (callback) {
+            sm.ui.createTool({
+                baseTool: "edit",
+                id: "info",
+                select: function () {
+                    sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback)
+                },
+                deselect: function (event) {
+                },
+                mousedown: function (event) {
+                    //console.log(event);
+                },
+                mouseup: function (event) {
+                    //console.log(event);
+                },
+                mousemove: function (event) {
+                    //console.log(event);
+                }
+            });
+        };
 
+        this.showInfoWindow = function (message) {
+            sm.map.openInfoWindow(
+                sm.view.getCenter(), message, {lineColor: '#000000',
+                    lineOpacity: 1,
+                    fillColor: '#FFFFFF',
+                    fillOpacity: 1,
+                    weight: 2}, true
+            );
+        };
 
+        this.showAlert = function (message,buttonText,triggerFunction) {
+            sm.ui.showAlert(message,[buttonText],[triggerFunction])
+        }
 
+        this.showCustomPanel =function (htmlElement,enableMap,callback) {
+            sm.ui.showCustomPanel(htmlElement,enableMap);
+            callback()
+        };
+
+        this.setTool = function (tool) {
+            sm.ui.setTool(tool);
+        };
+
+        this.closeInfoWindow =function () {
+            sm.map.closeInfoWindow();
+        };
+
+        this.removeMapOverlayClickListener = function(callback){
+            sm.map.removeListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback);
+        };
+        
+        this.hidePanel = function () {
+            sm.ui.hidePanel()
+        }
+        
+        this.setMapTools = function (avaiableTools) {
+            sm.ui.setAvailableTools(avaiableTools)
+        };
+        
+        this.getGeoJson = function () {
+            return sm.data.getGeoJSON()
+        };
+
+        this.getOverlays = function(){
+            return sm.map.getOverlays();
+        };
+        
         this.loadMapWithEditTools = function (startCenterCoords,avaibleTools) {
             sm = new scribblemaps.ScribbleMap('ScribbleMap', {
                 searchControl: true,
@@ -39,15 +101,18 @@ angular.module('AppPrueba')
 
         this.validAddedOverlay = function (event,trig) {
             if (checkInsideProperty(event.data) == true && checkInsideOtherOverlay(event.data) == false){
-                apartsAdded.push(event.data);
                 trig(event.data,true);
             }else {
                 if(checkInsideProperty(event.data) == false){
                     event.data.remove();
-                    this.showAlert("Los apartos solo pueden ubicarse en el area de la finca","Aceptar",null);
+                    sm.ui.showAlert("Los apartos solo pueden ubicarse en el area de la finca",
+                        ["Aceptar"],
+                        [null]);
                 }else if(checkInsideOtherOverlay(event.data) == true){
                     event.data.remove();
-                    this.showAlert("Las fincas solo pueden tener una capa de apartos","Aceptar",null);
+                    sm.ui.showAlert("Las fincas solo pueden tener una capa de apartos",
+                        ["Aceptar"],
+                        [null]);
                 }
 
                 trig(event.data,false);
@@ -62,25 +127,16 @@ angular.module('AppPrueba')
             });
 
         };
-
-        this.showAlert = function(message,buttonText,triggerAction){
-            sm.ui.showAlert(message,
-                [buttonText],
-                [triggerAction]);
-        };
         
         function checkInsideProperty(overlay) {
             return property.containsOverlay(overlay);
         };
         
         function checkInsideOtherOverlay(overlay) {
-            if(apartsAdded == null){
-                return false;
-            }else {
-                for(x in apartsAdded){
-                    if(apartsAdded[x].containsOverlay(overlay)){
-                        return true;
-                    }
+            var overlays = sm.map.getOverlays();
+            for(var x = 1; x<overlays.length;x++){
+                if(overlays[x].containsOverlay(overlay)){
+                    return true;
                 }
             }
             return false;

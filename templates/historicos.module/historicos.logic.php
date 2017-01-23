@@ -115,6 +115,101 @@ class historico
         ///return($geojson);
     }
 
+    function getPreviewValidar($gidFinca){
+                include '../main.module/acceso.php';
+                $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+
+                $query = "SELECT max(st_xmax(geom))-min(st_xmin(geom)) xinicial, max(st_ymax(geom))-min(st_ymin(geom)) yinicial FROM apartos where gidfinca = $gidFinca";
+                $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+                $row =  pg_fetch_row($result);
+
+                if($row[0] < $row[1]){
+                    $query = "
+                        SELECT 	gid,
+                            ((geometria.x - medidas.xinicial)/medidas.factor) x,
+                            (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        FROM
+                           (SELECT
+                            gid,
+                            st_x((ST_DumpPoints(geom)).geom) x,
+                            st_y((ST_DumpPoints(geom)).geom) y
+                            FROM
+                               (SELECT gid, geom  FROM apartos tab where gidfinca = $gidFinca and (estado = 0 or estado = 2)) s
+                           ) geometria,
+                           (SELECT
+                               min(st_xmin(geom)) xinicial,
+                               (max(st_ymax(geom))-min(st_ymin(geom)))/480 factor,
+                               min(st_ymin(geom)) yinicial
+                            FROM
+                               apartos
+                            where gidfinca = $gidFinca and (estado = 0 or estado = 2)
+                           ) medidas;";
+                }
+                else{
+                    $query = "
+                        SELECT 	gid,
+                            ((geometria.x - medidas.xinicial)/medidas.factor) x,
+                            (480 - ((geometria.y - medidas.yinicial)/medidas.factor)) y
+                        FROM
+                           (SELECT
+                            gid,
+                            st_x((ST_DumpPoints(geom)).geom) x,
+                            st_y((ST_DumpPoints(geom)).geom) y
+                            FROM
+                               (SELECT gid, geom  FROM apartos tab where gidfinca = $gidFinca and (estado = 0 or estado = 2)) s
+                           ) geometria,
+                           (SELECT
+                               min(st_xmin(geom)) xinicial,
+                               (max(st_xmax(geom))-min(st_xmin(geom)))/480 factor,
+                               min(st_ymin(geom)) yinicial
+                            FROM
+                               apartos
+                            where gidfinca = $gidFinca and (estado = 0 or estado = 2)
+                           ) medidas;";
+                }
+
+                $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+                $gid = '';
+                $pointPolygonArray = array();
+
+                while ($row =  pg_fetch_row($result))
+                {
+                    if($gid == '')
+                    {
+                        $gid = $row[0];
+                        $pointPolygonArray[] = array("x" => $row[1], "y" => $row[2]);
+                    }
+                    else if($gid == $row[0])
+                    {
+                        $pointPolygonArray[] = array("x" => $row[1], "y" => $row[2]);
+                    }
+                    else
+                    {
+                        $geojson[] = array("gid" => $gid, "puntos" => $pointPolygonArray);
+
+                        $pointPolygonArray = array();
+                        $gid = $row[0];
+                        $pointPolygonArray[] = array("x" => $row[1], "y" => $row[2]);
+                    }
+                }
+
+                $geojson[] = array("gid" => $gid, "puntos" => $pointPolygonArray);
+
+
+                $query = "SELECT  coalesce(MAX(numeroHistorico),0) AS max_id FROM historicos where gidFinca = $gidFinca";
+                $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+                $rowMaxi =  pg_fetch_row($result);
+                $numHistorico = $rowMaxi[0];
+
+                //return($geojson);
+                return(array("finca"=>$geojson, "max"=>$numHistorico));
+
+                ///return($geojson);
+            }
+
+
     function historicos($gidFinca,$numHistorico)
     {
         include '../main.module/acceso.php';
@@ -313,6 +408,9 @@ if($_REQUEST['action']=='getFincas') {
     }
 else if($_REQUEST['action']=='getFincasTodo') {
     print_r(json_encode($historicoI->getFincasTodo($_REQUEST['idUser'])));
+}
+else if($_REQUEST['action']=='previewValidar') {
+    print_r(json_encode($historicoI->getPreviewValidar($_REQUEST['gidFinca'])));
 }
 else if($_REQUEST['action']=='preview') {
     print_r(json_encode($historicoI->getPreview($_REQUEST['gidFinca'])));
