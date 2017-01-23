@@ -7,6 +7,7 @@ angular.module('AppPrueba')
         $scope.tipo = UserService.tipo;
 
         $scope.userLogged = UserService.username;
+        /*
         function htmlbodyHeightUpdate() {
             var height3 = $(window).height();
             var height1 = $('.nav').height() + 50;
@@ -21,7 +22,7 @@ angular.module('AppPrueba')
             }
 
         }
-
+        */
         $scope.logout = function () {
             UserService.username = '';
             UserService.auth = false;
@@ -29,6 +30,7 @@ angular.module('AppPrueba')
             $state.go("login");
         };
 
+        /*
         $(document).ready(function () {
             htmlbodyHeightUpdate()
             $(window).resize(function () {

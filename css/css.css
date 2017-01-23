@@ -20,6 +20,9 @@ body,html{
 
 nav.sidebar.navbar {
     border-radius: 0px;
+    border-color: #f1f1f1;
+    background-color: #f1f1f1;
+
 }
 
 nav.sidebar, .main{
@@ -99,6 +102,16 @@ nav.sidebar, .main{
     .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
         color: #777;
     }
+
+    .elem-menu{
+        color: #777;
+    }
+    /*colors dropdown box text */
+    .navbar-costum .navbar-nav .open .dropdown-menu>li>a {
+        color: #777;
+    }
+
+
 
     /*gives sidebar width/height*/
     nav.sidebar{
