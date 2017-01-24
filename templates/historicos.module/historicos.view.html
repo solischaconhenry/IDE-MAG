@@ -95,20 +95,6 @@
                         <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios del aparto</h3>
                     </div>
                     <div class="panel-body" style="max-height: {{heightpanel}}px;">
-                        <div class="row">
-                            <div class="col-md-9" >
-                                <select style="padding-left:0%" ng-model="$parent.formActualAparto" class="form-control selectsTabs">
-                                    <!--<option value="" >Seleccione un Formulario</option>-->
-                                    <option ng-repeat="formulario in formularios" value="{{formulario.idform}}">{{formulario.nombreform}}</option>
-                                </select>
-
-                            </div>
-                            <div class="col-md-2" style="padding-left:0">
-
-                                <button  class="btn btn-primary" ng-click="anadirFormAparto()">Añadir</button>
-                            </div>
-                        </div>
-
                         <div class="row" style="padding-left:3%" >
                             <div class="col-md-10" ng-if="formulariosApartoActual.length == 0">
                                 -- No hay formularios --
@@ -138,16 +124,11 @@
                                             </select>
 
                                         </td>
-                                        <td style="width:1%">
+
+                                        <td style="width:1%" >
                                             <a type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasFormAparto()">
                                                 <span class="glyphicon glyphicon-eye-open "></span>
                                             </a>
-                                        </td>
-                                        <td style="width:1%">
-                                            <button type="button" class="btn-eiminarOpcion">
-                                                <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
-                                            </button>
-
                                         </td>
 
                                         <td>

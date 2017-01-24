@@ -162,6 +162,18 @@ angular.module('AppPrueba')
 
     }
 
+    $scope.eliminarForm = function (id,codigofincaaparto,tipo) {
+
+        MostrarService.eliminarForm(id,codigofincaaparto,tipo).then(function (data) {
+        });
+        if(tipo == "finca") {
+            $scope.actualizarlistaForm();
+        }
+        else {
+            $scope.actualizarlistaFormAparto();
+        }
+    }
+
 
 
 

@@ -149,7 +149,7 @@ Class CargarDatos {
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
+        $query = "select form.nombreform,form.idform,form.descripcion,form.fecha,form.editable from formulario as form inner join
                   (select * from finca_aparto_formulario where codigofincaaparto = $codigoFinca and tipo = '$tipo')as o on form.idform = o.idform ";
         $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
         $resulFin = [];
@@ -263,6 +263,26 @@ Class Insertar {
             $query = "insert into finca_aparto_formulario (idform,codigofincaaparto,tipo) values ($idform,$gid,'$tipo')";
             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
         }
+
+
+
+
+         public function eliminarForm($idform,$idfincaaparto,$tipo)
+                {
+                      $user = "postgres";
+                      $password = "12345";
+                      $dbname = "MAG";
+                      $port = "5432";
+                      $host = "localhost";
+
+                      $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+                      $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+                      $query = "DELETE FROM finca_aparto_formulario WHERE idform = $idform and codigofincaaparto = $idfincaaparto and tipo = '$tipo';";
+                      $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+                      return($result);
+
+                }
   }
 
 
@@ -326,5 +346,11 @@ else if($_REQUEST['action']=='insertarFormFinca') {
 else if($_REQUEST['action']=='insertarFormAparto') {
    $nuevoInsertar->insertarFormAparto($_REQUEST['idform'],$_REQUEST['gid']);
 }
+
+else if($_REQUEST['action']=='eliminarForm') {
+   $nuevoInsertar->eliminarForm($_REQUEST['idform'],$_REQUEST['idfincaaparto'],$_REQUEST['tipo']);
+}
+
+
 
 ?>

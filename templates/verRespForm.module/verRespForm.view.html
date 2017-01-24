@@ -1,25 +1,6 @@
-
-<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Basic Modal</h4>
-            </div>
-            <div class="modal-body">
-                <h3>Modal Body</h3>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-close"></span> Close</button>
-                <button type="button" class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-send"></span> Enviar Respuesta</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <div class="row" style="overflow-x: hidden;">
-
+    <div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+         close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
     <p style=";margin-left: 1%;margin-bottom: 0%}"><u>Fincas</u> / <a>Mostrar Fincas</a> / <u>Respuestas de formularios</u></p>
 </div>
 <div class="typesDemo row" style="overflow-x: hidden">
@@ -89,7 +70,6 @@
     </div>
     <div class="col-md-6" >
 
-        <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alertRespuesta" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlertRespuesta($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 
         <div ng-repeat="list in list2" ng-controller="VerRespFormController">
             <div class="panel panel-info" >
@@ -97,7 +77,7 @@
                     <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{DataFormResp.nombre}}   (Página:{{nombrePag}})</h3>
                     <button type="button" class="btn btn-default btn-sm" ng-click="validar($parent.list2)">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
-                        Finalizar
+                        Guardar
                     </button>
                 </div>
 

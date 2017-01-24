@@ -22,6 +22,10 @@ angular.module('AppPrueba')
         $scope.list2 = [];
         $scope.list2.respuestas = [];
 
+        $scope.alerts = [
+
+        ];
+
 
         VerRespFormService.getIdFormWIdResp($scope.idrespuesta).then(function (data) {
             $scope.idform = data[0].idform;
@@ -270,6 +274,8 @@ angular.module('AppPrueba')
 
                     }
                 }
+                $scope.alerts.push({type: 'warning',msg: 'Se han guardado los cambios con éxito!'});
+                console.log($scope.alerts);
 
             }
 
