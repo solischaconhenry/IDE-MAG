@@ -25,6 +25,12 @@ angular.module('AppPrueba')
         $scope.ID_Aparto_Finca_Form = "";
         /************************************************************************/
 
+
+        $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
+        
+        
+        
+
         // Se debe de obtener el id del usuario
         $scope.idUser = UserService.username;
         MostrarUserService.getFincas($scope.idUser).then(function (data) {
@@ -174,7 +180,8 @@ angular.module('AppPrueba')
                 var item = {
                     nombre: data[0]["nombreform"],
                     descripcion: data[0]["descripcion"],
-                    fecha: data[0]["fecha"]
+                    fecha: data[0]["fecha"],
+                    nombreFinca:FormularioResolver.idFincaAResponder
                 };
                 $scope.DataForm = item;
                 //console.log($scope.DataForm);

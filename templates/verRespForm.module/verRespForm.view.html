@@ -1,7 +1,16 @@
 <div class="row" style="overflow-x: hidden;">
     <div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
          close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
-    <p style=";margin-left: 1%;margin-bottom: 0%}"><u>Fincas</u> / <a>Mostrar Fincas</a> / <u>Respuestas de formularios</u></p>
+    <div class="col-md-1" style="width: 2%">
+        <a type="button" class="btn-eiminarOpcion"   ng-click = "ir()">
+            <span class="glyphicon glyphicon-arrow-left "></span>
+        </a>
+    </div>
+    <div class="col-md-5" >
+        <p style=";margin-left: 1%;margin-bottom: 0%}"><u>Fincas</u> / <u>{{tipo}}</u> / <u>Respuestas de formularios</u></p>
+    </div>
+
+
 </div>
 <div class="typesDemo row" style="overflow-x: hidden">
     <div class="col-md-4 " >
@@ -81,7 +90,7 @@
                     </button>
                 </div>
 
-                <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto"ng-include="'./templates/verRespForm.module/verRespFormTypes.html'"></div>
+                <div class="panel-body"  style="max-height: {{heightpanel}}px; overflow: auto"ng-include="'./templates/verRespForm.module/verRespFormTypes.html'"></div>
                 <div class="panel-footer" style="margin-bottom: 0%">
                     <ul class="pagination">
                         <li><a href="" ng-click="pagination.prevPage(); change(n+1);">&laquo;</a></li>

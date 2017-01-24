@@ -11,11 +11,66 @@
             </div>
             <div class="modal-body">
                 <div class="typesDemo row">
-                    <div class="col-xs-12 col-sm-6 col-md-10">
-                        <blockquote class="blockquote">
-                            <p class="mb-0">{{DataForm.descripcion}}</p>
-                            <footer class="blockquote-footer">{{DataForm.fecha}}</footer>
-                        </blockquote>
+                    <div class="col-md-4">
+                        <div class="panel panel-info" >
+                            <div class="panel-heading clearfix" >
+                                <h3 class="panel-title" style="padding-top: 7.5px;">Información general</h3>
+                            </div>
+
+                            <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto">
+                                <div class=" row"  style="margin-bottom: 1%">
+                                    <label  class="col-md-6" >Nombre de formulario:</label>
+                                    <div class="col-md-6">
+                                        {{DataForm.nombre}}
+                                    </div>
+                                </div>
+                                <div class=" row"  style="margin-bottom: 1%">
+                                    <label  class="col-md-6" >Fecha de creación:</label>
+                                    <div class="col-md-6">
+                                        {{DataForm.fecha}}
+                                    </div>
+                                </div>
+                                <div class=" row"  style="margin-bottom: 1%">
+                                    <label  class="col-md-6" >Finca:</label>
+                                    <div class="col-md-6">
+                                        {{DataForm.nombreFinca}}
+                                    </div>
+                                </div>
+                                <div ng-if="DataFormResp.aparto != ''"  class=" row"  style="margin-bottom: 1%">
+                                    <label  class="col-md-6" >Aparto:</label>
+                                    <div class="col-md-6">
+                                        {{DataForm.aparto}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="panel panel-info" >
+                            <div class="panel-heading clearfix" >
+                                <h3 class="panel-title" style="padding-top: 7.5px;">Descripción</h3>
+                            </div>
+
+                            <div class="panel-body"  style="max-height: {{heightFormCrear}}px; overflow: auto">
+                                <div class="col-md-12">
+                                    {{DataForm.descripcion}}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="col-md-8">
+
                         <div style=" position: absolute; right: 25%; z-index: 10; width: 40%;"  uib-alert ng-repeat="alert in alertRespuesta" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlertRespuesta($index)" dismiss-on-timeout="4000">{{alert.msg}}</div>
 
                         <div ng-repeat="list in list2">
@@ -27,7 +82,7 @@
                                         Finalizar
                                     </button>
                                 </div>
-                                <div>
+                                <div class="panel-body">
 
                                     <div ng-repeat="data in list.people"
                                          ng-show="data.orden == seccionActiva">
@@ -126,14 +181,16 @@
                                         </div>
                                     </div>
 
+
+
+                                </div>
+                                <div class="panel-footer" style="margin-bottom: 0%">
                                     <ul class="pagination">
                                         <li><a href="" ng-click="pagination.prevPage(); change(n+1);">&laquo;</a></li>
                                         <li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">
                                             <a href="" ng-click="pagination.toPageId(n); change(n+1);">{{n + 1}}</a>
                                         </li>
                                         <li><a href="" ng-click="pagination.nextPage(); change(n+1);">&raquo;</a></li>
-
-
                                     </ul>
                                 </div>
                             </div>
@@ -154,15 +211,15 @@
     <div ng-transclude></div>
 </script>
 
-
+<br>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-init="change()">
     <div class="panel-group" id="accordion">
-        <div class="panel panel-primary">
+        <div class="panel panel-info">
             <div class="panel-heading clearfix ">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Formularios Finca</a></h4>
+                <div class=" col-md-3">
+                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> Finca</a></h4>
                 </div>
-                <div class="input-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="input-group  col-md-9 ">
                     <input id="Special" type="text" class="form-control" ng-model="searchBox" placeholder="Search...">
                     <div class="input-group-btn">
                         <button class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
@@ -170,7 +227,7 @@
                 </div>
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
-                <div class="panel-body">
+                <div class="panel-body" style="max-height: {{heightpanel}}px;>
                     <ul class="list-group">
                         <li class="list-group-item" ng-if="formulariosFincaAcual.length == 0">
                             -- No hay formularios --
@@ -186,10 +243,10 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-info">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Formularios Aparto: {{apartoGid}}</a>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> Aparto: {{apartoGid}}</a>
                 </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">

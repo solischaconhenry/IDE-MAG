@@ -38,6 +38,7 @@ angular.module('AppPrueba')
             VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = $scope.codigofinca;
             VerEditarFormServiceCodigoFincaAparto.tipo = "finca";
             VerEditarFormServiceCodigoFincaAparto.gidFinca = $scope.gidFinca;
+            VerEditarFormServiceCodigoFincaAparto.origen = "historicos";
 
             //Para enviar  a la vista de mostrar
             InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
