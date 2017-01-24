@@ -39,7 +39,14 @@ angular.module('AppPrueba')
 
                 console.log("finca:" + $scope.codigofinca);
                 ValidarService.getApartosAValidar($scope.codigofinca).then(function (apartoValidarInfo) {
-                    $scope.validarApartoInfo =apartoValidarInfo;
+                    console.log($scope.codigofinca);
+                    console.log(apartoValidarInfo);
+                    if(apartoValidarInfo != false && apartoValidarInfo != "false" && apartoValidarInfo != undefined && apartoValidarInfo != "") {
+                        $scope.validarApartoInfo = apartoValidarInfo;
+                    }
+                    else {
+                        $scope.validarApartoInfo = [];
+                    }
                 });
             });
 
@@ -82,6 +89,19 @@ angular.module('AppPrueba')
 
             $scope.apartoAtual = true;
         };
+
+        $scope.aceptarAparto = function (gid) {
+            ValidarService.aceptarAparto(gid).then(function (data) {
+                console.log(data);
+            })
+        };
+
+        $scope.rechazarAparto = function (gid) {
+            ValidarService.rechazarAparto(gid).then(function (data) {
+                console.log(data);
+            })
+        };
+
 
         $scope.gotoForm = function(){
 

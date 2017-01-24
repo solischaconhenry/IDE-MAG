@@ -30,7 +30,7 @@ angular.module('AppPrueba')
 
 
         $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
-
+        $scope.tipo = "finca";
 
 
         // Se debe de obtener el id del usuario
@@ -39,6 +39,10 @@ angular.module('AppPrueba')
             $scope.fincas = data;
         });
 
+
+        $scope.cambiar = function(tipo){
+            $scope.tipo = tipo;
+        }
         $scope.change = function(){
 
             /**************************FUNCIONES DEL MAPA *************************************************/
@@ -105,8 +109,9 @@ angular.module('AppPrueba')
          */
         $scope.actualizarlistaForm = function () {
             MostrarUserService.getFormulariosFinca(FormularioResolver.idFincaAResponder).then(function (data) {
-                console.log(data);
+                $scope.apartoGid = "";
                 if(data != "false") {
+
                     $scope.formulariosFincaAcual = data;
                 }
                 else {

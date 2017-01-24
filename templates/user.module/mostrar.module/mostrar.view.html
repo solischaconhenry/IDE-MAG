@@ -36,7 +36,7 @@
                                         {{DataForm.nombreFinca}}
                                     </div>
                                 </div>
-                                <div ng-if="apartoGid != ''"  class=" row"  style="margin-bottom: 1%">
+                                <div ng-if="tipo == 'aparto'"  class=" row"  style="margin-bottom: 1%">
                                     <label  class="col-md-6" >Aparto:</label>
                                     <div class="col-md-6">
                                         {{apartoGid}}
@@ -217,7 +217,7 @@
         <div class="panel panel-info">
             <div class="panel-heading clearfix ">
                 <div class=" col-md-3">
-                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> Finca</a></h4>
+                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" ng-click="cambiar('finca')" href="#collapse1"> Finca</a></h4>
                 </div>
                 <div class="input-group  col-md-9 ">
                     <input id="Special" type="text" class="form-control" ng-model="searchBox" placeholder="Search...">
@@ -246,7 +246,7 @@
         <div class="panel panel-info">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> Aparto: {{apartoGid}}</a>
+                    <a data-toggle="collapse" data-parent="#accordion" ng-click="cambiar('aparto')"  href="#collapse2"> Aparto: {{apartoGid}}</a>
                 </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">

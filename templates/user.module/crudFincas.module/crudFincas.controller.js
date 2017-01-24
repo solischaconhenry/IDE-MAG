@@ -152,14 +152,14 @@ angular.module('AppPrueba')
         }
 
         $scope.printCoords = function () {
-            if(validGeomsHadMetaData()){
+            /*if(validGeomsHadMetaData()){*/
                 validIfGeomChanged();
                 insertApartsChangedOrNew();
                 mapService.showLoader("Procesando cambios...",0.99,false,null);
                 sleep(2000).then(function () {
                     mapService.hideLoader();
                 });
-            }
+            //}
         }
 
         function getApartosValidosFinca(idFinca,callback) {

@@ -15,6 +15,32 @@ angular.module('AppPrueba')
                 });
 
             return promise;
+        };
+
+        this.aceptarAparto = function (idAparto) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+
+            $http.get('templates/validar_Apartos/validar_aparto.logic.php?action=aceptarAparto&idAparto=' +idAparto)
+                .success(function(response) {
+                    defered.resolve(response);
+                });
+
+            return promise;
+        };
+
+        this.rechazarAparto = function (idAparto) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+
+            $http.get('templates/validar_Apartos/validar_aparto.logic.php?action=rechazarAparto&idAparto=' +idAparto)
+                .success(function(response) {
+                    defered.resolve(response);
+                });
+
+            return promise;
         }
 
 

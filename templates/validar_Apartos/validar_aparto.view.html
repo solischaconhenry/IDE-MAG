@@ -26,13 +26,13 @@
             <div class="panel-heading"><h4>Apartos a Validar</h4></div>
             <div class="panel-body">
                 <div class="panel-group" id="accordion">
-
-                    <div ng-repeat="aparto in validarApartoInfo" class="panel panel-default">
+                    <div ng-if="validarApartoInfo.length == 0">--No hay apartos pendientes--</div>
+                    <div ng-if="validarApartoInfo.length > 0" ng-repeat="aparto in validarApartoInfo" class="panel panel-default">
                         <div class="panel-heading clearfix">
                             <h5 class="panel-title pull-left" style="padding-top: 7.5px;"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Aparto: {{aparto.gid}}</a></h5>
                             <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
-                                <button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
+                                <button ng-click="rechazarAparto(aparto.gid)" type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+                                <button ng-click="aceptarAparto(aparto.gid)" type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
                             </div>
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
