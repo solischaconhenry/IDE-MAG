@@ -45,5 +45,6 @@ angular.module('AppPrueba')
         this.nombrepropietario = "";
         this.apellidosPropietario = "";
         this.fechaRes = 0;
+        this.origen ="";
     });
 

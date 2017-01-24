@@ -22,6 +22,18 @@ angular.module('AppPrueba')
         $scope.list2 = [];
         $scope.list2.respuestas = [];
 
+        $scope.alerts = [
+
+        ];
+
+        $scope.heightpanel = screen.height - ((screen.height/3)+ (screen.height/9));
+        
+        if(VerEditarFormServiceCodigoFincaAparto.origen == "historicos") {
+            $scope.tipo = "Historicos";
+        }
+        else {
+            $scope.tipo = "Mostrar fincas";
+        }
 
         VerRespFormService.getIdFormWIdResp($scope.idrespuesta).then(function (data) {
             $scope.idform = data[0].idform;
@@ -270,6 +282,8 @@ angular.module('AppPrueba')
 
                     }
                 }
+                $scope.alerts.push({type: 'warning',msg: 'Se han guardado los cambios con éxito!'});
+                console.log($scope.alerts);
 
             }
 
@@ -316,6 +330,16 @@ angular.module('AppPrueba')
                 }
             };
 
+            $scope.ir = function ()
+            {
+                if(VerEditarFormServiceCodigoFincaAparto.origen == "historicos") {
+                    $state.go('dashboard.historicos');
+                }
+                else {
+                    $state.go('dashboard.mostrar');
+                }
+
+            }
 
         })
     });

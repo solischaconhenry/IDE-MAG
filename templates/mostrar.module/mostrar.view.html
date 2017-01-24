@@ -91,7 +91,7 @@
 
               </div>
             </div>
-            
+
             <div class="panel panel-info" ng-if="apartoAtual">
               <div class="panel-heading clearfix" >
                 <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Información de Apartos</h3>
@@ -173,7 +173,7 @@
                           </a>
                         </td>
                         <td style="width:1%">
-                          <button type="button" class="btn-eiminarOpcion">
+                          <button ng-disable="form.respuestas != []" type="button" class="btn-eiminarOpcion"  ng-click = "eliminarForm(form.idform,codigofinca,'finca')">
                             <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
                           </button>
 
@@ -248,12 +248,13 @@
 
                         </td>
                         <td style="width:1%">
-                          <a type="button" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasFormAparto()">
+                          <a type="button" ng-disable="form.respuestas != []" class="btn-eiminarOpcion"   ng-click = "mostrarRespuestasFormAparto()">
                             <span class="glyphicon glyphicon-eye-open "></span>
                           </a>
                         </td>
-                        <td style="width:1%">
-                          <button type="button" class="btn-eiminarOpcion">
+
+                        <td style="width:1%" >
+                          <button type="button" class="btn-eiminarOpcion"  ng-click = "eliminarForm(form.idform,apartoGid,'aparto')">
                             <span class="glyphicon  glyphicon-trash icon-eiminarOpcion"></span>
                           </button>
 

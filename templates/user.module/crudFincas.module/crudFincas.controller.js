@@ -34,11 +34,26 @@ angular.module('AppPrueba')
 
         };
 
+        function changeColorsToSelectedAparto() {
+            for(var i in mapService.getOverlays()){
+                if(mapService.getOverlays()[i].getStyle().fillColor == "#00E600"){
+                    var newStyle = mapService.getOverlays()[i].getStyle();
+                    if(mapService.getOverlays()[i].getMetaData().estado == 0){
+                        mapService.getOverlays()[i].setStyle({lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3})
+                    }else if(mapService.getOverlays()[i].getMetaData().estado == 2) {
+                        mapService.getOverlays()[i].setStyle({lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3})
+                    }
+                }
+            }
+        }
+
         $scope.loadTools = function () {
+
             mapService.clearListeners();
             mapService.removeTool("info");
             mapService.showSearchControl();
             mapService.createInfoApartoTool("edit",showInfoApartoInPopup); // crea la herramienta para seleccionar aparto y ver informacion
+            changeColorsToSelectedAparto();
             mapService.createUnionTool(function (event) {
 
             });
@@ -214,7 +229,6 @@ angular.module('AppPrueba')
         }
 
          function manageDrawFincaAndApartoInMap() {
-             FormularioResolver.idFincaAResponder = $scope.selectedFinca.codigofinca;
             var geom = JSON.parse($scope.selectedFinca.geom);
             mapService.clearListenersAndWipeMap();
             if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){
@@ -234,6 +248,7 @@ angular.module('AppPrueba')
         };
 
         $scope.fincaIsSelectedFromCombo = function(){
+            FormularioResolver.idFincaAResponder = $scope.selectedFinca.codigofinca;
             $scope.showInfoFinca = !$scope.showInfoFinca;
             manageDrawFincaAndApartoInMap();
         };

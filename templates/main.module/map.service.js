@@ -5,9 +5,11 @@ angular.module('AppPrueba')
         var propertyStyle = {fillOpacity: 0.3, fillColor: "#2E9AFE", lineColor: "#FFFF00", weight: 5};
         var apartoValidoStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3};
         var apartoPendienteStyle = {lineColor: "#FFFFFF", weight: 3, fillColor: "#f4d142", fillOpacity: 0.3};
+        var apartoSeleccionado = {lineColor: "#FFFFFF", weight: 3, fillColor: "#00e600", fillOpacity: 0.3}
         var legendStyle = [{name: "Área de Finca", style: propertyStyle},
             {name: "Aparto Válido", style: apartoValidoStyle},
-            {name: "Aparto Pendiente", style: apartoPendienteStyle}
+            {name: "Aparto Pendiente", style: apartoPendienteStyle},
+            {name: "Aparto Seleccionado",style:apartoSeleccionado}
         ];
         var defaultStyle = apartoPendienteStyle;
 

@@ -165,6 +165,19 @@ angular.module('AppPrueba')
         return promise;
     }
 
+    this.eliminarForm = function (idform,idfincaaparto,tipo) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+        console.log("service");
+
+
+        $http.get('templates/formulario.module/formulario.module.db.php?action=eliminarForm&idform=' +idform+'&idfincaaparto=' +idfincaaparto+'&tipo='+tipo)
+            .success(function(response) {
+                defered.resolve(response);
+            });
+
+        return promise;
+    }
 
 
 

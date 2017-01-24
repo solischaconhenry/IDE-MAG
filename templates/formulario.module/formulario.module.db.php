@@ -149,7 +149,7 @@ Class CargarDatos {
         $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
+        $query = "select form.nombreform,form.idform,form.descripcion,form.fecha,form.editable from formulario as form inner join
                   (select * from finca_aparto_formulario where codigofincaaparto = $codigoFinca and tipo = '$tipo')as o on form.idform = o.idform ";
         $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
         $resulFin = [];
@@ -173,6 +173,41 @@ Class CargarDatos {
         return (json_encode($resulFin));
       }
 
+
+      public function getFormulariosAparto($codigoAparto){
+            $user = "postgres";
+            $password = "12345";
+            $dbname = "MAG";
+            $port = "5432";
+            $host = "localhost";
+            $tipo = "aparto";
+
+            $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+            $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+            $query = "select form.nombreform,form.idform,form.descripcion,form.fecha from formulario as form inner join
+                      (select * from finca_aparto_formulario where codigofincaaparto = $codigoAparto and tipo = '$tipo')as o on form.idform = o.idform ";
+            $result = pg_query($conn,$query) or die("Error al ejecutar la consulta");
+            $resulFin = [];
+
+           while ($reg = pg_fetch_array($result, null, PGSQL_ASSOC))
+           {
+               //Se recorren las respuestas
+                $queryResp = "select resp.idrespuesta,resp.fecha_hora from respuesta as resp inner join finca_aparto_formulario as faf on faf.id_finca_aparto_form = resp.id_finca_aparto_form where faf.codigofincaaparto = $codigoAparto and resp.idform = $reg[idform]";
+
+                $resultResp  = pg_query($conn, $queryResp ) or die("Error al ejecutar la consulta");
+
+                $rowsResp  = pg_fetch_all($resultResp );
+                if( pg_num_rows($resultResp) > 0)
+                 {
+                    $reg["respuestas"] = $rowsResp;
+                 }
+
+                 $resulFin[] =  $reg;
+
+            }
+            return (json_encode($resulFin));
+      }
 }
 
 
@@ -263,6 +298,26 @@ Class Insertar {
             $query = "insert into finca_aparto_formulario (idform,codigofincaaparto,tipo) values ($idform,$gid,'$tipo')";
             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
         }
+
+
+
+
+         public function eliminarForm($idform,$idfincaaparto,$tipo)
+                {
+                      $user = "postgres";
+                      $password = "12345";
+                      $dbname = "MAG";
+                      $port = "5432";
+                      $host = "localhost";
+
+                      $strconn = "host=$host port=$port dbname=$dbname user=$user password=$password";
+                      $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
+
+                      $query = "DELETE FROM finca_aparto_formulario WHERE idform = $idform and codigofincaaparto = $idfincaaparto and tipo = '$tipo';";
+                      $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+                      return($result);
+
+                }
   }
 
 
@@ -300,6 +355,10 @@ else if($_REQUEST['action']=='getFormulariosFinca') {
    print_r($nuevoCargar->getFormulariosFinca($_REQUEST['codigofinca'],$_REQUEST['tipo']));
 }
 
+else if($_REQUEST['action']=='getFormulariosAparto') {
+   print_r($nuevoCargar->getFormulariosAparto($_REQUEST['codigoaparto']));
+}
+
 else if($_REQUEST['action']=='getRespuestaForbyIdFom') {
    print_r($nuevoCargar->getRespuestaForbyIdFom($_REQUEST['idform']));
 }
@@ -326,5 +385,11 @@ else if($_REQUEST['action']=='insertarFormFinca') {
 else if($_REQUEST['action']=='insertarFormAparto') {
    $nuevoInsertar->insertarFormAparto($_REQUEST['idform'],$_REQUEST['gid']);
 }
+
+else if($_REQUEST['action']=='eliminarForm') {
+   $nuevoInsertar->eliminarForm($_REQUEST['idform'],$_REQUEST['idfincaaparto'],$_REQUEST['tipo']);
+}
+
+
 
 ?>

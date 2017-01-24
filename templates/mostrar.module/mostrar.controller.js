@@ -43,6 +43,7 @@ angular.module('AppPrueba')
             VerEditarFormServiceCodigoFincaAparto.codigofincaaparto = $scope.codigofinca;
             VerEditarFormServiceCodigoFincaAparto.tipo = "finca";
             VerEditarFormServiceCodigoFincaAparto.gidFinca = $scope.gidFinca;
+            VerEditarFormServiceCodigoFincaAparto.origen = "mostrar";
 
             //Para enviar  a la vista de mostrar
             InsertarFormularioFincaxForm.idFincaxFormulario = $scope.gidFinca;
@@ -160,6 +161,18 @@ angular.module('AppPrueba')
         }
 
 
+    }
+
+    $scope.eliminarForm = function (id,codigofincaaparto,tipo) {
+
+        MostrarService.eliminarForm(id,codigofincaaparto,tipo).then(function (data) {
+        });
+        if(tipo == "finca") {
+            $scope.actualizarlistaForm();
+        }
+        else {
+            $scope.actualizarlistaFormAparto();
+        }
     }
 
 
