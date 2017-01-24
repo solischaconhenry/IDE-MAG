@@ -1,6 +1,12 @@
+<script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+</script>
+
+<div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+     close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
+
 <div class="row" style="overflow-x: hidden;">
-    <div style=" position: absolute; right: 25%; z-index: 10; width: 30%;height: 9%;"  uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
-         close="closeAlert($index)" dismiss-on-timeout="2000">{{alert.msg}}</div>
+
     <div class="col-md-1" style="width: 2%">
         <a type="button" class="btn-eiminarOpcion"   ng-click = "ir()">
             <span class="glyphicon glyphicon-arrow-left "></span>

@@ -52,7 +52,7 @@
 
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Información general</a></li>
-            <li><a data-toggle="tab" href="#menu1">Formularios de apartos</a></li>
+            <li  ng-if="apartoAtual"><a data-toggle="tab" href="#menu1">Formularios de apartos</a></li>
         </ul>
 
         <div class="tab-content" style="margin-top: 2%">
@@ -89,7 +89,7 @@
                  </div>
             </div>
             <div id="menu1" class="tab-pane fade">
-            <div class="col-md-10" ng-if="apartoAtual" >
+            <div class="col-md-10" >
                 <div class="panel panel-info">
                     <div class="panel-heading clearfix" >
                         <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Formularios del aparto</h3>

@@ -318,7 +318,7 @@ class Mostrar
         include '../main.module/acceso.php';
         $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
 
-        $query = "select  a.idaparto, a.distribuciontrabajo, a.nombre from (select idaparto, distribuciontrabajo, nombre from actividades inner join
+        $query = "select  a.idaparto, a.descripcion, a.fecha, a.nombre from (select idaparto, descripcion, fecha, nombre from actividades inner join
         tipoactividad on idactividad = idtipoactividad where idaparto = $gidAparto)
         as a inner join apartos as b on a.idaparto = b.gid where b.gidfinca = $gidFinca";
 

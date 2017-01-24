@@ -9,15 +9,15 @@
 
         </div>
     </div>
-    <div class="col-xs-6 col-md-5">
-        <div class="panel panel-primary">
+    <div class="col-xs-6 col-md-6" >
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <i class="fa fa-bell fa-fw"></i>Notificaciones  <span class="badge">{{num_notificaciones}}</span></a>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="list-group">
-
+                    <p ng-if="num_notificaciones == 0"> ----- No hay pendientes ----</p>
                     <a ng-repeat="notf in notificaciones" class="list-group-item" ng-click="deleteNotificacion(notf.idnotificacion)">
                         <i class="fa fa-comment fa-fw"></i> {{notf.descripcion}}
                         <span class="pull-right text-muted small"><em>{{notf.fecha_hora | date:'shortTime'}}</em></span>

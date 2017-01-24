@@ -217,6 +217,9 @@ angular.module('AppPrueba')
 
          function manageDrawFincaAndApartoInMap() {
              FormularioResolver.idFincaAResponder = $scope.selectedFinca.codigofinca;
+             console.log($scope.selectedFinca.nombreFinca);
+             FormularioResolver.nombreFinca = $scope.selectedFinca.nombrefinca;
+
             var geom = JSON.parse($scope.selectedFinca.geom);
             mapService.clearListenersAndWipeMap();
             if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){

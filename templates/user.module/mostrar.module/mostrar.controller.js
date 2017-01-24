@@ -9,6 +9,7 @@ angular.module('AppPrueba')
         $scope.formulariosFincaAcual = [];
         $scope.formulariosFincaAparto = [];
         $scope.idFinca = 0;
+        $scope.nombreFica ="";
 
 
 
@@ -39,6 +40,7 @@ angular.module('AppPrueba')
 
         $scope.change = function(){
             $scope.gidFinca = FormularioResolver.idFincaAResponder;
+
             $scope.actualizarlistaForm();
 
 
@@ -181,10 +183,10 @@ angular.module('AppPrueba')
                     nombre: data[0]["nombreform"],
                     descripcion: data[0]["descripcion"],
                     fecha: data[0]["fecha"],
-                    nombreFinca:FormularioResolver.idFincaAResponder
+                    nombreFinca:FormularioResolver.nombreFinca
                 };
                 $scope.DataForm = item;
-                //console.log($scope.DataForm);
+                console.log($scope.DataForm);
             });
 
             /****************************************CARGADO Y EDICIÓN DE FORMULARIOS*********************************************/
