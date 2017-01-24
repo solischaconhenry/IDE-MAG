@@ -14,7 +14,7 @@ angular.module('AppPrueba')
             }
         };
     })
-    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile,$filter,LS,$state) {
+    .controller('CRUDFincasController', function ($scope,mapService,UserService,crudFincasUserService, fileUploadUser, PrevisualizarUser, $compile,$filter,LS,$state,FormularioResolver) {
         $scope.fincas = [];
         $scope.selectedFinca = undefined;
         $scope.showInfoFinca = false;
@@ -216,6 +216,7 @@ angular.module('AppPrueba')
         }
 
          function manageDrawFincaAndApartoInMap() {
+             FormularioResolver.idFincaAResponder = $scope.selectedFinca.codigofinca;
             var geom = JSON.parse($scope.selectedFinca.geom);
             mapService.clearListenersAndWipeMap();
             if(JSON.parse($scope.selectedFinca.geom).type == "Polygon"){
@@ -328,6 +329,8 @@ angular.module('AppPrueba')
         $(".nav").find(".active").removeClass("active");
         $(this).parent().addClass("active");
     });
+
+    /*Henry*/
 
 
 });

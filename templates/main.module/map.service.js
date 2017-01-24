@@ -145,7 +145,6 @@ angular.module('AppPrueba')
                 disableZoom: false
             });
             sm.draw.setStyle(apartoPendienteStyle);
-
             return sm;
         };
 
