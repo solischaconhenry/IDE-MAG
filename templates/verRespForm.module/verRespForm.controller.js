@@ -282,8 +282,7 @@ angular.module('AppPrueba')
 
                     }
                 }
-                $scope.alerts.push({type: 'warning',msg: 'Se han guardado los cambios con éxito!'});
-                console.log($scope.alerts);
+                alert("Se han guardado los cambios con éxito");
 
             }
 

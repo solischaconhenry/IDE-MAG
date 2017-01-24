@@ -249,6 +249,7 @@ angular.module('AppPrueba')
 
         $scope.fincaIsSelectedFromCombo = function(){
             FormularioResolver.idFincaAResponder = $scope.selectedFinca.codigofinca;
+            FormularioResolver.nombreFinca = $scope.selectedFinca.nombrefinca;
             $scope.showInfoFinca = !$scope.showInfoFinca;
             manageDrawFincaAndApartoInMap();
         };

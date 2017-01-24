@@ -52,7 +52,7 @@
                         <div class="name col-md-10">
                             <div class="radio">
                                 <div ng-repeat="rad in person.options">
-                                    <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer.valor" ng-required="{{person.requerido}}" value="{{rad.opcion}}">{{rad.opcion}}
+                                    <input type="{{person.hel}}"  name="{{person.idpreg}}" ng-model="person.answer.valor" ng-required="{{person.requerido}}" value="{{rad}}">{{rad}}
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         <label>{{person.enunciadopreg}}</label>
                         <div>
 
-                            <select ng-options="options.opcion as options.opcion for options in person.options" ng-model="person.answer.valor" name="{{person.idpreg}}" ng-required="{{person.requerido}}" class="form-control">
+                            <select ng-options="options as options for options in person.options" ng-model="person.answer.valor" name="{{person.idpreg}}" ng-required="{{person.requerido}}" class="form-control">
                                 <option style="display:none" value="">Seleccione</option>
                             </select>
                         </div>

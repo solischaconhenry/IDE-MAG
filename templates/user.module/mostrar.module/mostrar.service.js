@@ -130,4 +130,5 @@ angular.module('AppPrueba')
         this.idFormularioResolver = "";
         this.idFincaAResponder ="";
         this.idApartoAResponder = "";
+        this.nombreFinca = "";
     });
