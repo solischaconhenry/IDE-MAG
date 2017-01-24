@@ -59,11 +59,14 @@ angular.module('AppPrueba')
     }
 
     this.insertarHistoricoAparto = function (infoAparto) {
+        console.log(infoAparto);
+
         var geojson = infoAparto.geom.replace(/'/g, '"');
         var defered = $q.defer();
         var promise = defered.promise;
+        console.log(geojson);
 
-        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=actualizarApartosPendientes&gidAparto='+infoAparto.gid+'&geom='+geojson+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad+'&descripcion='+infoAparto.descripcion)
+        $http.get('templates/user.module/crudFincas.module/crudFincas.logic.php?action=insertarHistoricoAparto&gidFinca='+infoAparto.gidFinca+'&gidAparto='+infoAparto.gid+'&geom='+geojson+'&fecha='+infoAparto.fecha+'&idactividad='+infoAparto.idActividad+'&descripcion='+infoAparto.descripcion)
             .success(function(response) {
                 defered.resolve(response);
             });

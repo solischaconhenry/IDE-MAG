@@ -83,6 +83,14 @@ angular.module('AppPrueba')
                     weight: 2}, true
             );
         };
+        
+        this.showLoader = function (message,percentaje,hasClose,callback) {
+            sm.ui.showLoader(message,percentaje,hasClose,callback);
+        };
+
+        this.hideLoader = function () {
+            sm.ui.hideLoader();
+        }
 
         this.showAlert = function (message,buttonText,triggerFunction) {
             sm.ui.showAlert(message,[buttonText],[triggerFunction])
@@ -121,7 +129,7 @@ angular.module('AppPrueba')
             return sm.map.getOverlays();
         };
         
-        this.loadMapWithEditTools = function (startCenterCoords,avaibleTools) {
+        this.loadMapWithTools = function (startCenterCoords,avaibleTools) {
             sm = new scribblemaps.ScribbleMap('ScribbleMap', {
                 searchControl: true,
                 lineSettingsControl: false,

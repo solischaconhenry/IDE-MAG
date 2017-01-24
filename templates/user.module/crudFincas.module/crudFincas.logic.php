@@ -89,7 +89,7 @@ class CrudFinca
     }
 
 
-    function insertarHistoricoAparto($gidFinca,$geom,$fecha,$idActividad,$descripcion){
+    function insertarHistoricoAparto($gidFinca,$gidAparto,$geom,$fecha,$idActividad,$descripcion){
             include '../../main.module/acceso.php';
             $conn = pg_connect($strconn) or die("Error de Conexion con la base de datos");
             // inserta en apartos con estado pendiente
@@ -107,19 +107,20 @@ class CrudFinca
             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
             $row =  pg_fetch_all($result);
 
+            // actualiza el estado del aparto anterior
+            $query = "Update apartos set estado = 1 where gid = $gidAparto";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
+            $query = "INSERT INTO aparto_aparto(gidanterior, gidactual) VALUES($gidAparto, (select max(gid) from apartos))";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+
             // insertar en tabla historicos
-            $query = "insert into historicos (gidfinca,numerohistorico)values($gidFinca,(select
-                          case
-                              when (select (max(numerohistorico)) from historicos where gidfinca = $gidFinca limit 1) is null then 1
-                              else (select (max(numerohistorico))+1 from historicos where gidfinca = $gidFinca)
-                          end))";
-             $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
-             $row =  pg_fetch_all($result);
+            $query = "insert into historicos (gidfinca,numerohistorico)values($gidFinca,(SELECT  coalesce(MAX(numeroHistorico),0)+1 AS max_id FROM historicos where gidFinca = $gidFinca))";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
+            $row =  pg_fetch_all($result);
 
-
-
-
-
+            $query = "INSERT INTO aparto_historico(idhistorico, gidAparto) VALUES( (SELECT MAX(idhistorico) FROM historicos), (select max(gid) from apartos));";
+            $result = pg_query($conn, $query) or die("Error al ejecutar la consulta");
             return $row2;
     }
 
@@ -299,6 +300,9 @@ else if($_REQUEST['action']=='insertarApartoPendiente') {
 }
 else if($_REQUEST['action']=='actualizarApartosPendientes') {
     print_r(json_encode($crudFinca->actualizarApartosPendientes($_REQUEST['gidAparto'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'],$_REQUEST['descripcion'])));
+}
+else if($_REQUEST['action']=='insertarHistoricoAparto') {
+    print_r(json_encode($crudFinca->insertarHistoricoAparto($_REQUEST['gidFinca'],$_REQUEST['gidAparto'],$_REQUEST['geom'],$_REQUEST['fecha'],$_REQUEST['idactividad'],$_REQUEST['descripcion'])));
 }
 
 
