@@ -11,11 +11,18 @@ angular.module('AppPrueba')
         ];
         var defaultStyle = apartoPendienteStyle;
 
-        this.createInfoApartoTool = function (callback) {
+        this.createInfoApartoTool = function (baseTool,callback) {
             sm.ui.createTool({
-                baseTool: "edit",
+                baseTool: baseTool,
                 id: "info",
                 select: function () {
+                    sm.map.openInfoWindow(
+                        sm.view.getCenter(), " Seleccione un aparto ", {lineColor: '#000000',
+                            lineOpacity: 1,
+                            fillColor: '#FFFFFF',
+                            fillOpacity: 1,
+                            weight: 2}, true
+                    );
                     sm.map.addListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback)
                 },
                 deselect: function (event) {
@@ -72,7 +79,11 @@ angular.module('AppPrueba')
                     //console.log(event);
                 }
             });
-        }
+        };
+
+        this.showSearchControl = function () {
+            sm.ui.styleControl(scribblemaps.ControlType.SEARCH, { "display": "block" });
+        };
 
         this.showInfoWindow = function (message) {
             sm.map.openInfoWindow(
@@ -109,13 +120,21 @@ angular.module('AppPrueba')
             sm.map.closeInfoWindow();
         };
 
+        this.removeSearchControl = function () {
+            sm.ui.styleControl(scribblemaps.ControlType.SEARCH, { "display": "none" });
+        };
+        
+        this.removeTool = function (tool) {
+            sm.ui.removeTool(tool);
+        };
+
         this.removeMapOverlayClickListener = function(callback){
             sm.map.removeListener(scribblemaps.MapEvent.OVERLAY_CLICK,callback);
         };
         
         this.hidePanel = function () {
             sm.ui.hidePanel()
-        }
+        };
         
         this.setMapTools = function (avaiableTools) {
             sm.ui.setAvailableTools(avaiableTools)
@@ -147,6 +166,8 @@ angular.module('AppPrueba')
             sm.draw.setStyle(apartoPendienteStyle);
             return sm;
         };
+
+
 
         this.validAddedOverlay = function (event,trig) {
             if (checkInsideProperty(event.data) == true && checkInsideOtherOverlay(event.data) == false){
@@ -189,6 +210,10 @@ angular.module('AppPrueba')
                 }
             }
             return false;
+        };
+
+        this.clearListeners = function () {
+          sm.settings.clearListeners();
         };
 
         this.clearListenersAndWipeMap = function () {

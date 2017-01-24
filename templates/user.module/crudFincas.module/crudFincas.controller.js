@@ -29,27 +29,25 @@ angular.module('AppPrueba')
         $scope.loadMap = function () {
             // visualizar la zona norte en un punto central
             var startCenter = [10.360414404, -84.5096459246];
-            // crea la herramienta para seleccionar aparto y ver informacion
-            if($state.current.name == "dashboardUser.crudFincas.crudApartos"){ // si esta en la pestaña apartos
-                // carga el mapa con las herramientas
-                $scope.sm = mapService.loadMapWithTools(startCenter,[]);
-                mapService.createInfoApartoTool(showInfoApartoInPopup);
-                mapService.createUnionTool(function (event) {
-                    
-                });
-                mapService.setMapTools(["edit", "drag", "eraser", "rectangle", "circle", "polygon", "info","union","divide"]);
-            }else if($state.current.name == "dashboardUser/crudFincas/formularioAparto"){
-                // implementar tab formulario
-            }else {
-                // implementar tab historico
-            }
-              // agrega la nueva herramienta al mapa
+            // carga el mapa con las herramientas
+            $scope.sm = mapService.loadMapWithTools(startCenter,[]);
+
+        };
+
+        $scope.loadTools = function () {
+            mapService.clearListeners();
+            mapService.removeTool("info");
+            mapService.showSearchControl();
+            mapService.createInfoApartoTool("edit",showInfoApartoInPopup); // crea la herramienta para seleccionar aparto y ver informacion
+            mapService.createUnionTool(function (event) {
+
+            });
+            mapService.setMapTools(["edit", "drag", "eraser", "rectangle", "circle", "polygon", "info","union","divide"]); // agrega la nueva herramienta al mapa
         };
 
         //funcion que se ejecuta al seleccionar la herramienta para ver informacion de aparto
         function showInfoApartoInPopup(event) {
             actualOverlay = event.data;
-            mapService.showInfoWindow("Seleccione un aparto");
             $scope.selectedActividad = event.data.getMetaData().actividad; // enlazado con la vista addApartoInMap
             $scope.descripcionAparto = event.data.getMetaData().descripcion; // enlazado con la vista addApartoInMap
             $scope.currentDate = $filter("date")(event.data.getMetaData().fechaCreacion, 'MM/dd/yyyy'); // enlazado con la vista addApartoInMap.html

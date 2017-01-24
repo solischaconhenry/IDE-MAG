@@ -1,5 +1,5 @@
 angular.module('AppPrueba')
-    .controller('MostrarUserController', function ($scope,MostrarUserService,$state,UserService, FormularioResolver,$uibModal, Pagination,ResponderService,$timeout,$log, $document, $http) {
+    .controller('MostrarUserController', function ($scope,MostrarUserService,mapService,$state,UserService, FormularioResolver,$uibModal, Pagination,ResponderService,$timeout,$log, $document, $http) {
         $scope.fincas = [];
         $scope.gidFinca = "";
         $scope.formActual = 0;
@@ -9,6 +9,8 @@ angular.module('AppPrueba')
         $scope.formulariosFincaAcual = [];
         $scope.formulariosFincaAparto = [];
         $scope.idFinca = 0;
+
+        $scope.apartoClickStack = [];
 
 
 
@@ -32,6 +34,16 @@ angular.module('AppPrueba')
         });
 
         $scope.change = function(){
+            /**************************FUNCIONES DEL MAPA *************************************************/
+            mapService.clearListeners();
+            mapService.removeTool("info");
+            mapService.removeTool("union");
+            mapService.removeTool("divide");
+            mapService.removeTool("search");
+            mapService.createInfoApartoTool("select",unir); // crea la herramienta para seleccionar aparto y ver informacion
+            mapService.removeSearchControl();
+            mapService.setMapTools(["drag","info"]);
+            mapService.setTool("drag");
             $scope.gidFinca = FormularioResolver.idFincaAResponder;
             $scope.actualizarlistaForm();
 
@@ -55,25 +67,26 @@ angular.module('AppPrueba')
             else
                 $scope.jsonSeleccionado=json;
         }
+        
+        function changeColorsToSelectedAparto(overlay) {
+            for(var i in $scope.apartoClickStack){
+                if($scope.apartoClickStack[i] == overlay){
+                    $scope.apartoClickStack[i].setStyle( {lineColor: "#FFFFFF", weight: 3, fillColor: "#0066ff", fillOpacity: 0.3});
+                }else {
+                    $scope.apartoClickStack[i].setStyle( {lineColor: "#FFFFFF", weight: 3, fillColor: "#EB0812", fillOpacity: 0.3});
+                }
+            }
+        }
 
 
         $scope.gidAparto = "";
         $scope.jsonSeleccionado=[];
-        $scope.unir = function(gid, coordenadas){
-            console.log(gid);
-            $scope.apartoGid = gid;
-            $scope.jsonSeleccionado =[];
-            $scope.jsonSeleccionado.push({id:gid,puntos:coordenadas});
-
-            console.log($scope.jsonSeleccionado);
-            //obtener idUsuario
-            MostrarUserService.getApartoByID($scope.apartoGid).then(function(data){
-                $scope.dataAparto = data[0];
-                console.log(data);
-            });
-
-            $scope.apartoAtual = true;
+        function unir(event){
+            $scope.apartoClickStack.push(event.data);
+            changeColorsToSelectedAparto(event.data);
+            $scope.apartoGid = event.data.getMetaData().gidAparto;
             cargarformApartos();
+            //mapService.closeInfoWindow();
         };
 
         $scope.gotoForm = function(){
@@ -100,7 +113,9 @@ angular.module('AppPrueba')
         };
         //trae la lista de forms de un aparto específico, para que el use decida cual responder.
         function cargarformApartos() {
+            console.log($scope.apartoGid);
             MostrarUserService.getFormulariosAparto($scope.apartoGid).then(function (data) {
+                console.log(data);
                 if(data != "false") {
                     $scope.formulariosFincaAparto = data;
                 }
