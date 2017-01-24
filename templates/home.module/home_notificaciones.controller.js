@@ -12,8 +12,15 @@ angular.module('AppPrueba')
         //obtiene las notificaciones del día utilizando milisengundos, por ello se obtiene 3
         HomeService.getNotificacionesXDia().then(function (data) {
             console.log(data);
-            $scope.notificaciones = data;
-            $scope.num_notificaciones = data.length;
+            if(data != "false" && data != false && data != undefined && data != ""){
+                $scope.notificaciones = data;
+                $scope.num_notificaciones = data.length;
+            }
+            else{
+                $scope.notificaciones = [];
+                $scope.num_notificaciones = 0;
+            }
+
         });//fin getNotificacionesXdDia
 
         //envía el ID de la notifacion para que sea borrada de la BD y dar a entender que ya fue resuelta o descartada, así

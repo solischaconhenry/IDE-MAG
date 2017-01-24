@@ -32,26 +32,7 @@ angular.module('AppPrueba')
         });
 
         $scope.change = function(){
-
-            FormularioResolver.idFincaAResponder = $scope.gidFinca;
-            /**
-             * Busca el con el código de la finca el ID de la finca para mostrarla
-             * @Params: idUser: id de user relacionado con el usuario
-             * @Params: gidFinca: Código de la finca
-             * @Return: el id de la finca en BD para hacer el preview
-             */
-            MostrarUserService.getFincasByID($scope.idUser, $scope.gidFinca).then(function(data){
-                $scope.idFinca = data[0].gid;
-
-            });
-
-            //muestra un preview de la finca, la carga de BD por los punto geom
-            MostrarUserService.preview($scope.idFinca).then(function (data) {
-                $scope.numHistoricoActual = data.max;
-                $scope.Max = data.max;
-                reconvertJsonPolygon(data.finca,false);
-            });
-
+            $scope.gidFinca = FormularioResolver.idFincaAResponder;
             $scope.actualizarlistaForm();
 
 
@@ -106,7 +87,7 @@ angular.module('AppPrueba')
         $scope.actualizarlistaForm = function () {
 
             MostrarUserService.getFormulariosFinca($scope.gidFinca).then(function (data) {
-                //console.log(data);
+                console.log(data);
                 if(data != "false") {
                     $scope.formulariosFincaAcual = data;
                 }
